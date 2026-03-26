@@ -7,11 +7,10 @@ import Button from '@/components/Button';
 import { AuthInput } from '@/components/AuthInput';
 
 const ForgotPwd = () => {
-    const [email, setEmail] = useState('');
+    const [code, setCode] = useState('');
 
-    function returnActivated(theEmail: string): boolean {
-        const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        if (emailPattern.test(theEmail)) {
+    function returnActivated(theCode: string): boolean {
+        if (theCode.length > 7) {
             return true
         } else {
             return false
@@ -42,28 +41,27 @@ const ForgotPwd = () => {
                     />
                 </div>
 
-                <h2 className='font-semibold leading-10.5 tracking-[-0.035rem] text-[1.75rem] montserrat-font mb-1 capitalize'>forgot, password?</h2>
-                <p className='text-smallGreyText text-[1rem] leading-6 tracking-[-0.015rem] mb-6'>Enter your email</p>
+                <h2 className='font-semibold leading-10.5 tracking-[-0.035rem] text-[1.75rem] montserrat-font mb-1 capitalize'>code verification</h2>
+                {/* TODO: implement message passing from previous page */}
+                <p className='text-smallGreyText text-[1rem] leading-6 tracking-[-0.015rem] mb-6'>We&apos;ve sent a code to ...</p>
 
                 <div className='flex flex-col gap-6 mb-30'>
                     <div className='flex flex-col gap-3'>
                         <AuthInput
-                            label='Email'
-                            textValue={email}
-                            onChange={setEmail}
-                            hintText='example@email.com'
-                            icon='/svgs/auth/mail_box.svg'
+                            label='Code'
+                            textValue={code}
+                            onChange={setCode}
+                            hintText='2358hdgy'
+                            icon='/svgs/auth/code.svg'
                         />
                     </div>
 
-                    {/* <Link href='/forgotPwd/code' className='flex w-full'> */}
-                        <Button
-                            label='Continue'
-                            activated={returnActivated(email)}
-                        />
-                    {/* </Link> */}
+                    <Button
+                        label='Continue'
+                        activated={returnActivated(code)}
+                    />
 
-                    <Link className='flex gap-2 mx-auto items-center cursor-pointer' href='/signIn'>
+                    <Link className='flex gap-2 mx-auto items-center cursor-pointer' href='/forgotPwd'>
                         <label htmlFor='return-arrow' className='dmSans-font text-sm text-loginTextClr leading-[1.225rem] tracking-[-0.0131rem]'>Return</label>
                         <Image
                             width={20}

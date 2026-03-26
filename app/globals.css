@@ -10,17 +10,36 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --color-smallGreyText: #868E96;
+  --color-authInputBorder: #CED4DA;
+  --color-disabledButton: #E9ECEF;
+  --color-activatedButton: #3E4E50;
+  --color-disabledBtnText: #ADB5BD;
+  --color-oAuthBackground: #F8F9FA;
+  --color-loginTextClr: #3E4E50;
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
   }
-}
+} */
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.montserrat-font {
+  font-family: var(--font-montserrat);
+}
+
+.dmSans-font {
+  font-family: var(--font-dmSans);
+}
+
+.plusJakartaSans-font {
+  font-family: var(--font-plusJakartaSans);
 }

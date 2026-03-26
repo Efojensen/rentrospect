@@ -1,12 +1,11 @@
 'use client'
 
+import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react';
 import Button from '@/components/Button';
-import { AuthInput, AuthPasswordInput } from '@/components/AuthInput';
 import OAuthButton from '@/components/OAuthButton';
-import Link from 'next/link';
-
+import { AuthInput, AuthPasswordInput } from '@/components/AuthInput';
 
 const SignUp = () => {
     const [name, setName] = useState('');
@@ -14,7 +13,8 @@ const SignUp = () => {
     const [password, setPassword] = useState('');
 
     function returnActivated(theName: string, theEmail: string, thePwd: string): boolean {
-        if (theName.length > 0 && theEmail.length > 0 && thePwd.length > 7) {
+        const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (theName.length > 0 && emailPattern.test(theEmail) && thePwd.length > 7) {
             return true
         } else {
             return false
@@ -23,25 +23,25 @@ const SignUp = () => {
     return (
         <main className='flex flex-col lg:flex-row-reverse px-5'>
             <Image
-                src='/images/rentrospect.png'
-                alt='rentrospect logo'
                 width={832}
                 height={832}
+                alt='rentrospect logo'
+                src='/images/rentrospect.png'
                 className='mb-26.5 sm:mb-14 lg:object-contain'
             />
-            <div className='flex flex-col md:mt-12 md:px-25 lg:px-30'>
+            <div className='flex flex-col md:mt-12 md:px-25'>
                 <div className='flex h-12 gap-2 mb-6'>
                     <Image
-                        src='/svgs/rentrospect.svg'
-                        alt='alternate rentrospect'
                         height={48}
                         width={62.03}
+                        src='/svgs/rentrospect.svg'
+                        alt='alternate rentrospect'
                     />
                     <Image
-                        src='/svgs/rentrospect_word.svg'
-                        alt='rentrospect word'
                         width={157}
                         height={22}
+                        alt='rentrospect word'
+                        src='/svgs/rentrospect_word.svg'
                     />
                 </div>
 

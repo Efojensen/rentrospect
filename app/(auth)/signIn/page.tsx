@@ -7,13 +7,13 @@ import Button from '@/components/Button';
 import OAuthButton from '@/components/OAuthButton';
 import { AuthInput, AuthPasswordInput } from '@/components/AuthInput';
 
-
 const SignIn = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     function returnActivated(theEmail: string, thePwd: string): boolean {
-        if (theEmail.length > 0 && thePwd.length > 7) {
+        const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (emailPattern.test(theEmail) && thePwd.length > 7) {
             return true
         } else {
             return false
@@ -22,25 +22,25 @@ const SignIn = () => {
     return (
         <main className='flex flex-col lg:flex-row-reverse px-5'>
             <Image
-                src='/images/rentrospect.png'
-                alt='rentrospect logo'
                 width={832}
                 height={832}
+                alt='rentrospect logo'
+                src='/images/rentrospect.png'
                 className='mb-26.5 sm:mb-14 lg:object-contain'
             />
             <div className='flex flex-col md:mt-12 md:px-25 lg:px-30'>
                 <div className='flex h-12 gap-2 mb-6'>
                     <Image
-                        src='/svgs/rentrospect.svg'
-                        alt='alternate rentrospect'
                         height={48}
                         width={62.03}
+                        src='/svgs/rentrospect.svg'
+                        alt='alternate rentrospect'
                     />
                     <Image
-                        src='/svgs/rentrospect_word.svg'
-                        alt='rentrospect word'
                         width={157}
                         height={22}
+                        alt='rentrospect word'
+                        src='/svgs/rentrospect_word.svg'
                     />
                 </div>
 

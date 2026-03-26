@@ -69,7 +69,7 @@ export const AuthPasswordInput: React.FC<AuthInputProps> = ({
                     height={16}
                 />
                 <input
-                    type='text'
+                    type='password'
                     id='passwordInput'
                     placeholder={hintText}
                     value={textValue || ''}

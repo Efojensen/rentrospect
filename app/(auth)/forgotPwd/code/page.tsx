@@ -4,10 +4,15 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react';
 import Button from '@/components/Button';
+import { useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { AuthInput } from '@/components/AuthInput';
 
-const ForgotPwd = () => {
+const CodeForPwd = () => {
+    const router = useRouter()
+    const params = useSearchParams()
     const [code, setCode] = useState('');
+    const hashedMail = params.get('hashedMail')
 
     function returnActivated(theCode: string): boolean {
         if (theCode.length > 7) {
@@ -15,6 +20,10 @@ const ForgotPwd = () => {
         } else {
             return false
         }
+    }
+
+    const navigateToNextPage =() => {
+        router.push('/forgotPwd/reset')
     }
     return (
         <main className='flex flex-col lg:flex-row-reverse px-5'>
@@ -42,8 +51,7 @@ const ForgotPwd = () => {
                 </div>
 
                 <h2 className='font-semibold leading-10.5 tracking-[-0.035rem] text-[1.75rem] montserrat-font mb-1 capitalize'>code verification</h2>
-                {/* TODO: implement message passing from previous page */}
-                <p className='text-smallGreyText text-[1rem] leading-6 tracking-[-0.015rem] mb-6'>We&apos;ve sent a code to ...</p>
+                <p className='text-smallGreyText text-[1rem] leading-6 tracking-[-0.015rem] mb-6'>We&apos;ve sent a code to {hashedMail}</p>
 
                 <div className='flex flex-col gap-6 mb-30'>
                     <div className='flex flex-col gap-3'>
@@ -58,6 +66,7 @@ const ForgotPwd = () => {
 
                     <Button
                         label='Continue'
+                        onClick={navigateToNextPage}
                         activated={returnActivated(code)}
                     />
 
@@ -78,4 +87,4 @@ const ForgotPwd = () => {
     )
 }
 
-export default ForgotPwd
+export default CodeForPwd

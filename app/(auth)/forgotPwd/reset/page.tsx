@@ -4,32 +4,18 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react';
 import Button from '@/components/Button';
-import { useRouter } from 'next/navigation';
-import { AuthInput } from '@/components/AuthInput';
+import { AuthPasswordInput, AuthPasswordInput2 } from '@/components/AuthInput';
 
-const ForgotPwd = () => {
-    const router = useRouter()
-    const [email, setEmail] = useState('');
+const ResetPwd = () => {
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
 
-    function returnActivated(theEmail: string): boolean {
-        const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        if (emailPattern.test(theEmail)) {
+    function returnActivated(password_1: string, password_2: string): boolean {
+        if (password_1.length > 7 && password_1 === password_2) {
             return true
         } else {
             return false
         }
-    }
-
-    const navigateToNextPage =() => {
-        const params = new URLSearchParams()
-
-        const atIndex = email.indexOf('@')
-        const firstThree = email.slice(0, 2)
-
-        const hashedMail = firstThree + '******' + email.slice(atIndex)
-
-        params.append('hashedMail', hashedMail)
-        router.push(`/forgotPwd/code?${params.toString()}`)
     }
     return (
         <main className='flex flex-col lg:flex-row-reverse px-5'>
@@ -56,28 +42,33 @@ const ForgotPwd = () => {
                     />
                 </div>
 
-                <h2 className='font-semibold leading-10.5 tracking-[-0.035rem] text-[1.75rem] montserrat-font mb-1 capitalize'>forgot, password?</h2>
-                <p className='text-smallGreyText text-[1rem] leading-6 tracking-[-0.015rem] mb-6'>Enter your email</p>
+                <h2 className='font-semibold leading-10.5 tracking-[-0.035rem] text-[1.75rem] montserrat-font mb-1 capitalize'>reset password</h2>
+                <p className='text-smallGreyText text-[1rem] leading-6 tracking-[-0.015rem] mb-6'>Type in your new password</p>
 
                 <div className='flex flex-col gap-6 mb-30'>
                     <div className='flex flex-col gap-3'>
-                        <AuthInput
-                            label='Email'
-                            textValue={email}
-                            onChange={setEmail}
-                            hintText='example@email.com'
-                            icon='/svgs/auth/mail_box.svg'
+                        <AuthPasswordInput
+                            label='Password'
+                            textValue={password}
+                            onChange={setPassword}
+                            hintText='Enter your password'
+                            icon='/svgs/auth/password.svg'
+                        />
+                        <AuthPasswordInput2
+                            textValue={confirmPassword}
+                            label='Confirm New Password'
+                            onChange={setConfirmPassword}
+                            hintText='Enter your password'
+                            icon='/svgs/auth/password.svg'
                         />
                     </div>
 
-
                     <Button
-                        label='Continue'
-                        onClick={navigateToNextPage}
-                        activated={returnActivated(email)}
+                        label='Finish'
+                        activated={returnActivated(password, confirmPassword)}
                     />
 
-                    <Link className='flex gap-2 mx-auto items-center cursor-pointer' href='/signIn'>
+                    <Link className='flex gap-2 mx-auto items-center cursor-pointer' href='/forgotPwd/code'>
                         <label htmlFor='return-arrow' className='dmSans-font text-sm text-loginTextClr leading-[1.225rem] tracking-[-0.0131rem]'>Return</label>
                         <Image
                             width={20}
@@ -94,4 +85,4 @@ const ForgotPwd = () => {
     )
 }
 
-export default ForgotPwd
+export default ResetPwd

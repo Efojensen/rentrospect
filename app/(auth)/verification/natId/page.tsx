@@ -21,7 +21,7 @@ const NationalIdVerificationScreen = () => {
     }
 
     const navigateToNextPage =() => {
-        router.push('/verification/code')
+        router.push('/verification')
     }
     return (
         <main className='flex flex-col lg:flex-row px-5 lg:pl-0 lg:items-center'>

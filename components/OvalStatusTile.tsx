@@ -4,9 +4,12 @@ interface OvalStatusTile {
     textColor: string
 }
 
-const OvalStatusTile:React.FC<OvalStatusTile> = ({ label, bgColor, textColor }) => {
+const OvalStatusTile: React.FC<OvalStatusTile> = ({ label, bgColor, textColor }) => {
     return (
-        <div className={`flex text-[.75rem] dmSans-font leading-4 tracking-[.075rem] uppercase text-[${textColor}] bg-[${bgColor}] w-22.75 px-3 py-1 rounded-[624.9375rem]`}>
+        <div
+            style={{ backgroundColor: bgColor, color: textColor }}
+            className="flex text-[.75rem] dmSans-font leading-4 tracking-[.075rem] uppercase w-min px-3 py-1 rounded-[624.9375rem]"
+        >
             {label}
         </div>
     )

@@ -1,27 +1,20 @@
 'use client'
 
-import Link from 'next/link';
 import Image from 'next/image';
-import { useState } from 'react';
-import Button from '@/components/Button';
 import { useRouter } from 'next/navigation';
 import { AuthInput } from '@/components/AuthInput';
 import OvalStatusTile from '@/components/OvalStatusTile';
+import { FilledButton, GrayedButton } from '@/components/Button';
 
 const IDVerification = () => {
     const router = useRouter()
-    const [phoneNumber, setPhoneNumber] = useState('');
-
-    function returnActivated(lineNumber: string): boolean {
-        if (lineNumber.length > 7) {
-            return true
-        } else {
-            return false
-        }
-    }
 
     const navigateToNextPage =() => {
         router.push('/verification/code')
+    }
+
+    const navigateToPreviousPage =() => {
+        router.push('/verification/natId')
     }
     return (
         <main className='flex flex-col lg:flex-row px-5 lg:pl-0 lg:items-center'>
@@ -29,8 +22,8 @@ const IDVerification = () => {
                 <Image
                     width={832}
                     height={832}
-                    alt='rentrospect logo'
-                    src='/images/rentrospect.png'
+                    alt="user's profile"
+                    src='/images/example_profile.png'
                     className='lg:object-contain bg-[#F6FAFD]'
                 />
             </div>
@@ -58,44 +51,34 @@ const IDVerification = () => {
                     <div className='flex flex-col gap-3'>
                         <AuthInput
                             label='Full Name'
-                            textValue={phoneNumber}
-                            onChange={setPhoneNumber}
                             hintText='+233'
-                            icon='/svgs/auth/phone.svg'
+                            icon='/svgs/auth/name.svg'
+                            // TODO: Fill in hint text with values returned from national database
                         />
                         <AuthInput
                             label='Gender'
-                            textValue={phoneNumber}
-                            onChange={setPhoneNumber}
                             hintText='+233'
-                            icon='/svgs/auth/phone.svg'
+                            icon='/svgs/auth/name.svg'
+                            // TODO: Fill in hint text with values returned from national database
                         />
                         <AuthInput
                             label='Date of Birth'
-                            textValue={phoneNumber}
-                            onChange={setPhoneNumber}
                             hintText='+233'
-                            icon='/svgs/auth/phone.svg'
+                            icon='/svgs/auth/calender.svg'
+                            // TODO: Fill in hint text with values returned from national database
                         />
                     </div>
 
-                    <Button
-                        label='Continue'
-                        onClick={navigateToNextPage}
-                        activated={returnActivated(phoneNumber)}
-                    />
-
-                    <Link className='flex gap-2 mx-auto items-center cursor-pointer' href='/signIn'>
-                        <label htmlFor='return-arrow' className='dmSans-font text-sm text-loginTextClr leading-[1.225rem] tracking-[-0.0131rem]'>Return</label>
-                        <Image
-                            width={20}
-                            height={20}
-                            id='return-arrow'
-                            alt='return arrow'
-                            src='/svgs/auth/return_arrow.svg'
+                    <div className='flex gap-2.5'>
+                        <GrayedButton
+                            label='no, take me back.'
+                            onClick={navigateToPreviousPage}
                         />
-                    </Link>
-
+                        <FilledButton
+                            label="yes, i'm sure."
+                            onClick={navigateToNextPage}
+                        />
+                    </div>
                 </div>
             </div>
         </main>

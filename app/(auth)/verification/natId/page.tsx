@@ -3,16 +3,17 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react';
+import Oval from '@/components/RequiredOval';
 import Button from '@/components/Button';
 import { useRouter } from 'next/navigation';
-import { AuthSmsCodeInput } from '@/components/AuthInput';
+import { AuthInput } from '@/components/AuthInput';
 
-const SmsVerification = () => {
+const NationalIdVerificationScreen = () => {
     const router = useRouter()
-    const [code, setCode] = useState('');
+    const [nationalID, setNationalID] = useState('');
 
-    function returnActivated(inputCode: string): boolean {
-        if (inputCode.length > 5) {
+    function returnActivated(personalID: string): boolean {
+        if (personalID.length > 14) {
             return true
         } else {
             return false
@@ -20,7 +21,7 @@ const SmsVerification = () => {
     }
 
     const navigateToNextPage =() => {
-        router.push('/verification/natId')
+        router.push('/verification/code')
     }
     return (
         <main className='flex flex-col lg:flex-row px-5 lg:pl-0 lg:items-center'>
@@ -48,26 +49,29 @@ const SmsVerification = () => {
                         src='/svgs/rentrospect_word.svg'
                         />
                 </div>
+                <Oval/>
 
-                <h2 className='font-semibold leading-10.5 tracking-[-0.035rem] text-[1.75rem] montserrat-font mb-1 capitalize'>code verification</h2>
-                <p className='text-smallGreyText text-[1rem] leading-6 tracking-[-0.015rem] mb-6'>We&apos;ve sent a code to</p>
+                <h2 className='font-semibold leading-10.5 tracking-[-0.035rem] text-[1.75rem] montserrat-font mb-1'>Verify your identity</h2>
+                <p className='text-smallGreyText text-[1rem] leading-6 tracking-[-0.015rem] mb-6'>Verify your identity to build trust with clients</p>
 
                 <div className='flex flex-col gap-6 mb-30'>
                     <div className='flex flex-col gap-3'>
-                        <AuthSmsCodeInput
-                            label='Code'
-                            textValue={code}
-                            onChange={setCode}
+                        <AuthInput
+                            label='National ID'
+                            textValue={nationalID}
+                            onChange={setNationalID}
+                            hintText='GHA-XXXXXXXXX-X'
+                            icon='/svgs/auth/card.svg'
                         />
                     </div>
 
                     <Button
-                        label='Continue'
+                        label='Take Selfie'
                         onClick={navigateToNextPage}
-                        activated={returnActivated(code)}
+                        activated={returnActivated(nationalID)}
                     />
 
-                    <Link className='flex gap-2 mx-auto items-center cursor-pointer' href='/verification/phone'>
+                    <Link className='flex gap-2 mx-auto items-center cursor-pointer' href='/verification/code'>
                         <label htmlFor='return-arrow' className='dmSans-font text-sm text-loginTextClr leading-[1.225rem] tracking-[-0.0131rem]'>Return</label>
                         <Image
                             width={20}
@@ -84,4 +88,4 @@ const SmsVerification = () => {
     )
 }
 
-export default SmsVerification
+export default NationalIdVerificationScreen

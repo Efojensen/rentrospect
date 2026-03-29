@@ -3,10 +3,10 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react';
-import Oval from '@/components/RequiredOval';
 import Button from '@/components/Button';
 import { useRouter } from 'next/navigation';
 import { AuthInput } from '@/components/AuthInput';
+import OvalStatusTile from '@/components/OvalStatusTile';
 
 const NationalIdVerificationScreen = () => {
     const router = useRouter()
@@ -49,7 +49,7 @@ const NationalIdVerificationScreen = () => {
                         src='/svgs/rentrospect_word.svg'
                         />
                 </div>
-                <Oval/>
+                <OvalStatusTile label='required' textColor='#834F20' bgColor='#834F201A'/>
 
                 <h2 className='font-semibold leading-10.5 tracking-[-0.035rem] text-[1.75rem] montserrat-font mb-1'>Verify your identity</h2>
                 <p className='text-smallGreyText text-[1rem] leading-6 tracking-[-0.015rem] mb-6'>Verify your identity to build trust with clients</p>

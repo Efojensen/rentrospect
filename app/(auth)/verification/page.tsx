@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import { AuthInput } from '@/components/AuthInput';
 import OvalStatusTile from '@/components/OvalStatusTile';
 
-const PhoneVerification = () => {
+const IDVerification = () => {
     const router = useRouter()
     const [phoneNumber, setPhoneNumber] = useState('');
 
@@ -49,15 +49,29 @@ const PhoneVerification = () => {
                         src='/svgs/rentrospect_word.svg'
                         />
                 </div>
-                <OvalStatusTile label='required' textColor='#834F20' bgColor='#834F201A'/>
+                <OvalStatusTile label='verified' textColor='#026571' bgColor='#0265711A'/>
 
-                <h2 className='font-semibold leading-10.5 tracking-[-0.035rem] text-[1.75rem] montserrat-font mb-1 capitalize'>phone verification</h2>
-                <p className='text-smallGreyText text-[1rem] leading-6 tracking-[-0.015rem] mb-6'>Enter your mobile number to start</p>
+                <h2 className='font-semibold leading-10.5 tracking-[-0.035rem] text-[1.75rem] montserrat-font mb-1'>Is this you?</h2>
+                <p className='text-smallGreyText text-[1rem] leading-6 tracking-[-0.015rem] mb-6'>Verify your identity to build trust with clients</p>
 
                 <div className='flex flex-col gap-6 mb-30'>
                     <div className='flex flex-col gap-3'>
                         <AuthInput
-                            label='Phone Number'
+                            label='Full Name'
+                            textValue={phoneNumber}
+                            onChange={setPhoneNumber}
+                            hintText='+233'
+                            icon='/svgs/auth/phone.svg'
+                        />
+                        <AuthInput
+                            label='Gender'
+                            textValue={phoneNumber}
+                            onChange={setPhoneNumber}
+                            hintText='+233'
+                            icon='/svgs/auth/phone.svg'
+                        />
+                        <AuthInput
+                            label='Date of Birth'
                             textValue={phoneNumber}
                             onChange={setPhoneNumber}
                             hintText='+233'
@@ -88,4 +102,4 @@ const PhoneVerification = () => {
     )
 }
 
-export default PhoneVerification
+export default IDVerification

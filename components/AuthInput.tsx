@@ -1,4 +1,5 @@
 import Image from "next/image"
+import React, { useRef } from "react"
 
 interface AuthInputProps {
     icon: string
@@ -140,3 +141,68 @@ export const AuthPasswordInput2: React.FC<AuthInputProps> = ({
     )
 }
 
+export const AuthSmsCodeInput = ({
+        label,
+        onChange,
+        textValue = '',
+    }: {
+        label: string,
+        textValue: string,
+        onChange: (value: string) => void,
+    }) => {
+    const inputsRef = useRef<(HTMLInputElement | null)[]>([]);
+
+    const values = textValue.split('').slice(0, 6);
+
+    const handleChange = (value: string, index: number) => {
+        const clean = value.replace(/[^a-zA-Z0-9]/g, '').slice(0, 1);
+
+        const newValues = [...values];
+        newValues[index] = clean;
+
+        const joined = newValues.join('');
+        onChange?.(joined);
+
+        // Move to next input
+        if (clean && index < 5) {
+            inputsRef.current[index + 1]?.focus();
+        }
+    };
+
+    const handleKeyDown = (e: React.KeyboardEvent, index: number) => {
+        // Move back on delete
+        if (e.key === 'Backspace' && !values[index] && index > 0) {
+            inputsRef.current[index - 1]?.focus();
+        }
+    };
+
+    return (
+        <div className='flex flex-col gap-2 w-full mb-3'>
+            <p className='text-sm font-semibold montserrat-font'>{label}</p>
+
+            <div className='flex items-center gap-2'>
+                <div className='flex items-center gap-2'>
+                    {[...Array(6)].map((_, i) => (
+                        <React.Fragment key={i}>
+                            {/* Add dash in middle */}
+                            {i === 3 && (
+                                <span className='mx-1 text-lg font-semibold'>-</span>
+                            )}
+
+                            <input
+                                ref={(el) => (inputsRef.current[i] = el)}
+                                type='text'
+                                inputMode='numeric'
+                                maxLength={1}
+                                value={values[i] || ''}
+                                onChange={(e) => handleChange(e.target.value, i)}
+                                onKeyDown={(e) => handleKeyDown(e, i)}
+                                className='w-10 h-12 text-center border rounded-lg border-authInputBorder focus:outline-none focus:ring-2 focus:ring-primary dmSans-font text-lg'
+                            />
+                        </React.Fragment>
+                    ))}
+                </div>
+            </div>
+        </div>
+    );
+};

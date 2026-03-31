@@ -12,6 +12,7 @@ const TimePicker: React.FC<TimePickerProps> = ({ value, onChange }) => {
     const inputRef = useRef<HTMLInputElement | null>(null)
 
     const handleClick = () => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
         inputRef.current?.showPicker?.() || inputRef.current?.focus()
     }
 

@@ -4,10 +4,12 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react';
 import Button from '@/components/Button';
+import { useRouter } from 'next/navigation';
 import UploadFile from '@/components/UploadFile';
 import { AuthInput } from '@/components/AuthInput';
 
 const VendorPage = () => {
+    const router = useRouter()
     const [businessBio, setBusinessBio] = useState('')
     const [businessName, setBusinessName] = useState('')
 
@@ -18,6 +20,11 @@ const VendorPage = () => {
             return false
         }
     }
+
+    const navigateToNextPage =() => {
+        router.push('/vendor/logistics')
+    }
+
     return (
         <main className='flex flex-col lg:flex-row px-5 lg:pl-0 lg:items-center'>
             <div className='bg-nearWhiteBg lg:h-screen mb-26.5 sm:mb-14 w-screen lg:w-1/2 lg:-mt-16.25'>
@@ -60,9 +67,10 @@ const VendorPage = () => {
 
                     <Button
                         label='complete'
+                        onClick={navigateToNextPage}
                         activated={returnActivated(businessName, businessBio)}
                     />
-                    <Link className='flex gap-2 mx-auto items-center cursor-pointer' href='/verification'>
+                    <Link className='flex gap-2 mx-auto items-center cursor-pointer' href='/vendor'>
                         <label htmlFor='return-arrow' className='dmSans-font text-sm text-loginTextClr leading-[1.225rem] tracking-[-0.0131rem]'>Return</label>
                         <Image
                             width={20}

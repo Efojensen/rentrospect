@@ -65,7 +65,7 @@ const UploadFile: React.FC<UploadFileProps> = ({ icon, label, onFileSelect }) =>
                         className='w-auto'
                         alt='icon to upload photo'
                     />
-                    <p className='dmSans-font text-sm uppercase leading-5 tracking-[.0437rem] font-semibold text-[#3F484A] text-center'>
+                    <p className='dmSans-font text-sm uppercase leading-5 tracking-[.0437rem] font-semibold text-otherSmallText text-center'>
                         {label}
                     </p>
                 </>

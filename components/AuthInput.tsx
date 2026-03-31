@@ -2,7 +2,7 @@ import Image from "next/image"
 import React, { useRef } from "react"
 
 interface AuthInputProps {
-    icon: string
+    icon?: string
     label: string
     hintText?: string
     options?: string[]
@@ -21,12 +21,14 @@ export const AuthInput: React.FC<AuthInputProps> = ({
         <div className='flex flex-col gap-1 w-full mb-3'>
             <p className='text-sm font-semibold leading-4.5 montserrat-font'>{label}</p>
             <div className='flex gap-2 items-center border rounded-lg border-authInputBorder h-12.5 py-2 px-3'>
-                <Image
-                    src={icon}
-                    alt={icon}
-                    width={16}
-                    height={16}
-                />
+                {icon &&
+                    <Image
+                        src={icon}
+                        alt={icon}
+                        width={16}
+                        height={16}
+                    />
+                }
                 <input
                     type='text'
                     placeholder={hintText}
@@ -63,12 +65,14 @@ export const AuthPasswordInput: React.FC<AuthInputProps> = ({
         <div className='flex flex-col gap-1 w-full mb-3'>
             <p className='text-sm font-semibold leading-4.5 montserrat-font'>{label}</p>
             <div className='flex gap-2 items-center border rounded-lg border-authInputBorder h-12.5 py-2 px-3'>
-                <Image
-                    src={icon}
-                    alt={icon}
-                    width={16}
-                    height={16}
-                />
+                {icon &&
+                    <Image
+                        src={icon}
+                        alt={icon}
+                        width={16}
+                        height={16}
+                    />
+                }
                 <input
                     type='password'
                     id='passwordInput'
@@ -114,12 +118,14 @@ export const AuthPasswordInput2: React.FC<AuthInputProps> = ({
         <div className='flex flex-col gap-1 w-full mb-3'>
             <p className='text-sm font-semibold leading-4.5 montserrat-font'>{label}</p>
             <div className='flex gap-2 items-center border rounded-lg border-authInputBorder h-12.5 py-2 px-3'>
-                <Image
-                    src={icon}
-                    alt={icon}
-                    width={16}
-                    height={16}
-                />
+                {icon &&
+                    <Image
+                        src={icon}
+                        alt={icon}
+                        width={16}
+                        height={16}
+                    />
+                }
                 <input
                     type='password'
                     id='passwordInput2'
@@ -142,14 +148,14 @@ export const AuthPasswordInput2: React.FC<AuthInputProps> = ({
 }
 
 export const AuthSmsCodeInput = ({
-        label,
-        onChange,
-        textValue = '',
-    }: {
-        label: string,
-        textValue: string,
-        onChange: (value: string) => void,
-    }) => {
+    label,
+    onChange,
+    textValue = '',
+}: {
+    label: string,
+    textValue: string,
+    onChange: (value: string) => void,
+}) => {
     const inputsRef = useRef<(HTMLInputElement | null)[]>([]);
 
     const values = textValue.split('').slice(0, 6);

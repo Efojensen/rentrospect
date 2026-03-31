@@ -4,7 +4,7 @@ interface ButtonProps {
     onClick?: () => void
 }
 
-const Button:React.FC<ButtonProps> = ({label, activated, onClick}) => {
+const Button:React.FC<ButtonProps> = ({label, activated = false, onClick}) => {
     return (
         <button className={`flex items-center justify-center
             ${activated? 'bg-activatedButton text-white cursor-pointer hover:bg-[#2c332f]' : 'bg-disabledButton text-disabledBtnText'}

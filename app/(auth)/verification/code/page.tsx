@@ -24,13 +24,13 @@ const SmsVerification = () => {
     }
     return (
         <main className='flex flex-col lg:flex-row px-5 lg:pl-0 lg:items-center'>
-            <div className='bg-[#F6FAFD] lg:h-screen mb-26.5 sm:mb-14 w-screen lg:w-1/2 lg:pt-22.5'>
+            <div className='bg-nearWhiteBg lg:h-screen mb-26.5 sm:mb-14 w-screen lg:w-1/2 lg:pt-22.5'>
                 <Image
                     width={832}
                     height={832}
                     alt='rentrospect logo'
                     src='/images/rentrospect.png'
-                    className='lg:object-contain bg-[#F6FAFD]'
+                    className='lg:object-contain bg-nearWhiteBg'
                 />
             </div>
             <div className='flex flex-col md:mt-12 md:flex-1 lg:pl-20'>

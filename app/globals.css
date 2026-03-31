@@ -10,13 +10,14 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --color-nearWhiteBg: #F6FAFD;
+  --color-loginTextClr: #3E4E50;
   --color-smallGreyText: #868E96;
-  --color-authInputBorder: #CED4DA;
   --color-disabledButton: #E9ECEF;
+  --color-authInputBorder: #CED4DA;
   --color-activatedButton: #3E4E50;
   --color-disabledBtnText: #ADB5BD;
   --color-oAuthBackground: #F8F9FA;
-  --color-loginTextClr: #3E4E50;
 }
 
 /* @media (prefers-color-scheme: dark) {

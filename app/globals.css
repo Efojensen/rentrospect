@@ -45,3 +45,11 @@ body {
 .plusJakartaSans-font {
   font-family: var(--font-plusJakartaSans);
 }
+
+.poppins-font {
+  font-family: var(--font-poppins);
+}
+
+.inter-font {
+  font-family: var(--font-inter);
+}

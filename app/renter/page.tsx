@@ -1,3 +1,5 @@
+import { assets } from "@/constants/assets";
+import AssetTile from "@/components/AssetTile";
 import HeroPicture from "@/components/HeroPicture";
 import CategoryTile from "@/components/SectionTile";
 import { categories } from "@/constants/categories";
@@ -15,6 +17,22 @@ export default function Home() {
                 ))}
             </div>
             <HeroPicture/>
+            <div className='flex mt-7.5'>
+                {assets.map((asset, index) => (
+                    <AssetTile
+                        key={index}
+                        type={asset.type}
+                        title={asset.title}
+                        price={asset.price}
+                        howOld={asset.howOld}
+                        remarks={asset.remarks}
+                        ratings={asset.ratings}
+                        location={asset.location}
+                        assetImage={asset.assetImage}
+                        numReviews={asset.numReviews}
+                    />
+                ))}
+            </div>
         </main>
     );
 }

@@ -7,7 +7,7 @@ import { categories } from "@/constants/categories";
 export default function Home() {
     return (
         <main className='flex flex-col'>
-            <div className='flex gap-5.25 mx-auto mb-4 md:mb-6'>
+            <div className='flex gap-3.25 md:gap-5.25 overflow-x-auto whitespace-nowrap mx-auto mb-4 md:mb-6 snap-x snap-mandatory'>
                 {categories.map((category, index) => (
                     <CategoryTile
                         key={index}
@@ -17,7 +17,7 @@ export default function Home() {
                 ))}
             </div>
             <HeroPicture/>
-            <div className='flex mt-7.5'>
+            <div className='flex mt-7.5 gap-5'>
                 {assets.map((asset, index) => (
                     <AssetTile
                         key={index}

@@ -12,8 +12,8 @@ const NavBar = ({location}: {location: string}) => {
                     src='/svgs/rentrospect.svg'
                 />
                 <Image
-                    width={24}
-                    height={24}
+                    width={44}
+                    height={44}
                     alt='location svg'
                     src='/svgs/location.svg'
                     className='p-3'
@@ -23,7 +23,7 @@ const NavBar = ({location}: {location: string}) => {
                     <p className='text-black dmSans-font text-sm'>{location}</p>
                 </div>
             </div>
-            <div className='flex p-2 gap-4 bg-[#00000033] z-2 rounded-[2.5rem]'>
+            <div className='hidden md:flex p-2 gap-4 bg-[#00000033] z-2 rounded-[2.5rem]'>
                 <NavButtonLink
                     href='/'
                     active={true}
@@ -66,6 +66,7 @@ const NavBar = ({location}: {location: string}) => {
                     height={20}
                     alt='search icon'
                     src='/svgs/search.svg'
+                    className='hidden md:flex'
                 />
                 <Image
                     width={20}

@@ -7,7 +7,7 @@ export interface CategoryTileProps {
 
 const CategoryTile:React.FC<CategoryTileProps> = ({ image, label }) => {
     return (
-        <div className='flex gap-1 items-center min-h-15'>
+        <div className='flex gap-1 items-center min-h-15 p-2'>
             <Image
                 alt={label}
                 width={44}

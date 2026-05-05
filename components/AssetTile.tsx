@@ -14,7 +14,7 @@ export interface AssetTileProps {
 
 const AssetTile:React.FC<AssetTileProps> = ({ title, assetImage, howOld, remarks, type, location, ratings, numReviews, price }) => {
     return (
-        <div className='flex flex-col p-4'>
+        <div className='flex flex-col p-4 bg-white rounded-4xl'>
             <Image
                 width={355}
                 height={149}
@@ -23,8 +23,8 @@ const AssetTile:React.FC<AssetTileProps> = ({ title, assetImage, howOld, remarks
                 alt='asset image'
             />
             <div className='flex flex-col gap-1.5'>
-                <h5 className='text-sm font-semibold text-black'>{title}</h5>
-                <div className='flex items-center'>
+                <h5 className='text-sm font-semibold text-black line-clamp-1'>{title}</h5>
+                <div className='flex items-center justify-between'>
                     <div className='flex gap-1 p-2'>
                         <Image
                             width={16}
@@ -59,7 +59,7 @@ const AssetTile:React.FC<AssetTileProps> = ({ title, assetImage, howOld, remarks
                             alt='map point'
                             src='/svgs/map-point.svg'
                         />
-                        <p className='text-[.625rem] leading-4 capitalize inter-font'>{location}</p>
+                        <p className='text-[.625rem] leading-4 capitalize inter-font line-clamp-1'>{location}</p>
                     </div>
                 </div>
             </div>

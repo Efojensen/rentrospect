@@ -6,7 +6,7 @@ export default function RentalLayout({
     children: React.ReactNode
 }) {
     return (
-        <section className='flex flex-col min-h-full px-30'>
+        <section className='flex flex-col min-h-full px-4 md:px-30'>
             <NavBar
                 location='Kumasi '
             />

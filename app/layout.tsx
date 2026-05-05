@@ -62,7 +62,7 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} ${dmSans.variable} ${plusJakartaSans.variable} ${poppins.variable} ${inter.variable} h-full antialiased bg-nearWhiteBg`}
     >
-      <body className={`min-h-full flex flex-col ${montserrat.variable}`}>{children}</body>
+      <body className={`min-h-full flex flex-col ${montserrat.variable} bg-nearWhiteBg`}>{children}</body>
     </html>
   );
 }

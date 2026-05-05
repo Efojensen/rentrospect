@@ -3,6 +3,8 @@ import AssetTile from "@/components/AssetTile";
 import HeroPicture from "@/components/HeroPicture";
 import CategoryTile from "@/components/SectionTile";
 import { categories } from "@/constants/categories";
+import { arrivals } from "@/constants/otherAssets";
+import ArrivalTile from "@/components/ArrivalTile";
 
 export default function Home() {
     return (
@@ -30,6 +32,18 @@ export default function Home() {
                         location={asset.location}
                         assetImage={asset.assetImage}
                         numReviews={asset.numReviews}
+                    />
+                ))}
+            </div>
+            <div className='flex mt-7.5 gap-5'>
+                {arrivals.map((arrival, index) => (
+                    <ArrivalTile
+                        key={index}
+                        src={arrival.src}
+                        qty={arrival.qty}
+                        owner={arrival.owner}
+                        assetType={arrival.assetType}
+                        profileImg='/images/Avatar.png'
                     />
                 ))}
             </div>

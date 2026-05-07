@@ -14,12 +14,12 @@ export interface AssetTileProps {
 
 const AssetTile:React.FC<AssetTileProps> = ({ title, assetImage, howOld, remarks, type, location, ratings, numReviews, price }) => {
     return (
-        <div className='flex flex-col p-4 bg-white rounded-4xl'>
+        <div className='flex flex-col p-4 bg-white rounded-4xl w-fit'>
             <Image
                 width={355}
                 height={149}
                 src={assetImage}
-                className='mb-4'
+                className='mb-4 h-45 object-cover'
                 alt='asset image'
             />
             <div className='flex flex-col gap-1.5'>

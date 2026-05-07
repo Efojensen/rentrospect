@@ -6,6 +6,8 @@ import { arrivals } from "@/constants/otherAssets";
 import ArrivalTile from "@/components/ArrivalTile";
 import CategoryTile from "@/components/SectionTile";
 import { categories } from "@/constants/categories";
+import CategoryOval from '@/components/CategoryOval';
+import { ovalCategories } from '@/constants/oval_categories';
 
 export default function Home() {
     return (
@@ -124,6 +126,16 @@ export default function Home() {
                         />
                     </div>
                 </div>
+            </div>
+            <div className='flex overflow-x-auto whitespace-nowrap items-center gap-11.25 justify-center'>
+                {ovalCategories.map((category, index) => (
+                    <div key={index} className='shrink-0'>
+                        <CategoryOval
+                            src={category.src}
+                            label={category.label}
+                        />
+                    </div>
+                ))}
             </div>
         </main>
     );

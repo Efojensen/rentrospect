@@ -2,7 +2,7 @@ import Image from 'next/image'
 
 const HeroPicture = () => {
     return (
-        <section className="relative overflow-hidden rounded-2xl bg-linear-to-r from-[#B9EFFF] to-[#B9EFFFAA] min-h-80 md:min-h-105 w-full">
+        <section className="relative overflow-hidden rounded-2xl bg-linear-to-r from-[#B9EFFF] to-[#B9EFFFAA] min-h-80 md:min-h-105 w-full mb-4 md:mb-6">
             <div className="absolute inset-0 bg-[url('/svgs/designs.svg')] bg-cover bg-center opacity-40" />
 
             {/* Main Content */}

@@ -9,16 +9,20 @@ import { categories } from "@/constants/categories";
 export default function Home() {
     return (
         <main className='flex flex-col'>
-            <div className='flex gap-3.25 md:gap-5.25 overflow-x-auto whitespace-nowrap mx-auto mb-4 md:mb-6 snap-x snap-mandatory'>
+            <div className='flex gap-3.25 md:gap-5.25 overflow-x-auto whitespace-nowrap mx-auto mb-4 md:mb-6 scrollbar-hide w-full md:justify-center'>
                 {categories.map((category, index) => (
-                    <CategoryTile
-                        key={index}
-                        label={category.label}
-                        image={category.image}
-                    />
+                    <div key={index} className='shrink-0'>
+                        <CategoryTile
+                            label={category.label}
+                            image={category.image}
+                        />
+                    </div>
                 ))}
             </div>
             <HeroPicture />
+            <div className='flex justify-between items-center'>
+                <h2 className='dmSans-font text-[1.25rem] font-medium capitalize text-sectionTitle p-2.5'>Assets Nearby</h2>
+            </div>
             <div className='flex mt-7.5 gap-5 overflow-x-auto scrollbar-hide whitespace-nowrap'>
                 {assets.map((asset, index) => (
                     <div key={index} className='shrink-0'>

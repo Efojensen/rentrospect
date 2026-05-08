@@ -7,9 +7,10 @@ interface NavButtonProps {
     icon: string
     label: string
     active: boolean
+    inactiveIcon: string
 }
 
-const NavButtonLink:React.FC<NavButtonProps> = ({ alt, href, icon, label, active }) => {
+const NavButtonLink:React.FC<NavButtonProps> = ({ alt, href, icon, label, active, inactiveIcon }) => {
     return (
         <Link
             href={href}
@@ -18,9 +19,10 @@ const NavButtonLink:React.FC<NavButtonProps> = ({ alt, href, icon, label, active
             <div className={`flex items-center gap-4.25`}>
                 <Image
                     alt={alt}
-                    src={icon}
+                    src={active ? icon : inactiveIcon}
                     width={24}
                     height={24}
+                    className='filter'
                 />
                 <p className={`${!active && 'hidden'} dmSans-font text-loginTextClr text-[1rem] font-semibold leading-[1.1rem]`}>{label}</p>
             </div>

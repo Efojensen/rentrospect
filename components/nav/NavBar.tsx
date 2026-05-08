@@ -1,9 +1,16 @@
+'use client'
+
 import Image from 'next/image'
 import NavButtonLink from './NavButtonLink'
+import { usePathname } from 'next/navigation'
 
-const NavBar = ({location}: {location: string}) => {
+const NavBar = ({ location }: { location: string }) => {
+    const pathname = usePathname()
+
     return (
         <nav className='flex justify-between my-6'>
+
+            {/* Left */}
             <div className='flex gap-1 items-center'>
                 <Image
                     height={48}
@@ -11,6 +18,7 @@ const NavBar = ({location}: {location: string}) => {
                     alt='rentrospect logo'
                     src='/svgs/rentrospect.svg'
                 />
+
                 <Image
                     width={44}
                     height={44}
@@ -18,48 +26,68 @@ const NavBar = ({location}: {location: string}) => {
                     src='/svgs/location.svg'
                     className='p-3'
                 />
+
                 <div className='flex flex-col'>
-                    <p className='text-[#808493] dmSans-font text-[12px] leading-5.5'>Your location</p>
-                    <p className='text-black dmSans-font text-sm'>{location}</p>
+                    <p className='text-[#808493] dmSans-font text-[12px] leading-5.5'>
+                        Your location
+                    </p>
+
+                    <p className='text-black dmSans-font text-sm'>
+                        {location}
+                    </p>
                 </div>
             </div>
+
+            {/* Middle Nav */}
             <div className='hidden md:flex p-2 gap-4 bg-[#00000033] z-2 rounded-[2.5rem]'>
+
                 <NavButtonLink
-                    href='/'
-                    active={true}
+                    href='/renter'
                     alt='home icon'
                     label='Dashboard'
-                    icon='/svgs/nav/home.svg'
+                    active={pathname === '/renter'}
+                    icon='/svgs/nav/home-active.svg'
+                    inactiveIcon='/svgs/nav/home.svg'
                 />
+
                 <NavButtonLink
-                    href='/assets'
-                    active={false}
-                    label='Assets'
+                    href='/renter/rentals'
+                    label='Rentals'
                     alt='folder icon'
-                    icon='/svgs/nav/folder.svg'
+                    icon='/svgs/nav/folder-active.svg'
+                    inactiveIcon='/svgs/nav/folder.svg'
+                    active={pathname === '/renter/rentals'}
                 />
+
                 <NavButtonLink
-                    href='/wallet'
-                    active={false}
+                    href='/renter/wallet'
+                    active={pathname === '/renter/wallet'}
                     label='Wallet'
                     alt='wallet icon'
-                    icon='/svgs/nav/wallet.svg'
+                    icon='/svgs/nav/wallet-active.svg'
+                    inactiveIcon='/svgs/nav/wallet.svg'
                 />
+
                 <NavButtonLink
-                    active={false}
                     href='/messages'
                     label='Messages'
                     alt='messages icon'
-                    icon='/svgs/nav/messages.svg'
+                    active={pathname === '/messages'}
+                    icon='/svgs/nav/messages-active.svg'
+                    inactiveIcon='/svgs/nav/messages.svg'
                 />
+
                 <NavButtonLink
-                    active={false}
                     href='/profile'
                     alt='user icon'
                     label='Profile'
-                    icon='/svgs/nav/user.svg'
+                    icon='/svgs/nav/user-active.svg'
+                    active={pathname === '/profile'}
+                    inactiveIcon='/svgs/nav/user.svg'
                 />
             </div>
+
+            {/* Right */}
             <div className='flex gap-4 items-center'>
                 <Image
                     width={20}
@@ -68,18 +96,21 @@ const NavBar = ({location}: {location: string}) => {
                     src='/svgs/search.svg'
                     className='hidden md:flex'
                 />
+
                 <Image
                     width={20}
                     height={20}
                     alt='bell icon'
                     src='/svgs/bell.svg'
                 />
+
                 <Image
                     width={20}
                     height={20}
                     alt='heart icon'
                     src='/svgs/heart.svg'
                 />
+
                 <Image
                     width={48}
                     height={48}

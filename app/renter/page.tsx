@@ -12,7 +12,7 @@ import { ovalCategories } from '@/constants/oval_categories';
 export default function Home() {
     return (
         <main className='flex flex-col gap-4 md:gap-6'>
-            <div className='flex gap-3.25 md:gap-5.25 overflow-x-auto whitespace-nowrap mx-auto scrollbar-hide w-full md:justify-center'>
+            <div className='flex gap-3.25 md:gap-5.25 overflow-x-auto whitespace-nowrap mx-auto no-scrollbar w-full md:justify-center'>
                 {categories.map((category, index) => (
                     <div key={index} className='shrink-0'>
                         <CategoryTile
@@ -48,7 +48,7 @@ export default function Home() {
                     </div>
                 </div>
             </div>
-            <div className='flex gap-5 overflow-x-auto scrollbar-hide whitespace-nowrap'>
+            <div className='flex gap-5 overflow-x-auto no-scrollbar whitespace-nowrap'>
                 {assets.map((asset, index) => (
                     <div key={index} className='shrink-0'>
                         <AssetTile

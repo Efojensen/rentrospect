@@ -19,8 +19,8 @@ const AssetTile:React.FC<AssetTileProps> = ({ title, assetImage, howOld, remarks
                 width={355}
                 height={149}
                 src={assetImage}
-                className='mb-4 h-45 object-cover'
                 alt='asset image'
+                className='mb-4 h-45 object-cover rounded-2xl'
             />
             <div className='flex flex-col gap-1.5'>
                 <h5 className='text-sm font-semibold text-black line-clamp-1'>{title}</h5>

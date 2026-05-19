@@ -1,6 +1,6 @@
 import Image from 'next/image';
-
-interface BottomSheetProps {
+import { RentalTileProps } from './RentalTile';
+export interface BottomSheetProps extends RentalTileProps{
     rate: number
     about: string
     owner: string

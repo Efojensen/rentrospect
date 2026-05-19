@@ -3,7 +3,8 @@ import Image from 'next/image'
 import ProgressBar from './ProgressBar'
 
 export interface RentalTileProps {
-    id: string
+    id?: string
+    uid?: string
     name: string
     price: string
     assetSrc: string
@@ -11,7 +12,7 @@ export interface RentalTileProps {
     progress: number
 }
 
-const RentalTile:React.FC<RentalTileProps> = ({ id, name, price, assetSrc, quantity, progress }) => {
+const RentalTile:React.FC<RentalTileProps> = ({ id, name, price, assetSrc, quantity, progress, uid }) => {
     return (
         <Link
             href={`/renter/rentals/${id}`}
@@ -26,7 +27,7 @@ const RentalTile:React.FC<RentalTileProps> = ({ id, name, price, assetSrc, quant
                     className='object-cover rounded-[20px]'
                 />
                 <div className='flex flex-col'>
-                    <p className='poppins-font text-[12px] text-black'>ID:&nbsp;<span className='font-semibold'>{id}</span></p>
+                    <p className='poppins-font text-[12px] text-black'>ID:&nbsp;<span className='font-semibold'>{uid}{id}</span></p>
                     <p className='poppins-font text-[12px] text-black'>Name:&nbsp;<span className='font-semibold'>{name}</span></p>
                     <p className='poppins-font text-[12px] text-black'>Quantity:&nbsp;<span className='font-semibold'>{quantity}</span></p>
                     <p className='poppins-font text-[12px] text-black'>Cost:&nbsp;<span className='font-semibold'>{price}</span></p>

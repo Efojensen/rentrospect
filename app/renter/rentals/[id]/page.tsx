@@ -1,24 +1,32 @@
 import Image from 'next/image'
-import BottomSheet from '@/components/BottomSheet'
+import { rentals } from '@/constants/rentals'
+import BottomSheet, { BottomSheetProps } from '@/components/BottomSheet'
 
-const AssetDetails = () => {
+const AssetDetails = async({ params }: { params: Promise<{ id: string }>}) => {
+    const id = Number((await params).id)
+    const assetDetails: BottomSheetProps = rentals[id + 1]
     return (
-        <main className='flex flex-col'>
+        <main className='flex flex-col items-center'>
             <Image
                 width={430}
                 height={373}
                 alt='asset image'
                 src='/images/assets/speaker.png'
-            />
+                />
             <BottomSheet
-                rate={0}
-                about={'Premier luxury event rentals in Accra. We specialize in high-end marquee tents, authentic Kente-themed decor, and international standard banquet seating for your most prestigious occasions.'}
-                owner={'Scylla Kwofie'}
-                rating={4.2}
-                reviews={20}
-                ownerSrc={'/images/Avatar.png'}
-                category={'Electronic'}
-                description={'Lorem ipsum dolor sit amet consectetur. Tincidunt diam molestie iaculis curabitur elementum sit. Luctus turpis nunc nunc mauris.  '}
+                progress={0}
+                rate={assetDetails.rate}
+                name={assetDetails.name}
+                about={assetDetails.about}
+                price={assetDetails.price}
+                owner={assetDetails.owner}
+                rating={assetDetails.rating}
+                reviews={assetDetails.reviews}
+                assetSrc={assetDetails.assetSrc}
+                quantity={assetDetails.quantity}
+                ownerSrc={assetDetails.ownerSrc}
+                category={assetDetails.category}
+                description={assetDetails.description}
             />
         </main>
     )

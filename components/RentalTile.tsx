@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import Image from 'next/image'
 import ProgressBar from './ProgressBar'
 
@@ -12,13 +13,17 @@ export interface RentalTileProps {
 
 const RentalTile:React.FC<RentalTileProps> = ({ id, name, price, assetSrc, quantity, progress }) => {
     return (
-        <div className='flex flex-col rounded-4xl w-95.5 h-59.5 py-[27.5008px] px-6 shadow-md bg-white'>
+        <Link
+            href={`/renter/rentals/${id}`}
+            className='flex flex-col rounded-4xl w-95.5 h-59.5 py-[27.5008px] px-6 shadow-md bg-white'
+        >
             <div className='flex gap-6.75 mb-4.25'>
                 <Image
                     width={131}
                     height={112}
                     src={assetSrc}
                     alt='asset image'
+                    className='object-cover rounded-[20px]'
                 />
                 <div className='flex flex-col'>
                     <p className='poppins-font text-[12px] text-black'>ID:&nbsp;<span className='font-semibold'>{id}</span></p>
@@ -47,7 +52,7 @@ const RentalTile:React.FC<RentalTileProps> = ({ id, name, price, assetSrc, quant
                     src='/svgs/chevron_right.svg'
                 />
             </div>
-        </div>
+        </Link>
     )
 }
 

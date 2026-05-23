@@ -13,7 +13,7 @@ export interface BottomSheetProps extends RentalTileProps{
 
 const BottomSheet: React.FC<BottomSheetProps> = ({ rate, about, owner, rating, ownerSrc, category, description, reviews }) => {
     return (
-        <div className="relative flex md:hidden flex-col bg-[#F3F4F6] rounded-t-[40px] pt-8 pb-6 px-6">
+        <div className="relative flex md:hidden flex-col bg-[#F3F4F6] rounded-t-[40px] pt-8 pb-6">
 
             {/* Center Notch */}
             <div className="absolute -top-6 left-1/2 -translate-x-1/2 w-20 h-12 bg-white rounded-b-4xl" />
@@ -26,14 +26,14 @@ const BottomSheet: React.FC<BottomSheetProps> = ({ rate, about, owner, rating, o
 
             {/* Content */}
             <div className="relative z-10 flex flex-col gap-4">
-                <div className='flex'>
+                <div className='flex px-6'>
                     <span className="bg-black text-white text-xs font-bold px-3 py-1 rounded">
                         {category}
                     </span>
                     {/* + and - buttons */}
                 </div>
 
-                <div className='flex justify-between items-center'>
+                <div className='flex justify-between items-center px-6'>
                     <div className='flex gap-2'>
                         <Image
                             width={14.887}
@@ -45,12 +45,12 @@ const BottomSheet: React.FC<BottomSheetProps> = ({ rate, about, owner, rating, o
                     </div>
                     <p className='text-[#0E0E10] dmSans-font text-[1.25rem] font-semibold leading-7.5'>₵{rate}/day</p>
                 </div>
-                <div className='flex flex-col gap-0.5'>
+                <div className='flex flex-col gap-0.5 px-6'>
                     <p className='text-[#878787] dmSans-font text-[12px] leading-4.5'>{description}</p>
                     <p className='text-[#121111] font-semibold dmSans-font text-[.875rem]'>Read More...</p>
                 </div>
                 {/* White background container */}
-                <div className='flex flex-col bg-white'>
+                <div className='flex flex-col bg-white px-6'>
                     {/* Inner container */}
                     <div className='flex justify-between my-6.25 items-center'>
                         {/* Owner details */}
@@ -89,7 +89,7 @@ const BottomSheet: React.FC<BottomSheetProps> = ({ rate, about, owner, rating, o
                     </div>
                 </div>
                 {/* About the vendor */}
-                <div className='flex flex-col bg-white'>
+                <div className='flex flex-col bg-white px-6'>
                     <h4 className='capitalize montserrat-font text-[1rem] font-bold mt-8.25'>about vendor</h4>
                     <p className='text-otherSmallText inter-font text-[1rem] leading-6.5 mt-5'>{about}</p>
                 </div>

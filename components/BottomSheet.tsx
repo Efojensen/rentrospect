@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { RentalTileProps } from './RentalTile';
+import StatTile from './StatTile';
 export interface BottomSheetProps extends RentalTileProps{
     rate: number
     about: string
@@ -89,9 +90,22 @@ const BottomSheet: React.FC<BottomSheetProps> = ({ rate, about, owner, rating, o
                     </div>
                 </div>
                 {/* About the vendor */}
-                <div className='flex flex-col bg-white px-6'>
+                <div className='flex flex-col bg-white px-6 mb-4.5'>
                     <h4 className='capitalize montserrat-font text-[1rem] font-bold mt-8.25'>about vendor</h4>
                     <p className='text-otherSmallText inter-font text-[1rem] leading-6.5 mt-5'>{about}</p>
+                </div>
+                {/* Stat Tiles */}
+                <div className='flex bg-white px-1 gap-1.5 py-7'>
+                    <StatTile
+                        icon={'/svgs/verification_badge.svg'}
+                        main={'Verified Vendor'}
+                        desc={'Background checked by the Curator'}
+                    />
+                    <StatTile
+                        icon={'/svgs/response_time.svg'}
+                        main={'Verified Vendor'}
+                        desc={'Background checked by the Curator'}
+                    />
                 </div>
             </div>
         </div>

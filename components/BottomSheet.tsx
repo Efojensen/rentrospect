@@ -13,7 +13,7 @@ export interface BottomSheetProps extends RentalTileProps{
 
 const BottomSheet: React.FC<BottomSheetProps> = ({ rate, about, owner, rating, ownerSrc, category, description, reviews }) => {
     return (
-        <div className="relative flex flex-col bg-[#F3F4F6] rounded-t-[40px] pt-8 pb-6 px-6">
+        <div className="relative flex md:hidden flex-col bg-[#F3F4F6] rounded-t-[40px] pt-8 pb-6 px-6">
 
             {/* Center Notch */}
             <div className="absolute -top-6 left-1/2 -translate-x-1/2 w-20 h-12 bg-white rounded-b-4xl" />

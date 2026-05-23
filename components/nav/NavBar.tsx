@@ -56,7 +56,7 @@ const NavBar = ({ location }: { location: string }) => {
                     alt='folder icon'
                     icon='/svgs/nav/folder-active.svg'
                     inactiveIcon='/svgs/nav/folder.svg'
-                    active={pathname === '/renter/rentals'}
+                    active={pathname.startsWith('/renter/rentals')}
                 />
 
                 <NavButtonLink

@@ -8,7 +8,7 @@ interface StatTileProps {
 
 const StatTile:React.FC<StatTileProps> = ({ icon, main, desc}) => {
     return (
-        <div className='flex flex-col rounded-xl bg-[#F4F3F1] px-5 pb-4'>
+        <div className='flex flex-col rounded-xl bg-[#F4F3F1] px-5 pb-4 flex-1'>
             <Image
                 src={icon}
                 alt={icon}

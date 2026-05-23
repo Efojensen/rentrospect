@@ -95,7 +95,7 @@ const BottomSheet: React.FC<BottomSheetProps> = ({ rate, about, owner, rating, o
                     <p className='text-otherSmallText inter-font text-[1rem] leading-6.5 mt-5'>{about}</p>
                 </div>
                 {/* Stat Tiles */}
-                <div className='flex bg-white px-1 gap-1.5 py-7'>
+                <div className='flex bg-white px-1 gap-6 py-7'>
                     <StatTile
                         icon={'/svgs/verification_badge.svg'}
                         main={'Verified Vendor'}
@@ -103,8 +103,8 @@ const BottomSheet: React.FC<BottomSheetProps> = ({ rate, about, owner, rating, o
                     />
                     <StatTile
                         icon={'/svgs/response_time.svg'}
-                        main={'Verified Vendor'}
-                        desc={'Background checked by the Curator'}
+                        main={'Fast Response'}
+                        desc={'Usually replies within 30 minutes'}
                     />
                 </div>
             </div>

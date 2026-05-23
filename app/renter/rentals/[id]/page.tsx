@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import { rentals } from '@/constants/rentals'
 import BottomSheet, { BottomSheetProps } from '@/components/BottomSheet'
+import StatTile from '@/components/StatTile'
 
 const AssetDetails = async ({ params }: { params: Promise<{ id: string }> }) => {
     const id = Number((await params).id)
@@ -93,9 +94,22 @@ const AssetDetails = async ({ params }: { params: Promise<{ id: string }> }) => 
                         </div>
                     </div>
                 </div>
-                <div className='flex flex-col pt-8.25 px-6 bg-white'>
+                <div className='flex flex-col pt-8.25 px-6 bg-white mb-4'>
                     <h4 className='uppercase montserrat-font font-bold text-[16px] mb-6.25'>About vendor</h4>
-                    <p className='text-otherSmallText inter-font text-[16px] leading-6.5'>{assetDetails.about}</p>
+                    <p className='text-otherSmallText inter-font text-[16px] leading-6.5 mb-7'>{assetDetails.about}</p>
+                </div>
+                {/* Stat Tiles */}
+                <div className='flex bg-white px-6 gap-1.5 py-7'>
+                    <StatTile
+                        icon={'/svgs/verification_badge.svg'}
+                        main={'Verified Vendor'}
+                        desc={'Background checked by the Curator'}
+                    />
+                    <StatTile
+                        icon={'/svgs/response_time.svg'}
+                        main={'Fast Response'}
+                        desc={'Usually replies within 30 minutes'}
+                    />
                 </div>
             </div>
             <BottomSheet

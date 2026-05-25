@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { RentalTileProps } from './RentalTile';
 import StatTile from './StatTile';
+import DateSelect from './DateSelectTile';
 export interface BottomSheetProps extends RentalTileProps{
     rate: number
     about: string
@@ -106,6 +107,28 @@ const BottomSheet: React.FC<BottomSheetProps> = ({ rate, about, owner, rating, o
                         main={'Fast Response'}
                         desc={'Usually replies within 30 minutes'}
                     />
+                </div>
+                <div className='flex flex-col bg-white mt-4 px-6'>
+                    <h4 className='mt-8.25 montserrat-font text-[1rem] font-bold mb-6.25'>Duration</h4>
+                    <div className='flex gap-4 items-center justify-around'>
+                        <DateSelect
+                            options={[
+                                'Mar 10th',
+                                'Apr 10th',
+                                'May 10th',
+                                'Jun 10th',
+                            ]}
+                        />
+
+                        <DateSelect
+                            options={[
+                                'June 10th',
+                                'July 10th',
+                                'Aug 10th',
+                                'Sep 10th',
+                            ]}
+                        />
+                    </div>
                 </div>
             </div>
         </div>

@@ -2,6 +2,7 @@ import Image from 'next/image'
 import { rentals } from '@/constants/rentals'
 import BottomSheet, { BottomSheetProps } from '@/components/BottomSheet'
 import StatTile from '@/components/StatTile'
+import DateSelect from '@/components/DateSelectTile'
 
 const AssetDetails = async ({ params }: { params: Promise<{ id: string }> }) => {
     const id = Number((await params).id)
@@ -110,6 +111,28 @@ const AssetDetails = async ({ params }: { params: Promise<{ id: string }> }) => 
                         main={'Fast Response'}
                         desc={'Usually replies within 30 minutes'}
                     />
+                </div>
+                <div className='flex flex-col bg-white mt-4 px-6'>
+                    <h4 className='mt-8.25 montserrat-font text-[1rem] font-bold mb-6.25'>Duration</h4>
+                    <div className='flex gap-4 items-center justify-around'>
+                        <DateSelect
+                            options={[
+                                'Mar 10th',
+                                'Apr 10th',
+                                'May 10th',
+                                'Jun 10th',
+                            ]}
+                        />
+
+                        <DateSelect
+                            options={[
+                                'June 10th',
+                                'July 10th',
+                                'Aug 10th',
+                                'Sep 10th',
+                            ]}
+                        />
+                    </div>
                 </div>
             </div>
             <BottomSheet

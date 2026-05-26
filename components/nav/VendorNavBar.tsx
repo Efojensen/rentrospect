@@ -1,12 +1,8 @@
 'use client'
 
 import Image from 'next/image'
-import NavButtonLink from './NavButtonLink'
-import { usePathname } from 'next/navigation'
 
 const VendorNavBar = ({ location }: { location: string }) => {
-    const pathname = usePathname()
-
     return (
         <nav className='flex justify-between my-6'>
 

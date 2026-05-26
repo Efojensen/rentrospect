@@ -17,7 +17,7 @@ export default function Home() {
     const secondthScrollRef = useRef<HTMLDivElement | null>(null)
 
     const premierScrollAmount = 320
-    const secondthScrollAmount = 80
+    const secondthScrollAmount = 200
 
     const premierScrollLeft = () => {
         premierScrollRef.current?.scrollBy({

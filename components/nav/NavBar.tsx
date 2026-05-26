@@ -3,122 +3,126 @@
 import Image from 'next/image'
 import NavButtonLink from './NavButtonLink'
 import { usePathname } from 'next/navigation'
+import SearchBar from '../input/SearchBar'
 
 const NavBar = ({ location }: { location: string }) => {
     const pathname = usePathname()
 
     return (
-        <nav className='flex justify-between my-6'>
+        <>
+            <nav className='flex justify-between my-6'>
 
-            {/* Left */}
-            <div className='flex gap-1 items-center'>
-                <Image
-                    height={48}
-                    width={62.03}
-                    alt='rentrospect logo'
-                    src='/svgs/rentrospect.svg'
-                />
+                {/* Left */}
+                <div className='flex gap-1 items-center'>
+                    <Image
+                        height={48}
+                        width={62.03}
+                        alt='rentrospect logo'
+                        src='/svgs/rentrospect.svg'
+                    />
 
-                <Image
-                    width={44}
-                    height={44}
-                    alt='location svg'
-                    src='/svgs/location.svg'
-                    className='p-3'
-                />
+                    <Image
+                        width={44}
+                        height={44}
+                        alt='location svg'
+                        src='/svgs/location.svg'
+                        className='p-3'
+                    />
 
-                <div className='flex flex-col'>
-                    <p className='text-[#808493] dmSans-font text-[12px] leading-5.5'>
-                        Your location
-                    </p>
+                    <div className='flex flex-col'>
+                        <p className='text-[#808493] dmSans-font text-[12px] leading-5.5'>
+                            Your location
+                        </p>
 
-                    <p className='text-black dmSans-font text-sm'>
-                        {location}
-                    </p>
+                        <p className='text-black dmSans-font text-sm'>
+                            {location}
+                        </p>
+                    </div>
                 </div>
-            </div>
 
-            {/* Middle Nav */}
-            <div className='hidden md:flex p-2 gap-4 bg-[#00000033] z-2 rounded-[2.5rem]'>
+                {/* Middle Nav */}
+                <div className='hidden md:flex p-2 gap-4 bg-[#00000033] z-2 rounded-[2.5rem]'>
 
-                <NavButtonLink
-                    href='/renter'
-                    alt='home icon'
-                    label='Dashboard'
-                    active={pathname === '/renter'}
-                    icon='/svgs/nav/home-active.svg'
-                    inactiveIcon='/svgs/nav/home.svg'
-                />
+                    <NavButtonLink
+                        href='/renter'
+                        alt='home icon'
+                        label='Dashboard'
+                        active={pathname === '/renter'}
+                        icon='/svgs/nav/home-active.svg'
+                        inactiveIcon='/svgs/nav/home.svg'
+                    />
 
-                <NavButtonLink
-                    href='/renter/rentals'
-                    label='Rentals'
-                    alt='folder icon'
-                    icon='/svgs/nav/folder-active.svg'
-                    inactiveIcon='/svgs/nav/folder.svg'
-                    active={pathname.startsWith('/renter/rentals')}
-                />
+                    <NavButtonLink
+                        href='/renter/rentals'
+                        label='Rentals'
+                        alt='folder icon'
+                        icon='/svgs/nav/folder-active.svg'
+                        inactiveIcon='/svgs/nav/folder.svg'
+                        active={pathname.startsWith('/renter/rentals')}
+                    />
 
-                <NavButtonLink
-                    href='/renter/wallet'
-                    active={pathname === '/renter/wallet'}
-                    label='Wallet'
-                    alt='wallet icon'
-                    icon='/svgs/nav/wallet-active.svg'
-                    inactiveIcon='/svgs/nav/wallet.svg'
-                />
+                    <NavButtonLink
+                        href='/renter/wallet'
+                        active={pathname === '/renter/wallet'}
+                        label='Wallet'
+                        alt='wallet icon'
+                        icon='/svgs/nav/wallet-active.svg'
+                        inactiveIcon='/svgs/nav/wallet.svg'
+                    />
 
-                <NavButtonLink
-                    href='/messages'
-                    label='Messages'
-                    alt='messages icon'
-                    active={pathname === '/messages'}
-                    icon='/svgs/nav/messages-active.svg'
-                    inactiveIcon='/svgs/nav/messages.svg'
-                />
+                    <NavButtonLink
+                        href='/messages'
+                        label='Messages'
+                        alt='messages icon'
+                        active={pathname === '/messages'}
+                        icon='/svgs/nav/messages-active.svg'
+                        inactiveIcon='/svgs/nav/messages.svg'
+                    />
 
-                <NavButtonLink
-                    href='/profile'
-                    alt='user icon'
-                    label='Profile'
-                    icon='/svgs/nav/user-active.svg'
-                    active={pathname === '/profile'}
-                    inactiveIcon='/svgs/nav/user.svg'
-                />
-            </div>
+                    <NavButtonLink
+                        href='/profile'
+                        alt='user icon'
+                        label='Profile'
+                        icon='/svgs/nav/user-active.svg'
+                        active={pathname === '/profile'}
+                        inactiveIcon='/svgs/nav/user.svg'
+                    />
+                </div>
 
-            {/* Right */}
-            <div className='flex gap-4 items-center'>
-                <Image
-                    width={20}
-                    height={20}
-                    alt='search icon'
-                    src='/svgs/search.svg'
-                    className='hidden md:flex'
-                />
+                {/* Right */}
+                <div className='flex gap-4 items-center'>
+                    <Image
+                        width={20}
+                        height={20}
+                        alt='search icon'
+                        src='/svgs/search.svg'
+                        className='hidden md:flex'
+                    />
 
-                <Image
-                    width={20}
-                    height={20}
-                    alt='bell icon'
-                    src='/svgs/bell.svg'
-                />
+                    <Image
+                        width={20}
+                        height={20}
+                        alt='bell icon'
+                        src='/svgs/bell.svg'
+                    />
 
-                <Image
-                    width={20}
-                    height={20}
-                    alt='heart icon'
-                    src='/svgs/heart.svg'
-                />
+                    <Image
+                        width={20}
+                        height={20}
+                        alt='heart icon'
+                        src='/svgs/heart.svg'
+                    />
 
-                <Image
-                    width={48}
-                    height={48}
-                    alt='demo'
-                    src='/images/demo.png'
-                />
-            </div>
-        </nav>
+                    <Image
+                        width={48}
+                        height={48}
+                        alt='demo'
+                        src='/images/demo.png'
+                    />
+                </div>
+            </nav>
+            <SearchBar/>
+        </>
     )
 }
 

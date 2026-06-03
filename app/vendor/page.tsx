@@ -6,7 +6,7 @@ import StatusCircle from '@/components/vendor/StatusCircle'
 
 const page = () => {
     return (
-        <main className='flex flex-col md:pb-4'>
+        <main className='flex flex-col md:pb-4 md:pl-13.75'>
             <div className='flex gap-6.25 mb-10'>
                 {vendorStats.map((stat, index) => (
                     <div className='shrink-0' key={index}>

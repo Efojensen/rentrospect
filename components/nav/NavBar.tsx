@@ -1,9 +1,9 @@
 'use client'
 
 import Image from 'next/image'
+import SearchBar from '../input/SearchBar'
 import NavButtonLink from './NavButtonLink'
 import { usePathname } from 'next/navigation'
-import SearchBar from '../input/SearchBar'
 
 const NavBar = ({ location }: { location: string }) => {
     const pathname = usePathname()

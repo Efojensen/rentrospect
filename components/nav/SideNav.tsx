@@ -66,8 +66,8 @@ const SideNav = () => {
                             {/* Icon */}
                             <div className='relative z-10 flex items-center justify-center'>
                                 <Image
-                                    width={18}
-                                    height={18}
+                                    width={21}
+                                    height={21}
                                     alt='sidebar-icon'
                                     src={Icon}
                                     className={

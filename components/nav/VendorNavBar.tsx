@@ -4,7 +4,7 @@ import Image from 'next/image'
 
 const VendorNavBar = ({ location }: { location: string }) => {
     return (
-        <nav className='flex justify-between my-6'>
+        <nav className='flex justify-between my-3'>
 
             {/* Left */}
             <div className='flex gap-1 items-center'>

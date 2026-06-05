@@ -51,7 +51,7 @@ export const assets: AssetTileProps[] = [
 export const vendorAssets: VendorAssetTileProps[] = [
     {
         title: 'Toyota Corolla 2018',
-        price: '$13,500',
+        price: '13,500',
         remarks: 'Automatic transmission, low mileage',
         ratings: 4.6,
         location: 'Takoradi, Ghana',
@@ -63,7 +63,7 @@ export const vendorAssets: VendorAssetTileProps[] = [
     },
     {
         title: 'Canon EOS R50',
-        price: '$780',
+        price: '780',
         remarks: 'Mirrorless camera with kit lens included',
         ratings: 4.3,
         location: 'Cape Coast, Ghana',
@@ -75,7 +75,7 @@ export const vendorAssets: VendorAssetTileProps[] = [
     },
     {
         title: 'Wooden Dining Set',
-        price: '$430',
+        price: '430',
         status: 'listed',
         remarks: '6-seater handcrafted dining table',
         ratings: 3.9,

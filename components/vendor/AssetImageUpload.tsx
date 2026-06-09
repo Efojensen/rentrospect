@@ -48,10 +48,9 @@ export default function AssetImageUpload({
     }
 
     return (
-        <div className='flex flex-col gap-4'>
+        <div className='flex flex-row md:flex-col gap-4'>
             {/* Main Image */}
-            <div className='w-117.5 h-100.25 rounded-4xl overflow-hidden border border-[#3e4e50]/40 bg-[#FFF]'>
-
+            <div className='w-34 md:w-117.5 h-39.5 md:h-100.25 rounded-4xl overflow-hidden border border-[#3e4e50]/40 bg-[#FFF]'>
                 {images.length > 0 ? (
                     <Image
                         src={images[0]}
@@ -88,7 +87,8 @@ export default function AssetImageUpload({
                         onClick={openPicker}
                         className='
                             w-21
-                            h-21
+                            h-full
+                            md:h-21
                             rounded-2xl
                             border-2
                             border-dashed

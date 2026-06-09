@@ -24,10 +24,14 @@ const VendorUploadPage = () => {
             </div>
             <div className='flex flex-col gap-4 w-full flex-1'>
                 <VendorInputField
-                    label='Asset'
+                    label='Asset Name'
                     value={asset}
                     onChange={setAsset}
                 />
+                <div className='flex flex-col my-3 md:hidden gap-2.5'>
+                    <p className="text-sm font-semibold leading-5 tracking-[-0.0088rem] dmSans-font">Asset Image</p>
+                    <AssetImageUpload/>
+                </div>
                 <VendorSelectField
                     label='Asset Category'
                     value={assetCategory}
@@ -66,6 +70,10 @@ const VendorUploadPage = () => {
                     value={assetDescription}
                     onChange={setAssetDescription}
                 />
+                <div className='flex gap-5 items-center justify-end sticky'>
+                    <button className='cursor-pointer w-51 py-4 px-5 dmSans-font text-[1rem] font-semibold leading-6 text-loginTextClr bg-[#F2F4F8] hover:bg-[#E6EBF2] rounded-2xl'>Cancel</button>
+                    <button className='cursor-pointer w-51 py-4 px-5 dmSans-font text-[16px] font-semibold leading-6 text-white rounded-3xl bg-[#3E4E50] hover:bg-[#506668]'>Submit</button>
+                </div>
             </div>
         </main>
     )

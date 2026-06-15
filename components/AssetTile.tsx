@@ -1,6 +1,8 @@
+import Link from 'next/link'
 import Image from 'next/image'
 
 export interface AssetTileProps {
+    id: string
     title: string
     price: string
     remarks: string
@@ -12,9 +14,12 @@ export interface AssetTileProps {
     howOld: 'brand new' | 'barely used' | 'standard' | 'fairly used' | 'damaged'
 }
 
-const AssetTile:React.FC<AssetTileProps> = ({ title, assetImage, howOld, remarks, type, location, ratings, numReviews, price }) => {
+const AssetTile:React.FC<AssetTileProps> = ({ title, assetImage, howOld, remarks, type, location, ratings, numReviews, price, id }) => {
     return (
-        <div className='flex flex-col p-4 bg-white rounded-4xl w-fit'>
+        <Link
+            href={`/renter/rentals/${id}`}
+            className='flex flex-col p-4 bg-white rounded-4xl w-fit'
+        >
             <Image
                 width={355}
                 height={149}
@@ -74,7 +79,7 @@ const AssetTile:React.FC<AssetTileProps> = ({ title, assetImage, howOld, remarks
                 <p className='text-loginTextClr poppins-font text-[.75rem] mr-auto'>{ratings}&nbsp;({numReviews} Reviews)</p>
                 <p className='poppins-font text-[1.25rem] font-bold text-black'>₵{price}</p>
             </div>
-        </div>
+        </Link>
     )
 }
 

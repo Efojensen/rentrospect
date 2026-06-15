@@ -3,6 +3,7 @@ import { VendorAssetTileProps } from "@/components/vendor/VendorAssetTile";
 
 export const assets: AssetTileProps[] = [
     {
+        id: '1',
         title: 'MacBook Pro 14"',
         price: '1,850',
         remarks: '20',
@@ -14,6 +15,7 @@ export const assets: AssetTileProps[] = [
         howOld: 'barely used',
     },
     {
+        id: '2',
         title: 'Office Space Rental',
         price: '950/month',
         remarks: '14',
@@ -25,6 +27,7 @@ export const assets: AssetTileProps[] = [
         howOld: 'standard',
     },
     {
+        id: '3',
         title: 'iPhone 15 Pro',
         price: '1,100',
         remarks: '31',
@@ -36,6 +39,7 @@ export const assets: AssetTileProps[] = [
         howOld: 'brand new',
     },
     {
+        id: '4',
         title: 'Gaming Chair',
         price: '$220',
         remarks: 'Ergonomic chair with lumbar support',

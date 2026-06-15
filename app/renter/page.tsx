@@ -98,6 +98,7 @@ export default function Home() {
                 {assets.map((asset, index) => (
                     <div key={index} className='shrink-0'>
                         <AssetTile
+                            id={asset.id}
                             type={asset.type}
                             title={asset.title}
                             price={asset.price}

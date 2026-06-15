@@ -4,12 +4,21 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react';
 import Button from '@/components/Button';
+import { useRouter } from 'next/navigation'
 import OAuthButton from '@/components/OAuthButton';
 import { AuthInput, AuthPasswordInput } from '@/components/AuthInput';
 
 const SignIn = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
+    const router = useRouter()
+
+    const handleLogin = () => {
+        if (returnActivated(email, password)) {
+            router.push('/accountType')
+        }
+    }
 
     function returnActivated(theEmail: string, thePwd: string): boolean {
         const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -67,6 +76,7 @@ const SignIn = () => {
 
                     <Button
                         label='login'
+                        onClick={handleLogin}
                         activated={returnActivated(email, password)}
                     />
 

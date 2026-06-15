@@ -24,7 +24,7 @@ const page = () => {
                 ))}
             </div>
             <Link
-                href=''
+                href='/vendor/upload/asset'
                 className='flex size-30 p-2.5 rounded-full shadow-[0_20px_24px_-4px_rgba(10,13,18,0.10),0_8px_8px_-4px_rgba(10,13,18,0.04)] items-center justify-center fixed bottom-5 right-5 bg-white'
             >
                 <p className='text-[26.667px] text-[#3E4E50] stroke-[1.5px]'>+</p>

@@ -3,10 +3,10 @@ import RentalTile from '@/components/RentalTile'
 
 const page = () => {
     return (
-        <main className='flex flex-col gap-4 md:gap-6 px-6 md:px-22'>
-            <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-y-4 md:gap-y-6'>
+        <main className='flex flex-col px-6 md:px-0'>
+            <div className='grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
                 {rentals.map((rental, index) => (
-                    <div key={index} className=''>
+                    <div key={index}>
                         <RentalTile
                             id={rental.id}
                             uid={rental.uid}

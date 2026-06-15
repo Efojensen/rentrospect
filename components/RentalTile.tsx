@@ -16,9 +16,9 @@ const RentalTile:React.FC<RentalTileProps> = ({ id, name, price, assetSrc, quant
     return (
         <Link
             href={`/renter/rentals/${id}`}
-            className='flex flex-col rounded-4xl w-95.5 h-59.5 py-[27.5008px] px-6 shadow-md bg-white'
+            className='flex flex-col rounded-4xl w-95.5 h-59.5 py-[27.5008px] px-6 shadow-md bg-white mb-6'
         >
-            <div className='flex gap-6.75 mb-4.25'>
+            <div className='flex gap-6.75 mb-4.25 max-h-[112.05px]'>
                 <Image
                     width={131}
                     height={112}

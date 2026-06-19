@@ -1,8 +1,8 @@
 import Image from 'next/image'
-import { rentals } from '@/constants/rentals'
-import BottomSheet, { BottomSheetProps } from '@/components/BottomSheet'
 import StatTile from '@/components/StatTile'
+import { rentals } from '@/constants/rentals'
 import DateSelect from '@/components/DateSelectTile'
+import BottomSheet, { BottomSheetProps } from '@/components/BottomSheet'
 
 const AssetDetails = async ({ params }: { params: Promise<{ id: string }> }) => {
     const id = Number((await params).id)

@@ -1,11 +1,13 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { uploadImages } from '@/services/upload'
 import VendorInputField from '@/components/input/VendorInput'
-import VendorSelectField from '@/components/input/VendorSelectField';
-import { categoryOptions, conditions, pickupLocations } from '@/constants/category_options';
 import VendorTextAreaField from '@/components/input/VendorTextArea';
 import AssetImageUpload from '@/components/vendor/AssetImageUpload';
+import VendorSelectField from '@/components/input/VendorSelectField';
+import { categoryOptions, conditions, pickupLocations } from '@/constants/category_options';
 
 const VendorUploadPage = () => {
     const [asset, setAsset] = useState("");
@@ -16,11 +18,44 @@ const VendorUploadPage = () => {
     const [assetCondition, setAssetCondition] = useState("");
     const [pickupLocation, setPickupLocation] = useState("");
     const [assetDescription, setAssetDescription] = useState("")
+    const [assetImages, setAssetImages] = useState<File[]>([])
+
+    const router = useRouter();
+
+    const handleSubmit = async () => {
+        try {
+
+            const imageUrls = await uploadImages(assetImages)
+
+            const assetData = {
+                asset,
+                assetTags,
+                dailyRate,
+                assetQuantity,
+                assetCategory,
+                assetCondition,
+                pickupLocation,
+                assetDescription,
+                imageUrls,
+            }
+
+            console.log(assetData)
+
+            // Save to database here
+
+            router.push('/vendor/upload/asset/preview')
+
+        } catch (error) {
+            console.error(error)
+        }
+    }
     return (
         <main className='flex flex-col md:flex-row gap-18.75 px-6 md:px-13.75 pb-6.5'>
             <div className='hidden md:flex flex-col flex-1 gap-2'>
                 <p className="text-sm font-semibold leading-5 tracking-[-0.0088rem] dmSans-font">Asset Image</p>
-                <AssetImageUpload/>
+                <AssetImageUpload
+                    onImagesChange={setAssetImages}
+                />
             </div>
             <div className='flex flex-col gap-4 w-full flex-1'>
                 <VendorInputField
@@ -30,7 +65,7 @@ const VendorUploadPage = () => {
                 />
                 <div className='flex flex-col my-3 md:hidden gap-2.5'>
                     <p className="text-sm font-semibold leading-5 tracking-[-0.0088rem] dmSans-font">Asset Image</p>
-                    <AssetImageUpload/>
+                    <AssetImageUpload />
                 </div>
                 <VendorSelectField
                     label='Asset Category'
@@ -72,7 +107,11 @@ const VendorUploadPage = () => {
                 />
                 <div className='flex gap-5 items-center justify-end sticky'>
                     <button className='cursor-pointer w-51 py-4 px-5 dmSans-font text-[1rem] font-semibold leading-6 text-loginTextClr bg-[#F2F4F8] hover:bg-[#E6EBF2] rounded-2xl'>Cancel</button>
-                    <button className='cursor-pointer w-51 py-4 px-5 dmSans-font text-[16px] font-semibold leading-6 text-white rounded-3xl bg-[#3E4E50] hover:bg-[#506668]'>Submit</button>
+                    <button onClick={handleSubmit}
+                        className='cursor-pointer w-51 py-4 px-5 dmSans-font text-[16px] font-semibold leading-6 text-white rounded-3xl bg-[#3E4E50] hover:bg-[#506668]'
+                    >
+                        Submit
+                    </button>
                 </div>
             </div>
         </main>

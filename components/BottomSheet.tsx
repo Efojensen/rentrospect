@@ -1,7 +1,8 @@
 import Image from 'next/image';
-import { RentalTileProps } from './RentalTile';
 import StatTile from './StatTile';
+import Accordion from './Accordion';
 import DateSelect from './DateSelectTile';
+import { RentalTileProps } from './RentalTile';
 export interface BottomSheetProps extends RentalTileProps{
     rate: number
     about: string
@@ -96,7 +97,7 @@ const BottomSheet: React.FC<BottomSheetProps> = ({ rate, about, owner, rating, o
                     <p className='text-otherSmallText inter-font text-[1rem] leading-6.5 mt-5'>{about}</p>
                 </div>
                 {/* Stat Tiles */}
-                <div className='flex bg-white px-1 gap-6 py-7'>
+                <div className='flex bg-white px-6 md:px-1 gap-6 py-7'>
                     <StatTile
                         icon={'/svgs/verification_badge.svg'}
                         main={'Verified Vendor'}
@@ -110,7 +111,7 @@ const BottomSheet: React.FC<BottomSheetProps> = ({ rate, about, owner, rating, o
                 </div>
                 <div className='flex flex-col bg-white mt-4 px-6'>
                     <h4 className='mt-8.25 montserrat-font text-[1rem] font-bold mb-6.25'>Duration</h4>
-                    <div className='flex gap-4 items-center justify-around'>
+                    <div className='flex gap-4 items-center justify-around pb-3'>
                         <DateSelect
                             options={[
                                 'Mar 10th',
@@ -129,6 +130,23 @@ const BottomSheet: React.FC<BottomSheetProps> = ({ rate, about, owner, rating, o
                             ]}
                         />
                     </div>
+                </div>
+                <div className='flex flex-col gap-4 mt-4'>
+                    <Accordion title='asset tags'>
+
+                    </Accordion>
+                    <Accordion title='asset quantity'>
+
+                    </Accordion>
+                    <Accordion title='asset condition'>
+
+                    </Accordion>
+                    <Accordion title='return policies'>
+
+                    </Accordion>
+                    <Accordion title='reviews'>
+
+                    </Accordion>
                 </div>
             </div>
         </div>

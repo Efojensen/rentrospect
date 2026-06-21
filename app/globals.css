@@ -16,11 +16,13 @@
   --color-smallGreyText: #868E96;
   --color-otherSmallText: #3F484A;
   --color-disabledButton: #E9ECEF;
+  --color-greenBookingBg: #132629;
   --color-arrowBackground: #F5F5F5;
   --color-authInputBorder: #CED4DA;
   --color-activatedButton: #3E4E50;
   --color-disabledBtnText: #ADB5BD;
   --color-oAuthBackground: #F8F9FA;
+  --color-bookingQtyTextClr: #E3E8EF;
 }
 
 /* @media (prefers-color-scheme: dark) {

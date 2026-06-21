@@ -26,7 +26,7 @@ export const RentalAssetCard: React.FC<RentalAssetCardProps> = ({
   rate,
 }) => {
   return (
-    <div className="flex items-start gap-3 rounded-xl px-[26.2px] py-3 border-b border-otherSmallText last:border-b-0 bg-[#FFFFFF0A]">
+    <div className="w-full flex items-start gap-3 rounded-xl px-[19.08px] md:px-[26.2px] py-3 border-b border-otherSmallText last:border-b-0 bg-[#FFFFFF0A]">
 
       {/* Image + quantity badge */}
       <div className="relative h-16 w-18 shrink-0 overflow-hidden rounded-xl bg-[#1e2330]">
@@ -50,10 +50,10 @@ export const RentalAssetCard: React.FC<RentalAssetCardProps> = ({
       {/* Text */}
       <div className="flex min-w-0 flex-1 flex-col gap-1">
         <div className='flex justify-between items-center mb-3'>
-          <p className="text-[16px] font-bold leading-[26.4px] tracking-[0.08px] text-white dmSans-font">{title}</p>
-          <p className="text-[16px] font-medium text-white leading-[26.4px] tracking-[0.08px] dmSans-font">{price}</p>
+          <p className="text-[14px] md:text-[16px] font-bold leading-[26.4px] tracking-[0.08px] text-white dmSans-font">{title}</p>
+          <p className="text-[14px] md:text-[16px] font-medium text-white leading-[26.4px] tracking-[0.08px] dmSans-font">{price}</p>
         </div>
-        <div className="flex items-center gap-3.75 text-[16px] text-bookingQtyTextClr dmSans-font">
+        <div className="flex items-center gap-3.75 text-[14px] md:text-[16px] text-bookingQtyTextClr dmSans-font">
           <p>Quantity: <span className='text-white'>{String(quantity).padStart(2, "0")}</span></p>
           <p className='text-[#CDD5E0]'>Daily Rate: <span className='text-white'>{rate}</span></p>
         </div>

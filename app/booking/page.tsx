@@ -64,10 +64,10 @@ export default function CheckoutPage() {
   const [selectedPaymentId, setSelectedPaymentId] = useState("visa-8304");
 
   return (
-    <main className="flex min-h-screen">
+    <main className="flex flex-col md:flex-row min-h-screen">
 
       {/* Left dark panel */}
-      <div className="md:w-1/2 bg-greenBookingBg px-29 py-10">
+      <div className="w-full md:w-1/2 bg-greenBookingBg px-5 md:px-29 md:py-10">
         <h2 className="mb-6 text-[24px] font-semibold text-white montserrat-font">Your Order</h2>
 
         {ORDER_ITEMS.map((item) => (
@@ -90,7 +90,7 @@ export default function CheckoutPage() {
 
         <hr className="my-1 border-t border-white/8" />
 
-        <div className="mt-7 flex flex-col gap-2.5 text-sm">
+        <div className="mt-7 flex flex-col gap-2.5 text-sm mb-3">
           {SUMMARY_ROWS.map(([k, v]) => (
             <div key={k} className="flex justify-between">
               <span className="text-gray-400 dmSans-font">{k}</span>

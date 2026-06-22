@@ -5,6 +5,7 @@ import BookingInputField from "@/components/BookingInputField";
 import { RentalAssetCard } from "@/components/RentalAssetCard";
 import { DiscountCodeInput } from "@/components/DiscountCodeInput";
 import { PaymentMethodTile, PaymentMethodType } from "@/components/PaymentMethodTile";
+import LoadingDialog from "./loading";
 
 // ── Example SVG icons ────────────────────────────────────────────────────────
 
@@ -57,130 +58,148 @@ export default function CheckoutPage() {
   const [email, setEmail] = useState('');
   const [endDate, setEndDate] = useState(Date);
   const [duration, setDuration] = useState('');
+  const [isPaying, setIsPaying] = useState(false);
   const [startDate, setStartDate] = useState(Date);
   const [phoneNumber, setPhoneNumber] = useState('');
   const [discountCode, setDiscountCode] = useState('');
   const [appliedCode, setAppliedCode] = useState<string | null>(null);
   const [selectedPaymentId, setSelectedPaymentId] = useState("visa-8304");
 
+  const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
+
+  const processPayment = async() => {
+    await delay(4000)
+  }
+
   return (
-    <main className="flex flex-col md:flex-row min-h-screen">
+    <>
+      <LoadingDialog open={isPaying} message='Checking balances' />
+      <main className="flex flex-col md:flex-row min-h-screen">
 
-      {/* Left dark panel */}
-      <div className="w-full md:w-1/2 bg-greenBookingBg px-5 md:px-29 md:py-10">
-        <h2 className="mb-6 text-[24px] font-semibold text-white montserrat-font">Your Order</h2>
+        {/* Left dark panel */}
+        <div className="w-full md:w-1/2 bg-greenBookingBg px-5 md:px-29 md:py-10">
+          <h2 className="mb-6 text-[24px] font-semibold text-white montserrat-font">Your Order</h2>
 
-        {ORDER_ITEMS.map((item) => (
-          <RentalAssetCard key={item.id} {...item} />
-        ))}
-
-        <DiscountCodeInput
-          label="Discount Code"
-          SvgIcon={TagIcon}
-          value={discountCode}
-          onChange={setDiscountCode}
-          onApply={(code) => setAppliedCode(code)}
-        />
-
-        {appliedCode && (
-          <p className="mt-2 text-xs text-emerald-400 dmSans-font">
-            ✓ Code &quot;{appliedCode}&quot; applied
-          </p>
-        )}
-
-        <hr className="my-1 border-t border-white/8" />
-
-        <div className="mt-7 flex flex-col gap-2.5 text-sm mb-3">
-          {SUMMARY_ROWS.map(([k, v]) => (
-            <div key={k} className="flex justify-between">
-              <span className="text-gray-400 dmSans-font">{k}</span>
-              <span className="text-gray-200 dmSans-font">{v}</span>
-            </div>
+          {ORDER_ITEMS.map((item) => (
+            <RentalAssetCard key={item.id} {...item} />
           ))}
+
+          <DiscountCodeInput
+            label="Discount Code"
+            SvgIcon={TagIcon}
+            value={discountCode}
+            onChange={setDiscountCode}
+            onApply={(code) => setAppliedCode(code)}
+          />
+
+          {appliedCode && (
+            <p className="mt-2 text-xs text-emerald-400 dmSans-font">
+              ✓ Code &quot;{appliedCode}&quot; applied
+            </p>
+          )}
+
           <hr className="my-1 border-t border-white/8" />
-          <div className="flex justify-between text-base font-semibold text-white dmSans-font">
-            <span>Total</span>
-            <span>€436.50</span>
+
+          <div className="mt-7 flex flex-col gap-2.5 text-sm mb-3">
+            {SUMMARY_ROWS.map(([k, v]) => (
+              <div key={k} className="flex justify-between">
+                <span className="text-gray-400 dmSans-font">{k}</span>
+                <span className="text-gray-200 dmSans-font">{v}</span>
+              </div>
+            ))}
+            <hr className="my-1 border-t border-white/8" />
+            <div className="flex justify-between text-base font-semibold text-white dmSans-font">
+              <span>Total</span>
+              <span>€436.50</span>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Right light panel */}
-      <div className="flex flex-1 px-12 py-10 bg-white justify-center items-center">
-        <div className="flex w-full max-w-120 flex-col gap-9">
+        {/* Right light panel */}
+        <div className="flex flex-1 px-12 py-10 bg-white justify-center items-center">
+          <div className="flex w-full max-w-120 flex-col gap-9">
 
-          <BookingInputField
-            type='text'
-            label="Email"
-            value={email}
-            SvgIcon={EmailIcon}
-            onChange={setEmail}
-            placeholder='someone@example.com'
-          />
-          <BookingInputField
-            type='text'
-            placeholder='+233-559-892-202'
-            label='Phone Number'
-            value={phoneNumber}
-            SvgIcon={PhoneIcon}
-            onChange={setPhoneNumber}
-          />
-          {/* Payment methods */}
-          <div className="flex flex-col gap-2">
-            <div className="flex items-center justify-between">
-              <span className="text-sm font-semibold text-gray-700 dmSans-font">Payment method</span>
-              <button type="button" className="text-sm text-gray-400 hover:text-gray-700 transition-colors dmSans-font">
-                + Change
-              </button>
-            </div>
-            <div className="flex gap-3">
-              {PAYMENT_METHODS.map((pm) => (
-                <PaymentMethodTile
-                  key={pm.id}
-                  maskedNumber={pm.maskedNumber}
-                  methodType={pm.methodType}
-                  editLabel="Edit"
-                  selected={selectedPaymentId === pm.id}
-                  onSelect={() => setSelectedPaymentId(pm.id)}
-                />
-              ))}
-            </div>
-          </div>
-
-          <BookingInputField
-            type='date'
-            label="Duration"
-            value={duration}
-            SvgIcon={EmailIcon}
-            onChange={setDuration}
-          />
-          <div className='flex gap-3'>
             <BookingInputField
-              type='date'
-              label="Start Date"
-              value={startDate}
+              type='text'
+              label="Email"
+              value={email}
               SvgIcon={EmailIcon}
-              onChange={setStartDate}
+              onChange={setEmail}
+              placeholder='someone@example.com'
             />
             <BookingInputField
-              type='date'
-              label='End Date'
-              value={endDate}
+              type='text'
+              placeholder='+233-559-892-202'
+              label='Phone Number'
+              value={phoneNumber}
               SvgIcon={PhoneIcon}
-              onChange={setEndDate}
+              onChange={setPhoneNumber}
             />
+            {/* Payment methods */}
+            <div className="flex flex-col gap-2">
+              <div className="flex items-center justify-between">
+                <span className="text-sm font-semibold text-gray-700 dmSans-font">Payment method</span>
+                <button type="button" className="text-sm text-gray-400 hover:text-gray-700 transition-colors dmSans-font">
+                  + Change
+                </button>
+              </div>
+              <div className="flex gap-3">
+                {PAYMENT_METHODS.map((pm) => (
+                  <PaymentMethodTile
+                    key={pm.id}
+                    maskedNumber={pm.maskedNumber}
+                    methodType={pm.methodType}
+                    editLabel="Edit"
+                    selected={selectedPaymentId === pm.id}
+                    onSelect={() => setSelectedPaymentId(pm.id)}
+                  />
+                ))}
+              </div>
+            </div>
 
+            <BookingInputField
+              type='date'
+              label="Duration"
+              value={duration}
+              SvgIcon={EmailIcon}
+              onChange={setDuration}
+            />
+            <div className='flex gap-3'>
+              <BookingInputField
+                type='date'
+                label="Start Date"
+                value={startDate}
+                SvgIcon={EmailIcon}
+                onChange={setStartDate}
+              />
+              <BookingInputField
+                type='date'
+                label='End Date'
+                value={endDate}
+                SvgIcon={PhoneIcon}
+                onChange={setEndDate}
+              />
+
+            </div>
+
+
+            <button
+              type="button"
+              onClick={async () => {
+                setIsPaying(true);
+                try {
+                  await processPayment(); // your payment logic
+                } finally {
+                  setIsPaying(false);     // always hides the dialog, even on error
+                }
+              }}
+              className='mt-2 h-12 w-full rounded-2xl bg-gray-900 text-sm font-semibold text-white transition-colors hover:bg-gray-800 dmSans-font cursor-pointer'
+            >
+              Pay €436.50
+            </button>
           </div>
-
-
-          <button
-            type="button"
-            className="mt-2 h-12 w-full rounded-2xl bg-gray-900 text-sm font-semibold text-white transition-colors hover:bg-gray-800 dmSans-font"
-          >
-            Pay €436.50
-          </button>
         </div>
-      </div>
-    </main>
+      </main>
+    </>
   );
 }

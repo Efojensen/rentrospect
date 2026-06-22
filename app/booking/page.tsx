@@ -6,6 +6,7 @@ import { RentalAssetCard } from "@/components/RentalAssetCard";
 import { DiscountCodeInput } from "@/components/DiscountCodeInput";
 import { PaymentMethodTile, PaymentMethodType } from "@/components/PaymentMethodTile";
 import LoadingDialog from "./loading";
+import PaymentSuccessDialog from "@/components/PaymentSuccessDialog";
 
 // ── Example SVG icons ────────────────────────────────────────────────────────
 
@@ -61,19 +62,58 @@ export default function CheckoutPage() {
   const [isPaying, setIsPaying] = useState(false);
   const [startDate, setStartDate] = useState(Date);
   const [phoneNumber, setPhoneNumber] = useState('');
+  const [paymentResult, setPaymentResult] = useState<null | {
+    amount: string;
+    refNumber: string;
+    paymentTime: string;
+    paymentMethod: string;
+    senderName: string;
+    totalAmount: string;
+  }>(null);
   const [discountCode, setDiscountCode] = useState('');
   const [appliedCode, setAppliedCode] = useState<string | null>(null);
   const [selectedPaymentId, setSelectedPaymentId] = useState("visa-8304");
 
   const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
 
-  const processPayment = async() => {
-    await delay(4000)
-  }
+  const processPayment = async () => {
+    await delay(4000);
+
+    return {
+      amount: "GHC 87.98",
+      refNumber: "930345",
+      paymentTime: "12:03AM",
+      paymentMethod: "MOMO",
+      senderName: "Priscilla",
+      totalAmount: "GHC 436.50",
+    };
+  };
+
+  const handlePay = async () => {
+    setIsPaying(true);
+
+    try {
+      const result = await processPayment();
+
+      setPaymentResult(result);
+    } finally {
+      setIsPaying(false);
+    }
+  };
 
   return (
     <>
       <LoadingDialog open={isPaying} message='Checking balances' />
+      <PaymentSuccessDialog
+        open={paymentResult !== null}
+        amount={paymentResult?.amount ?? ""}
+        refNumber={paymentResult?.refNumber ?? ""}
+        paymentTime={paymentResult?.paymentTime ?? ""}
+        paymentMethod={paymentResult?.paymentMethod ?? ""}
+        senderName={paymentResult?.senderName ?? ""}
+        totalAmount={paymentResult?.totalAmount ?? ""}
+        onContinue={() => setPaymentResult(null)} // or router.push("/") etc.
+      />
       <main className="flex flex-col md:flex-row min-h-screen">
 
         {/* Left dark panel */}
@@ -185,14 +225,7 @@ export default function CheckoutPage() {
 
             <button
               type="button"
-              onClick={async () => {
-                setIsPaying(true);
-                try {
-                  await processPayment(); // your payment logic
-                } finally {
-                  setIsPaying(false);     // always hides the dialog, even on error
-                }
-              }}
+              onClick={handlePay}
               className='mt-2 h-12 w-full rounded-2xl bg-gray-900 text-sm font-semibold text-white transition-colors hover:bg-gray-800 dmSans-font cursor-pointer'
             >
               Pay €436.50

@@ -14,7 +14,13 @@ const AccountType = () => {
 
     const handleAccountType = () => {
         if (activated) {
-                router.push('/vendorAuth')
+            if (accountType === 'vendor') {
+                localStorage.setItem('accountType', 'vendor')
+                router.push('/verification/phone')
+            } else {
+                localStorage.setItem('accountType', 'renter')
+                router.push('/verification/phone')
+            }
         }
     }
     return (
@@ -48,7 +54,7 @@ const AccountType = () => {
                 <div className='flex justify-center gap-8 my-9'>
                     <div
                         onClick={() => setAccountType('renter')}
-                        className={`flex flex-col items-center justify-center gap-2 size-[160px] rounded-full shadow-[0_12px_16px_-4px_rgba(10,13,18,0.10),0_4px_6px_-2px_rgba(10,13,18,0.05)] border-2 cursor-pointer transition
+                        className={`flex flex-col items-center justify-center gap-2 size-40 rounded-full shadow-[0_12px_16px_-4px_rgba(10,13,18,0.10),0_4px_6px_-2px_rgba(10,13,18,0.05)] border-2 cursor-pointer transition
                             ${accountType === 'renter'
                                 ? 'border-[#026571] bg-disabledBtnText'
                                 : 'border-gray-200'
@@ -64,7 +70,7 @@ const AccountType = () => {
                     </div>
                     <div
                         onClick={() => setAccountType('vendor')}
-                        className={`flex flex-col items-center justify-center gap-2 size-[160px] rounded-full shadow-[0_12px_16px_-4px_rgba(10,13,18,0.10),0_4px_6px_-2px_rgba(10,13,18,0.05)] border-2 cursor-pointer transition
+                        className={`flex flex-col items-center justify-center gap-2 size-40 rounded-full shadow-[0_12px_16px_-4px_rgba(10,13,18,0.10),0_4px_6px_-2px_rgba(10,13,18,0.05)] border-2 cursor-pointer transition
                             ${accountType === 'vendor'
                                 ? 'border-[#026571] bg-disabledBtnText'
                                 : 'border-gray-200'

@@ -10,7 +10,7 @@ const IDVerification = () => {
     const router = useRouter()
 
     const navigateToNextPage =() => {
-        router.push('/vendor')
+        router.push('/vendorAuth')
     }
 
     const navigateToPreviousPage =() => {

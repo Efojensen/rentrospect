@@ -22,7 +22,7 @@ const VendorPage = () => {
     }
 
     const navigateToNextPage =() => {
-        router.push('/vendor/logistics')
+        router.push('/vendorAuth/logistics')
     }
 
     return (

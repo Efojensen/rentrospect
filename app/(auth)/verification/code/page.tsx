@@ -11,6 +11,11 @@ const SmsVerification = () => {
     const router = useRouter()
     const [code, setCode] = useState('');
 
+    const [accountType] = useState(() => {
+        if (typeof window === "undefined") return "";
+        return localStorage.getItem("accountType") || "";
+    });
+
     function returnActivated(inputCode: string): boolean {
         if (inputCode.length > 5) {
             return true
@@ -19,8 +24,12 @@ const SmsVerification = () => {
         }
     }
 
-    const navigateToNextPage =() => {
-        router.push('/verification/natId')
+    const navigateToNextPage = () => {
+        if (accountType === 'vendor') {
+            router.push('/verification/natId')
+        } else {
+            router.push('/renter')
+        }
     }
     return (
         <main className='flex flex-col lg:flex-row px-5 lg:pl-0 lg:items-center'>
@@ -46,7 +55,7 @@ const SmsVerification = () => {
                         height={22}
                         alt='rentrospect word'
                         src='/svgs/rentrospect_word.svg'
-                        />
+                    />
                 </div>
 
                 <h2 className='font-semibold leading-10.5 tracking-[-0.035rem] text-[1.75rem] montserrat-font mb-1 capitalize'>code verification</h2>

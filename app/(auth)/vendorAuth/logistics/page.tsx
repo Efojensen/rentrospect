@@ -4,11 +4,13 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react';
 import Button from '@/components/Button';
+import { useRouter } from 'next/navigation';
+import TimePicker from '@/components/TimePicker';
 import { AuthInput } from '@/components/AuthInput';
 import OptionsTile from '@/components/OptionsTile';
-import TimePicker from '@/components/TimePicker';
 
 const LogisticsAvailability = () => {
+    const router = useRouter();
     const [endTime, setEndTime] = useState('17:00')
     const [startTime, setStartTime] = useState('08:00')
     const [businessLocation, setBusinessLocation] = useState('')
@@ -20,6 +22,10 @@ const LogisticsAvailability = () => {
             return false
         }
     }
+    const navigateToNextPage = () => {
+        router.push('/vendor')
+    }
+
     return (
         <main className='flex flex-col lg:flex-row px-5 lg:pl-0 lg:items-center'>
             <div className='bg-nearWhiteBg lg:h-screen mb-26.5 sm:mb-14 w-screen lg:w-1/2 lg:-mt-16.25'>
@@ -69,6 +75,7 @@ const LogisticsAvailability = () => {
 
                     <Button
                         label='submit application'
+                        onClick={navigateToNextPage}
                         activated={returnActivated(businessLocation)}
                     />
                     <Link className='flex gap-2 mx-auto items-center cursor-pointer' href='/vendor'>

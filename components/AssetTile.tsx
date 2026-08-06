@@ -5,12 +5,12 @@ export interface AssetTileProps {
     id: string
     title: string
     price: string
-    remarks: string
     ratings: number
+    remarks?: string
     location: string
     assetImage: string
     numReviews: number
-    type: 'business' | 'individual'
+    type?: 'business' | 'individual'
     howOld: 'brand new' | 'barely used' | 'standard' | 'fairly used' | 'damaged'
 }
 
@@ -39,7 +39,7 @@ const AssetTile:React.FC<AssetTileProps> = ({ title, assetImage, howOld, remarks
                         />
                         <p className='text-[.625rem] leading-4 capitalize inter-font line-clamp-1'>{howOld}</p>
                     </div>
-                    <div className='flex gap-1 p-2'>
+                    <div className={`${remarks === undefined ? 'hidden' : 'flex'} gap-1 p-2`}>
                         <Image
                             width={16}
                             height={16}
@@ -48,7 +48,7 @@ const AssetTile:React.FC<AssetTileProps> = ({ title, assetImage, howOld, remarks
                         />
                         <p className='text-[.625rem] leading-4 capitalize inter-font line-clamp-1'>{remarks}</p>
                     </div>
-                    <div className='flex gap-1 p-2'>
+                    <div className={`${type === undefined ? 'hidden' : 'flex'} gap-1 p-2`}>
                         <Image
                             width={16}
                             height={16}

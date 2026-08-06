@@ -4,9 +4,11 @@ import Image from 'next/image'
 import SearchBar from '../input/SearchBar'
 import NavButtonLink from './NavButtonLink'
 import { usePathname } from 'next/navigation'
+import { SignInButton, SignUpButton, UserButton, useUser } from "@clerk/nextjs";
 
 const NavBar = ({ location }: { location: string }) => {
     const pathname = usePathname()
+    const { isSignedIn } = useUser();
 
     return (
         <>
@@ -113,15 +115,33 @@ const NavBar = ({ location }: { location: string }) => {
                         src='/svgs/heart.svg'
                     />
 
-                    <Image
-                        width={48}
-                        height={48}
-                        alt='demo'
-                        src='/images/demo.png'
-                    />
+                    {isSignedIn ? (
+                        <div className="flex items-center gap-4">
+                            <UserButton
+                                appearance={{
+                                    elements: {
+                                        avatarBox: "w-64 h-64", // 48px
+                                    },
+                                }}
+                            />
+                        </div>
+                    ) : (
+                        <>
+                            <SignInButton mode="modal">
+                                <button className="px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition">
+                                    Sign In
+                                </button>
+                            </SignInButton>
+                            <SignUpButton mode="modal">
+                                <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+                                    Sign Up
+                                </button>
+                            </SignUpButton>
+                        </>
+                    )}
                 </div>
             </nav>
-            <SearchBar/>
+            <SearchBar />
         </>
     )
 }

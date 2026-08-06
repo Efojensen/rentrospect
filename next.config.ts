@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import withPWAInit from "@ducanh2912/next-pwa";
 
 const nextConfig: NextConfig = {
   images: {
@@ -11,5 +12,11 @@ const nextConfig: NextConfig = {
   },
 };
 
+const withPWA = withPWAInit({
+  dest: "public",                // Destination directory for the service worker files
+  disable: process.env.NODE_ENV === "development", // Disable in development to avoid caching issues
+  register: true,               // Automatically register the service worker
+  // skipWaiting: true,            // Activate service worker immediately
+});
 
-export default nextConfig;
+export default withPWA(nextConfig);

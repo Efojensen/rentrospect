@@ -196,7 +196,9 @@ export const AuthSmsCodeInput = ({
                             )}
 
                             <input
-                                ref={(el) => (inputsRef.current[i] = el)}
+                                ref={(el) => {
+                                    inputsRef.current[i] = el;
+                                }}
                                 type='text'
                                 inputMode='numeric'
                                 maxLength={1}

@@ -9,6 +9,13 @@ interface NumpadProps {
   onKey: (key: string) => void;
 }
 
+interface NumpadCell {
+  label: string;
+  key: string;
+  muted?: boolean;
+  icon?: "backspace-outline" | "backspace-filled" | "enter";
+}
+
 // const ROWS = [
 //   ["1", "2", "3", "-"],
 //   ["4", "5", "6", "⌫"],
@@ -22,7 +29,7 @@ interface NumpadProps {
 // 7  8  0  ⌫ (filled backspace)
 // .  0  ,  →
 
-const ACTUAL_ROWS = [
+const ACTUAL_ROWS: NumpadCell[][] = [
   [
     { label: "1", key: "1" },
     { label: "2", key: "2" },

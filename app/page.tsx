@@ -33,6 +33,8 @@ export default function Home() {
           <div className="flex items-center gap-4 mb-4">
             <Image
               alt="Profile"
+              width={40}
+              height={40}
               src={user.imageUrl}
               className="w-16 h-16 rounded-full"
             />

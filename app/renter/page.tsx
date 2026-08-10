@@ -2,13 +2,12 @@ import Image from 'next/image';
 import { Asset } from '@/types/asset';
 import AssetTile from "@/components/AssetTile";
 import HeroPicture from "@/components/HeroPicture";
-import { arrivals } from "@/constants/otherAssets";
 import ArrivalTile from "@/components/ArrivalTile";
 import { categories } from "@/constants/categories";
 import CategoryOval from '@/components/CategoryOval';
 import CategoryTile from '@/components/CategoryTile';
-import { ovalCategories } from '@/constants/oval_categories';
 import ScrollSection from '@/components/ScrollSection';
+import { ovalCategories } from '@/constants/oval_categories';
 
 async function getAssets(): Promise<Asset[]> {
     try {
@@ -28,8 +27,35 @@ async function getAssets(): Promise<Asset[]> {
     }
 }
 
+async function getAssetsCategory(categoryId: string): Promise<Asset[]> {
+    try {
+        const headers: HeadersInit = {}
+
+        if (categoryId) {
+            headers['categoryId'] = categoryId
+        }
+        const res = await fetch(`${process.env.NEXT_PUBLIC_MASTER}assets/getCategory`, {
+            method: 'GET',
+            cache: 'no-store', // fetch fresh data on every request; use next: { revalidate: N } instead if you want caching
+            headers,
+        });
+
+        if (!res.ok) {
+            throw new Error('Failed to fetch assets');
+        }
+
+        return await res.json();
+    } catch (error) {
+        console.error(error);
+        return [];
+    }
+}
+
 export default async function Home() {
     const assets = await getAssets();
+    const catId = Math.floor(Math.random() * (15 - 1 + 1)) + 1;
+    const categoryId = (catId as unknown) as string;
+    const categorizedAssets = await getAssetsCategory(categoryId)
 
     return (
         <main className='flex flex-col gap-4 md:gap-6'>
@@ -64,14 +90,15 @@ export default async function Home() {
             </ScrollSection>
 
             <ScrollSection title="new arrivals" scrollAmount={200}>
-                {arrivals.map((arrival, index) => (
+                {categorizedAssets.map((categorizedAsset, index) => (
                     <div key={index} className='shrink-0'>
                         <ArrivalTile
-                            src={arrival.src}
-                            qty={arrival.qty}
-                            owner={arrival.owner}
-                            assetType={arrival.assetType}
+                            owner={categorizedAsset.name}
                             profileImg='/images/Avatar.png'
+                            rate={categorizedAsset.rate}
+                            src={categorizedAsset.primaryImage}
+                            assetType={categorizedAsset.category}
+                            pricingUnit={categorizedAsset.pricingUnit}
                         />
                     </div>
                 ))}

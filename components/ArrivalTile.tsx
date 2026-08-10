@@ -2,18 +2,20 @@ import Image from 'next/image'
 
 export interface ArrivalTileProps {
     src: string
-    qty: number
+    rate: number
     owner: string
     assetType: string
     profileImg: string
+    pricingUnit: string
 }
 
 const ArrivalTile: React.FC<ArrivalTileProps> = ({
     src,
-    qty,
+    rate,
     owner,
+    assetType,
     profileImg,
-    assetType
+    pricingUnit,
 }) => {
     return (
         <div className='flex flex-col w-fit'>
@@ -27,7 +29,7 @@ const ArrivalTile: React.FC<ArrivalTileProps> = ({
                     width={285}
                     height={260}
                     alt='asset image'
-                    className='object-cover w-71.25 h-65'
+                    className='object-cover'
                 />
 
                 {/* Top Tag */}
@@ -40,7 +42,7 @@ const ArrivalTile: React.FC<ArrivalTileProps> = ({
                 {/* Bottom Glass Container */}
                 <div className='absolute bottom-3 left-1/2 -translate-x-1/2 w-[92%] rounded-2xl bg-white/10 backdrop-blur-xs border border-white/10 shadow-lg'>
                     <div className='relative z-10 flex items-center justify-between px-4 py-3'>
-                        <p className='dmSans-font text-white text-sm font-medium'>Qty: {qty}</p>
+                        <p className='dmSans-font text-white text-sm font-medium'>GH₵{rate}/{pricingUnit}</p>
                         <button className='bg-[#016D7A] rounded-xl px-4 py-2 dmSans-font text-sm font-medium text-black'>Order Now</button>
                     </div>
                 </div>

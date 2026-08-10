@@ -13,7 +13,7 @@ const CategoryOval: React.FC<CategoryOvalProps> = ({ src, label }) => {
                 width={60}
                 height={98}
                 alt='asset categories'
-                className='bg-arrowBackground rounded-full'
+                className='bg-arrowBackground rounded-full w-auto'
             />
             <p className='text-center dmSans-font text-[1rem] font-medium text-[#222] capitalize'>{label}</p>
         </div>

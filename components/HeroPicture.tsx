@@ -12,6 +12,26 @@ export default async function HeroPicture() {
 
     const res = await fetch(`${url}assets/getHero`)
     const heroAsset: HeroAsset = await res.json()
+
+    const categoryHeadings: Record<string, string> = {
+    catering: 'Catering for Every Occasion',
+    furniture: 'Furniture for Every Space',
+    'party & events': 'Everything for Your Next Event',
+    power: 'Power When You Need It',
+    'tools & equipment': 'Gear for Every Job',
+    'electronics & gadgets': 'Tech Ready to Rent',
+    'home & garden': 'Make Your Space Better',
+    'clothing & apparel': 'Style for Every Occasion',
+    'photography & videography': 'Gear to Capture the Moment',
+    'sports & outdoor': 'Gear Up for Adventure',
+    'vehicles & transport': 'Get Moving, Your Way',
+    'musical instruments': 'Find Your Sound',
+    'baby & kids': 'Made for Little Adventures',
+    'fitness & wellness': 'Gear Up for Wellness',
+    'other / miscellaneous': 'More Things to Discover',
+};
+
+const heading = categoryHeadings[heroAsset.category] ?? 'More Things to Discover';
     return (
         <section className="relative overflow-hidden rounded-2xl bg-linear-to-r from-[#B9EFFF] to-[#B9EFFFAA] min-h-80 md:min-h-105 w-full mb-4 md:mb-6">
             <div className="absolute inset-0 bg-[url('/svgs/designs.svg')] bg-cover bg-center opacity-40" />
@@ -23,7 +43,7 @@ export default async function HeroPicture() {
                 <div className="flex flex-col justify-center px-6 md:px-14 py-10">
 
                     <h3 className="montserrat-font text-4xl md:text-6xl font-bold leading-tight text-[#1B1B1B] capitalize">
-                        New Furniture Deals
+                        {heading}
                     </h3>
 
                     <p className="mt-4 text-sm md:text-lg text-[#1B1B1BE5] dmSans-font max-w-105">

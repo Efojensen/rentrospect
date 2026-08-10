@@ -24,6 +24,8 @@ async function getAssetById(id: string): Promise<LoneAsset> {
 const AssetDetails = async ({ params }: { params: Promise<{ id: string }> }) => {
     const id = (await params).id
     const assetProps = await getAssetById(id)
+    const endDate = ''
+    const startDate = ''
 
     const primaryImage = assetProps.images.find(image => image.isPrimary)
     const otherImages = assetProps.images.filter(image => !image.isPrimary)
@@ -134,9 +136,9 @@ const AssetDetails = async ({ params }: { params: Promise<{ id: string }> }) => 
                 <div className='flex flex-col bg-white mt-4 px-6'>
                     <h4 className='mt-8.25 montserrat-font text-[1rem] font-bold mb-6.25'>Duration</h4>
                     <div className='flex gap-4 items-center justify-around'>
-                        <DateSelect/>
+                        <DateSelect value={startDate}/>
 
-                        <DateSelect/>
+                        <DateSelect value={endDate}/>
                     </div>
                 </div>
             </div>

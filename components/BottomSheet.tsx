@@ -15,6 +15,8 @@ export interface BottomSheetProps extends RentalTileProps{
 }
 
 const BottomSheet: React.FC<BottomSheetProps> = ({ rate, about, owner, rating, ownerSrc, category, description, reviews }) => {
+    const endDate = ''
+    const startDate = ''
     return (
         <div className="relative flex md:hidden flex-col bg-[#F3F4F6] rounded-t-[40px] pt-8 pb-6">
 
@@ -112,23 +114,9 @@ const BottomSheet: React.FC<BottomSheetProps> = ({ rate, about, owner, rating, o
                 <div className='flex flex-col bg-white mt-4 px-6'>
                     <h4 className='mt-8.25 montserrat-font text-[1rem] font-bold mb-6.25'>Duration</h4>
                     <div className='flex gap-4 items-center justify-around pb-3'>
-                        <DateSelect
-                            options={[
-                                'Mar 10th',
-                                'Apr 10th',
-                                'May 10th',
-                                'Jun 10th',
-                            ]}
-                        />
+                        <DateSelect value={startDate}/>
 
-                        <DateSelect
-                            options={[
-                                'June 10th',
-                                'July 10th',
-                                'Aug 10th',
-                                'Sep 10th',
-                            ]}
-                        />
+                        <DateSelect value={endDate}/>
                     </div>
                 </div>
                 <div className='flex flex-col gap-4 mt-4'>

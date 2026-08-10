@@ -3,18 +3,19 @@ import Image from 'next/image'
 
 export interface AssetTileProps {
     id: string
+    rate: number
     title: string
-    price: string
-    ratings: number
+    type?: string
+    howOld: string
+    ratings?: number
     remarks?: string
     location: string
     assetImage: string
-    numReviews: number
-    type?: 'business' | 'individual'
-    howOld: 'brand new' | 'barely used' | 'standard' | 'fairly used' | 'damaged'
+    numReviews?: number
+    pricingUnit: string
 }
 
-const AssetTile:React.FC<AssetTileProps> = ({ title, assetImage, howOld, remarks, type, location, ratings, numReviews, price, id }) => {
+const AssetTile: React.FC<AssetTileProps> = ({ title, assetImage, howOld, remarks, type, location, ratings, numReviews, rate, id, pricingUnit }) => {
     return (
         <Link
             href={`/renter/rentals/${id}`}
@@ -77,7 +78,11 @@ const AssetTile:React.FC<AssetTileProps> = ({ title, assetImage, howOld, remarks
                     className='mr-1.5'
                 />
                 <p className='text-loginTextClr poppins-font text-[.75rem] mr-auto'>{ratings}&nbsp;({numReviews} Reviews)</p>
-                <p className='poppins-font text-[1.25rem] font-bold text-black'>₵{price}</p>
+                <p className='poppins-font text-[1.25rem] font-bold text-black'>₵{rate}/<span>{
+                    pricingUnit === 'week' ? 'wk'
+                        : pricingUnit === 'semester' ? 'sem'
+                            : pricingUnit === 'month' ? 'mth'
+                                : pricingUnit}</span></p>
             </div>
         </Link>
     )

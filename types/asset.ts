@@ -1,4 +1,5 @@
 export interface Asset {
+    id: string
     rate: number
     name: string
     vendor: number

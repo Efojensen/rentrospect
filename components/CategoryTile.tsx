@@ -1,13 +1,18 @@
 import Image from 'next/image'
 
 export interface CategoryTileProps {
+    id: string
     image: string
     label: string
+    onClick?: () => void
 }
 
-const CategoryTile:React.FC<CategoryTileProps> = ({ image, label }) => {
+const CategoryTile:React.FC<CategoryTileProps> = ({ image, label, onClick }) => {
     return (
-        <div className='flex gap-1 items-center min-h-15 p-2'>
+        <div
+            onClick={onClick}
+            className='flex gap-1 items-center min-h-15 p-2 cursor-pointer'
+        >
             <Image
                 alt={label}
                 width={44}

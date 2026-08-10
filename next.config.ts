@@ -8,6 +8,11 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "img.clerk.com",
       },
+      {
+        protocol: "https",
+        hostname: "objectstorage.us-phoenix-1.oraclecloud.com",
+        pathname: "/**",
+      },
     ],
   },
 };

@@ -1,6 +1,17 @@
 import Image from 'next/image'
+import { HeroAsset } from '@/types/asset'
 
-const HeroPicture = () => {
+export default async function HeroPicture() {
+    const url = process.env['NEXT_PUBLIC_MASTER']
+
+    {/* {heroAsset.dateJoined.toLocaleDateString("en-US", {
+                                    month: "long",
+                                    day: "numeric",
+                                    year: "numeric",
+                                })} */}
+
+    const res = await fetch(`${url}assets/getHero`)
+    const heroAsset: HeroAsset = await res.json()
     return (
         <section className="relative overflow-hidden rounded-2xl bg-linear-to-r from-[#B9EFFF] to-[#B9EFFFAA] min-h-80 md:min-h-105 w-full mb-4 md:mb-6">
             <div className="absolute inset-0 bg-[url('/svgs/designs.svg')] bg-cover bg-center opacity-40" />
@@ -16,11 +27,11 @@ const HeroPicture = () => {
                     </h3>
 
                     <p className="mt-4 text-sm md:text-lg text-[#1B1B1BE5] dmSans-font max-w-105">
-                        Checkout the comfiest couch you&apos;ll ever experience.
+                        {heroAsset.description}
                     </p>
 
                     <button className="mt-8 bg-white rounded-xl md:rounded-2xl px-6 py-3 w-fit text-sm md:text-xl font-bold text-[#1B1B1BE5] plusJakartaSans-font shadow-md">
-                        Explore Furniture
+                        Explore {heroAsset.category}
                     </button>
                 </div>
 
@@ -29,7 +40,7 @@ const HeroPicture = () => {
                     <Image
                         width={700}
                         height={450}
-                        src="/images/sofa.png"
+                        src={heroAsset.primaryImage}
                         alt="new item on sale"
                         className="w-full max-w-175 object-contain"
                     />
@@ -40,17 +51,18 @@ const HeroPicture = () => {
                             width={56}
                             height={56}
                             alt="profile"
-                            src="/images/pic.png"
+                            src='/images/pic.png'
                             className="rounded-full border-4 border-white"
                         />
 
                         <div>
                             <p className="text-white font-bold text-sm md:text-base dmSans-font">
-                                Best Bet Company Limited.
+                                {heroAsset.vendor}
                             </p>
 
                             <p className="text-white/90 text-xs md:text-sm dmSans-font">
-                                Outdoor Furniture
+                                {heroAsset.category}
+                                {/* Outdoor Furniture */}
                             </p>
                         </div>
 
@@ -60,7 +72,7 @@ const HeroPicture = () => {
                             </p>
 
                             <p className="text-white/90 text-sm">
-                                Joined since 2026
+                                Joined since
                             </p>
                         </div>
                     </div>
@@ -69,5 +81,3 @@ const HeroPicture = () => {
         </section>
     )
 }
-
-export default HeroPicture

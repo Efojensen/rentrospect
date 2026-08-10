@@ -65,7 +65,9 @@ const AssetTile: React.FC<AssetTileProps> = ({ title, assetImage, howOld, remark
                             alt='map point'
                             src='/svgs/map-point.svg'
                         />
-                        <p className='text-[.625rem] leading-4 capitalize inter-font line-clamp-1'>{location}</p>
+                        <p className='text-[.625rem] leading-4 capitalize inter-font line-clamp-1'>
+                            {location.length > 12 ? `${location.slice(0, 12)}...` : location}
+                        </p>
                     </div>
                 </div>
             </div>

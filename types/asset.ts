@@ -1,8 +1,8 @@
 export interface Asset {
-    id: string
     rate: number
     name: string
     vendor: number
+    assetId: string
     category: string
     location: string
     condition: string
@@ -22,8 +22,10 @@ export interface LoneAsset {
     category: string
     condition: string
     assetName: string
+    vendorSrc: string
     pricingUnit: string
     description: string
+    aboutVendor: string
     images: AssetImagesRes[]
 }
 

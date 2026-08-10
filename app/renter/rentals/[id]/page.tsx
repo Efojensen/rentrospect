@@ -1,12 +1,32 @@
 import Image from 'next/image'
+import { LoneAsset } from '@/types/asset'
 import StatTile from '@/components/StatTile'
-import { rentals } from '@/constants/rentals'
+import BottomSheet from '@/components/BottomSheet'
 import DateSelect from '@/components/DateSelectTile'
-import BottomSheet, { BottomSheetProps } from '@/components/BottomSheet'
+
+async function getAssetById(id: string): Promise<LoneAsset> {
+    try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_MASTER}assets/getAsset/${id}`, {
+            method: 'GET',
+        });
+
+        if (!res.ok) {
+            throw new Error('failed to fetch asset details')
+        }
+
+        return await res.json();
+    } catch (error) {
+        console.error(error)
+        return null
+    }
+}
 
 const AssetDetails = async ({ params }: { params: Promise<{ id: string }> }) => {
-    const id = Number((await params).id)
-    const assetDetails: BottomSheetProps = rentals[id + 1]
+    const id = (await params).id
+    const assetProps = await getAssetById(id)
+
+    const primaryImage = assetProps.images.find(image => image.isPrimary)
+    const otherImages = assetProps.images.filter(image => !image.isPrimary)
     return (
         <main className='flex flex-col md:flex-row md:gap-3 items-center md:items-start'>
             <div className='flex flex-col gap-6'>
@@ -14,50 +34,48 @@ const AssetDetails = async ({ params }: { params: Promise<{ id: string }> }) => 
                     width={430}
                     height={373}
                     alt='asset image'
-                    src='/images/assets/speaker.png'
+                    // Todo: alter vendor profile image
+                    src={primaryImage.imageUrl}
+                    className='rounded-md'
                 />
                 <div className='hidden md:flex gap-6 '>
-                    <Image
-                        height={103}
-                        width={146.66}
-                        alt='asset image'
-                        src='/images/assets/speaker.png'
-                    />
-                    <Image
-                        height={103}
-                        width={146.66}
-                        alt='asset image'
-                        src='/images/assets/speaker.png'
-                    />
-                    <Image
-                        height={103}
-                        width={146.66}
-                        alt='asset image'
-                        src='/images/assets/speaker.png'
-                    />
+                    {
+                        otherImages.map((imageStruct, index) => (
+                            <div key={index} className='shrink-0'>
+                                <Image
+                                    height={103}
+                                    width={146.66}
+                                    alt='asset image'
+                                    src={imageStruct.imageUrl}
+                                    className='rounded-md'
+                                />
+                            </div>
+                        ))
+                    }
                 </div>
             </div>
             <div className='hidden md:flex flex-col flex-1'>
                 <div className='hidden md:flex flex-col bg-white pl-6 pr-3.5 py-6 flex-1 mb-4.5'>
-                    <h4 className='montserrat-font text-[2rem] font-bold leading-12 tracking-[-0.06rem] mb-1.5'>{assetDetails.name}</h4>
+                    <h4 className='montserrat-font text-[2rem] font-bold leading-12 tracking-[-0.06rem] mb-1.5'>{assetProps.assetName}</h4>
                     <div className='flex mb-5 gap-2.5 items-center'>
                         {/* Rating stars */}
-                        <p>{assetDetails.reviews} Reviews</p>
+                        {/* TODO: Some number of reviews */}
+                        <p>29 Reviews</p>
                         <div className='flex capitalize px-4 py-0.5 inter-font text-[#5C5F6A] border border-[#E6E7E8] rounded-[100px] text-[12px] font-medium leading-6'>IN STOCK</div>
                     </div>
-                    <p className='dmSans-font text-[20px] leading-7.5 text-[#596780] mb-6'>{assetDetails.description}</p>
-                    <div className='grid grid-cols-4 gap-y-4 gap-x-4 max-w-125 mb-11.5'>
-                        <p className='plusJakartaSans-font text-[20px] leading-7.5 tracking-[-0.4px] text-[#90A3BF]'>Category</p>
-                        <p className='plusJakartaSans-font text-[20px] leading-7.5 tracking-[-0.4px] font-semibold text-[#596780]'>Category</p>
-                        <p className='plusJakartaSans-font text-[20px] leading-7.5 tracking-[-0.4px] text-[#90A3BF]'>Weight</p>
-                        <p className='plusJakartaSans-font text-[20px] leading-7.5 tracking-[-0.4px] font-semibold text-[#596780]'>Category</p>
-                        <p className='plusJakartaSans-font text-[20px] leading-7.5 tracking-[-0.4px] text-[#90A3BF]'>Type</p>
-                        <p className='plusJakartaSans-font text-[20px] leading-7.5 tracking-[-0.4px] font-semibold text-[#596780]'>{assetDetails.category}</p>
-                        <p className='plusJakartaSans-font text-[20px] leading-7.5 tracking-[-0.4px] text-[#90A3BF]'>Location</p>
-                        <p className='plusJakartaSans-font text-[20px] leading-7.5 tracking-[-0.4px] font-semibold text-[#596780]'>Santasi</p>
+                    <p className='dmSans-font text-[20px] leading-7.5 text-[#596780] mb-6'>{assetProps.description}</p>
+                    <div className='grid grid-cols-4 gap-y-4 gap-x-4 w-full mb-11.5'>
+                        <p className='plusJakartaSans-font text-[20px] leading-7.5 tracking-[-0.4px] text-[#90A3BF]'>Category:</p>
+                        <p className='plusJakartaSans-font text-[20px] leading-7.5 tracking-[-0.4px] font-semibold text-[#596780] capitalize'>{assetProps.category}</p>
+                        <p className='plusJakartaSans-font text-[20px] leading-7.5 tracking-[-0.4px] text-[#90A3BF]'>Condition:</p>
+                        <p className='capitalize plusJakartaSans-font text-[20px] leading-7.5 tracking-[-0.4px] font-semibold text-[#596780]'>{assetProps.condition.replace('_', ' ')}</p>
+                        <p className='plusJakartaSans-font text-[20px] leading-7.5 tracking-[-0.4px] text-[#90A3BF]'>Location:</p>
+                        <p className='plusJakartaSans-font text-[20px] leading-7.5 tracking-[-0.4px] font-semibold text-[#596780]'>{assetProps.location}</p>
                     </div>
                     <div className='flex justify-between'>
-                        <p className='text-[28px] font-bold dmSans-font text-[#1A202C]'>{assetDetails.price}</p>
+                        <p className='text-[28px] font-bold dmSans-font text-[#1A202C]'>
+                            ₵{assetProps.rate}/
+                            <span className='text-[16px] text-gray-600'>{assetProps.pricingUnit}</span></p>
                     </div>
                 </div>
                 {/* Owner details */}
@@ -66,14 +84,15 @@ const AssetDetails = async ({ params }: { params: Promise<{ id: string }> }) => 
                         <Image
                             width={36}
                             height={36}
-                            src={assetDetails.ownerSrc}
                             alt='business owner'
+                            // TODO: Alter for real vendor image
+                            src='/images/avatar.png'
                             className='rounded-lg'
                         />
 
                         <div className='flex flex-col'>
                             <p className='capitalize dmSans-font text-[.5rem] font-medium leading-2 text-black'>Business Owner</p>
-                            <p className='capitalize dmSans-font text-[.8125rem] font-bold leading-3.25 text-black'>{assetDetails.owner}</p>
+                            <p className='capitalize dmSans-font text-[.8125rem] font-bold leading-3.25 text-black'>{assetProps.vendor}</p>
                         </div>
                     </div>
                     <div className='flex items-center gap-1.5'>
@@ -97,7 +116,7 @@ const AssetDetails = async ({ params }: { params: Promise<{ id: string }> }) => 
                 </div>
                 <div className='flex flex-col pt-8.25 px-6 bg-white mb-4'>
                     <h4 className='uppercase montserrat-font font-bold text-[16px] mb-6.25'>About vendor</h4>
-                    <p className='text-otherSmallText inter-font text-[16px] leading-6.5 mb-7'>{assetDetails.about}</p>
+                    <p className='text-otherSmallText inter-font text-[16px] leading-6.5 mb-7'>{assetProps.aboutVendor}</p>
                 </div>
                 {/* Stat Tiles */}
                 <div className='flex bg-white px-6 gap-1.5 py-7'>
@@ -115,40 +134,27 @@ const AssetDetails = async ({ params }: { params: Promise<{ id: string }> }) => 
                 <div className='flex flex-col bg-white mt-4 px-6'>
                     <h4 className='mt-8.25 montserrat-font text-[1rem] font-bold mb-6.25'>Duration</h4>
                     <div className='flex gap-4 items-center justify-around'>
-                        <DateSelect
-                            options={[
-                                'Mar 10th',
-                                'Apr 10th',
-                                'May 10th',
-                                'Jun 10th',
-                            ]}
-                        />
+                        <DateSelect/>
 
-                        <DateSelect
-                            options={[
-                                'June 10th',
-                                'July 10th',
-                                'Aug 10th',
-                                'Sep 10th',
-                            ]}
-                        />
+                        <DateSelect/>
                     </div>
                 </div>
             </div>
             <BottomSheet
-                progress={0}
-                rate={assetDetails.rate}
-                name={assetDetails.name}
-                about={assetDetails.about}
-                price={assetDetails.price}
-                owner={assetDetails.owner}
-                rating={assetDetails.rating}
-                reviews={assetDetails.reviews}
-                assetSrc={assetDetails.assetSrc}
-                quantity={assetDetails.quantity}
-                ownerSrc={assetDetails.ownerSrc}
-                category={assetDetails.category}
-                description={assetDetails.description}
+                rate={assetProps.rate}
+                owner={assetProps.vendor}
+                // TODO: Rating
+                rating={4.2}
+                name={assetProps.assetName}
+                // TODO: Reviews
+                reviews={230}
+                quantity={''}
+                // price={assetProps.rate}
+                about={assetProps.aboutVendor}
+                category={assetProps.category}
+                // TODO: Vendor image
+                ownerSrc='/images/profile.png'
+                description={assetProps.description}
             />
         </main>
     )

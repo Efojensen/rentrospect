@@ -76,9 +76,9 @@ export default async function Home() {
                 {assets.map((asset, index) => (
                     <div key={index} className='shrink-0'>
                         <AssetTile
-                            id={asset.id}
-                            title={asset.name}
                             rate={asset.rate}
+                            title={asset.name}
+                            id={asset.assetId}
                             type={asset.category}
                             howOld={asset.condition}
                             location={asset.location}

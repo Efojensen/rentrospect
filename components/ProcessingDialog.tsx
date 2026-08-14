@@ -38,7 +38,7 @@ export const ProcessingDialog: React.FC<ProcessingDialogProps> = ({
           › Cancel Payment
         </button>
 
-        {/* Paystack badge */}
+        {/* Aza badge */}
         <div className="flex items-center gap-1.5">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
             stroke="currentColor" strokeWidth="2" strokeLinecap="round"
@@ -48,7 +48,7 @@ export const ProcessingDialog: React.FC<ProcessingDialogProps> = ({
           </svg>
           <span className="text-xs text-gray-400 dmSans-font">
             Secured by{" "}
-            <span className="font-bold text-gray-600">paystack</span>
+            <span className="font-bold text-gray-600">Aza</span>
           </span>
         </div>
       </div>

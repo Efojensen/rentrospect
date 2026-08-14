@@ -2,6 +2,7 @@ import type { NextConfig } from "next";
 // import withPWAInit from "@ducanh2912/next-pwa";
 
 const nextConfig: NextConfig = {
+  allowedDevOrigins: ['desecrate-distort-divided.ngrok-free.dev'],
   images: {
     remotePatterns: [
       {

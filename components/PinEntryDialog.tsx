@@ -29,7 +29,7 @@ export const PinEntryDialog: React.FC<PinEntryDialogProps> = ({
   open,
   pinLength = 4,
   label = "Deposit",
-  subLabel = "Secured by paystack #4389",
+  subLabel = "Secured by Aza #4389",
   onConfirm,
   onCancel,
   onBack,

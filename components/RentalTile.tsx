@@ -6,9 +6,9 @@ export interface RentalTileProps {
     id?: string
     uid?: string
     name: string
-    price: string
+    price?: number
     assetSrc: string
-    quantity: string
+    quantity?: number
     progress: number
 }
 

@@ -20,6 +20,7 @@ export interface LoneAsset {
     vendor: string
     location: string
     category: string
+    quantity: number
     condition: string
     assetName: string
     vendorSrc: string

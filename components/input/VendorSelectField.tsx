@@ -1,8 +1,9 @@
+import { CategoryId } from '@/types/asset';
 import Image from 'next/image'
 
 export interface Option {
     label: string;
-    value: string;
+    value: CategoryId | string;
 }
 
 interface VendorSelectFieldProps {

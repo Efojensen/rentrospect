@@ -1,53 +1,66 @@
+import { CategoryId } from "@/types/asset"
 import { Option } from "@/components/input/VendorSelectField"
 
 export const categoryOptions: Option[] = [
     {
         label: 'Tools & Equipment',
-        value: 'tools-equipment',
+        value: CategoryId.ToolsAndEquipment
+    },
+    {
+        label: 'Furniture',
+        value: CategoryId.Furniture
+    },
+    {
+        label: 'Power',
+        value: CategoryId.Power
     },
     {
         label: 'Photography & Videography',
-        value: 'photography-videography',
+        value: CategoryId.PhotographyAndVideography
     },
     {
         label: 'Electronics & Gadgets',
-        value: 'electronics-gadgets',
+        value: CategoryId.ElectronicsAndGadgets
     },
     {
         label: 'Sports & Outdoor Gear',
-        value: 'sports-outdoor-gear',
+        value: CategoryId.SportsAndOutdoorGear
     },
     {
         label: 'Party & Event Supplies',
-        value: 'party-event-supplies',
+        value: CategoryId.PartyAndEventSupplies
     },
     {
         label: 'Home & Garden',
-        value: 'home-garden',
+        value: CategoryId.HomeAndGarden
     },
     {
         label: 'Vehicles & Transport',
-        value: 'vehicles-transport',
+        value: CategoryId.VehiclesAndTransport
     },
     {
         label: 'Clothing & Apparel',
-        value: 'clothing-apparel',
+        value: CategoryId.ClothingAndApparel
     },
     {
         label: 'Musical Instruments',
-        value: 'musical-instruments',
+        value: CategoryId.MusicalInstruments
     },
     {
         label: 'Baby & Kids Gear',
-        value: 'baby-kids-gear',
+        value: CategoryId.BabyAndKidsGear
     },
     {
         label: 'Fitness & Wellness',
-        value: 'fitness-wellness',
+        value: CategoryId.FitnessAndWellness
     },
     {
         label: 'Other / Miscellaneous',
-        value: 'other-miscellaneous',
+        value: CategoryId.OtherMiscellaneous
+    },
+    {
+        label: 'Catering',
+        value: CategoryId.Catering
     },
 ]
 export const pickupLocations: Option[] = [
@@ -64,11 +77,11 @@ export const pickupLocations: Option[] = [
 export const conditions: Option[] = [
     {
         label: 'Brand New',
-        value: 'brand-new',
+        value: 'brand_new',
     },
     {
         label: 'Barely Used',
-        value: 'barely-used',
+        value: 'barely_used',
     },
     {
         label: 'Standard',
@@ -76,7 +89,7 @@ export const conditions: Option[] = [
     },
     {
         label: 'Fairly Used',
-        value: 'fairly-used',
+        value: 'fairly_used',
     },
     {
         label: 'Damaged',

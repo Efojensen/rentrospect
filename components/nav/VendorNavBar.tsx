@@ -1,5 +1,6 @@
 'use client'
 
+import { UserButton } from '@clerk/nextjs'
 import Image from 'next/image'
 
 const VendorNavBar = ({ location }: { location: string }) => {
@@ -36,12 +37,7 @@ const VendorNavBar = ({ location }: { location: string }) => {
                     alt='bell icon'
                     src='/svgs/bell.svg'
                 />
-                <Image
-                    width={48}
-                    height={48}
-                    alt='demo'
-                    src='/images/demo.png'
-                />
+                <UserButton/>
             </div>
         </nav>
     )

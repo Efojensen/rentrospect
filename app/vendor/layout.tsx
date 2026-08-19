@@ -1,4 +1,5 @@
 import SideNav from "@/components/nav/SideNav"
+import RoleGate from "@/components/RoleGate"
 import VendorNavBar from "@/components/nav/VendorNavBar"
 
 export default function RentalLayout({
@@ -7,14 +8,16 @@ export default function RentalLayout({
     children: React.ReactNode
 }) {
     return (
-        <section className='flex min-h-screen bg-white'>
-            <SideNav />
+        <RoleGate role='vendor'>
+            <section className='flex min-h-screen bg-white'>
+                <SideNav />
 
-            <div className='flex flex-col flex-1 md:ml-20'>
-                <VendorNavBar location='Kumasi'/>
-                {children}
-            </div>
+                <div className='flex flex-col flex-1 md:ml-20'>
+                    <VendorNavBar location='Kumasi'/>
+                    {children}
+                </div>
 
-        </section>
+            </section>
+        </RoleGate>
     )
 }

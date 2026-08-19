@@ -7,10 +7,14 @@ import Button from '@/components/Button';
 import { useRouter } from 'next/navigation';
 import { AuthInput } from '@/components/AuthInput';
 import OvalStatusTile from '@/components/OvalStatusTile';
+import { useUser } from '@clerk/nextjs';
+import { sendPhoneNumber } from '@/services/backend';
 
 const PhoneVerification = () => {
     const router = useRouter()
     const [phoneNumber, setPhoneNumber] = useState('');
+    const [loading, setLoading] = useState(false);
+    const { user } = useUser();
 
     function returnActivated(lineNumber: string): boolean {
         if (lineNumber.length > 7) {
@@ -20,8 +24,18 @@ const PhoneVerification = () => {
         }
     }
 
-    const navigateToNextPage =() => {
-        router.push('/verification/code')
+    const navigateToNextPage = async () => {
+        if (user?.id) {
+            setLoading(true)
+            try {
+                await sendPhoneNumber(user.id, phoneNumber)
+                router.push('/verification/code')
+            } catch (error) {
+                console.error('Failed to send phone number:', error)
+            } finally {
+                setLoading(false)
+            }
+        }
     }
     return (
         <main className='flex flex-col lg:flex-row px-5 lg:pl-0 lg:items-center'>
@@ -66,7 +80,7 @@ const PhoneVerification = () => {
                     </div>
 
                     <Button
-                        label='Continue'
+                        label={loading ? 'processing...' : 'Continue'}
                         onClick={navigateToNextPage}
                         activated={returnActivated(phoneNumber)}
                     />

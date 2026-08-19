@@ -7,6 +7,7 @@ import Button from '@/components/Button';
 import { useRouter } from 'next/navigation';
 import UploadFile from '@/components/UploadFile';
 import { AuthInput } from '@/components/AuthInput';
+import { saveVendorDraft } from '@/services/onboardingStorage';
 
 const VendorPage = () => {
     const router = useRouter()
@@ -21,7 +22,8 @@ const VendorPage = () => {
         }
     }
 
-    const navigateToNextPage =() => {
+    const navigateToNextPage = () => {
+        saveVendorDraft({ businessName, businessBio })
         router.push('/vendorAuth/logistics')
     }
 

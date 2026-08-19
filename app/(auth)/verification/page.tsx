@@ -5,11 +5,14 @@ import { useRouter } from 'next/navigation';
 import { AuthInput } from '@/components/AuthInput';
 import OvalStatusTile from '@/components/OvalStatusTile';
 import { FilledButton, GrayedButton } from '@/components/Button';
+import { saveVendorDraft } from '@/services/onboardingStorage';
 
 const IDVerification = () => {
     const router = useRouter()
 
-    const navigateToNextPage =() => {
+    const navigateToNextPage = () => {
+        // TODO: Get actual values from the national database response
+        saveVendorDraft({ fullName: 'Full Name' })
         router.push('/vendorAuth')
     }
 

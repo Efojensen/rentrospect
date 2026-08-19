@@ -4,22 +4,29 @@ import Image from 'next/image';
 import { useState } from 'react';
 import Button from '@/components/Button';
 import { useRouter } from 'next/navigation';
+import { useUser } from '@clerk/nextjs';
+import { setAccountType as postAccountType } from '@/services/backend';
 
 const AccountType = () => {
     const [accountType, setAccountType] = useState<'renter' | 'vendor' | null>(null)
+    const [loading, setLoading] = useState(false)
 
     const router = useRouter()
+    const { user } = useUser()
 
     const activated = accountType !== null
 
-    const handleAccountType = () => {
-        if (activated) {
-            if (accountType === 'vendor') {
-                localStorage.setItem('accountType', 'vendor')
+    const handleAccountType = async () => {
+        if (activated && user?.id) {
+            setLoading(true)
+            try {
+                await postAccountType(user.id, accountType)
+                localStorage.setItem('accountType', accountType)
                 router.push('/verification/phone')
-            } else {
-                localStorage.setItem('accountType', 'renter')
-                router.push('/verification/phone')
+            } catch (error) {
+                console.error('Failed to set account type:', error)
+            } finally {
+                setLoading(false)
             }
         }
     }
@@ -87,7 +94,7 @@ const AccountType = () => {
                 </div>
 
                 <Button
-                    label='continue'
+                    label={loading ? 'processing...' : 'continue'}
                     activated={activated}
                     onClick={handleAccountType}
                 />

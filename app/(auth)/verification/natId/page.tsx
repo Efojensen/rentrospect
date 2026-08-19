@@ -7,6 +7,7 @@ import Button from '@/components/Button';
 import { useRouter } from 'next/navigation';
 import { AuthInput } from '@/components/AuthInput';
 import OvalStatusTile from '@/components/OvalStatusTile';
+import { saveVendorDraft } from '@/services/onboardingStorage';
 
 const NationalIdVerificationScreen = () => {
     const router = useRouter()
@@ -20,7 +21,8 @@ const NationalIdVerificationScreen = () => {
         }
     }
 
-    const navigateToNextPage =() => {
+    const navigateToNextPage = () => {
+        saveVendorDraft({ nationalId: nationalID })
         router.push('/verification')
     }
     return (

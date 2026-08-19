@@ -6,10 +6,14 @@ import { useState } from 'react';
 import Button from '@/components/Button';
 import { useRouter } from 'next/navigation';
 import { AuthSmsCodeInput } from '@/components/AuthInput';
+import { useUser } from '@clerk/nextjs';
+import { verifySmsCode } from '@/services/backend';
 
 const SmsVerification = () => {
     const router = useRouter()
     const [code, setCode] = useState('');
+    const [loading, setLoading] = useState(false);
+    const { user } = useUser();
 
     const [accountType] = useState(() => {
         if (typeof window === "undefined") return "";
@@ -24,11 +28,21 @@ const SmsVerification = () => {
         }
     }
 
-    const navigateToNextPage = () => {
-        if (accountType === 'vendor') {
-            router.push('/verification/natId')
-        } else {
-            router.push('/renter')
+    const navigateToNextPage = async () => {
+        if (user?.id) {
+            setLoading(true)
+            try {
+                await verifySmsCode(user.id, code)
+                if (accountType === 'vendor') {
+                    router.push('/verification/natId')
+                } else {
+                    router.push('/renter')
+                }
+            } catch (error) {
+                console.error('Failed to verify SMS code:', error)
+            } finally {
+                setLoading(false)
+            }
         }
     }
     return (
@@ -71,7 +85,7 @@ const SmsVerification = () => {
                     </div>
 
                     <Button
-                        label='Continue'
+                        label={loading ? 'processing...' : 'Continue'}
                         onClick={navigateToNextPage}
                         activated={returnActivated(code)}
                     />

@@ -8,12 +8,20 @@ import { useRouter } from 'next/navigation';
 import TimePicker from '@/components/TimePicker';
 import { AuthInput } from '@/components/AuthInput';
 import OptionsTile from '@/components/OptionsTile';
+import { useUser } from '@clerk/nextjs';
+import { completeVendorOnboarding } from '@/services/backend';
+import { readVendorDraft, clearVendorDraft } from '@/services/onboardingStorage';
 
 const LogisticsAvailability = () => {
     const router = useRouter();
     const [endTime, setEndTime] = useState('17:00')
     const [startTime, setStartTime] = useState('08:00')
     const [businessLocation, setBusinessLocation] = useState('')
+    const [loading, setLoading] = useState(false);
+    const [offerDelivery, setOfferDelivery] = useState(false);
+    const [acceptInPerson, setAcceptInPerson] = useState(false);
+    const [acceptInAppCalls, setAcceptInAppCalls] = useState(false);
+    const { user } = useUser();
 
     function returnActivated(location: string): boolean {
         if (location) {
@@ -22,8 +30,32 @@ const LogisticsAvailability = () => {
             return false
         }
     }
-    const navigateToNextPage = () => {
-        router.push('/vendor')
+
+    const navigateToNextPage = async () => {
+        if (user?.id) {
+            setLoading(true)
+            try {
+                const draft = readVendorDraft()
+                await completeVendorOnboarding(user.id, {
+                    nationalId: draft.nationalId ?? '',
+                    fullName: draft.fullName ?? '',
+                    businessName: draft.businessName ?? '',
+                    businessBio: draft.businessBio ?? '',
+                    businessLocation,
+                    startTime,
+                    endTime,
+                    offerDelivery,
+                    acceptInPerson,
+                    acceptInAppCalls,
+                })
+                clearVendorDraft()
+                router.push('/vendor')
+            } catch (error) {
+                console.error('Failed to complete vendor onboarding:', error)
+            } finally {
+                setLoading(false)
+            }
+        }
     }
 
     return (
@@ -60,21 +92,27 @@ const LogisticsAvailability = () => {
                             main='offer delivery'
                             icon='/svgs/auth/scooter.svg'
                             subText='Available for door-to-door rentals'
+                            selected={offerDelivery}
+                            onClick={() => setOfferDelivery(!offerDelivery)}
                         />
                         <OptionsTile
                             main='accept in-person meetups'
                             icon='/svgs/auth/hand_shake.svg'
                             subText='Clients can pick up items directly'
+                            selected={acceptInPerson}
+                            onClick={() => setAcceptInPerson(!acceptInPerson)}
                         />
                         <OptionsTile
                             main='accept in-app calls'
                             icon='/svgs/auth/scooter.svg'
                             subText='Enable video calls for item inspection'
+                            selected={acceptInAppCalls}
+                            onClick={() => setAcceptInAppCalls(!acceptInAppCalls)}
                         />
                     </div>
 
                     <Button
-                        label='submit application'
+                        label={loading ? 'processing...' : 'submit application'}
                         onClick={navigateToNextPage}
                         activated={returnActivated(businessLocation)}
                     />

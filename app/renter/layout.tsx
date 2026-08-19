@@ -1,4 +1,5 @@
 import NavBar from "@/components/nav/NavBar"
+import RoleGate from "@/components/RoleGate"
 
 export default function RentalLayout({
     children,
@@ -6,11 +7,13 @@ export default function RentalLayout({
     children: React.ReactNode
 }) {
     return (
-        <section className='flex flex-col min-h-full px-4 md:px-30'>
-            <NavBar
-                location='Kumasi '
-            />
-            {children }
-        </section>
+        <RoleGate role='renter'>
+            <section className='flex flex-col min-h-full px-4 md:px-30'>
+                <NavBar
+                    location='Kumasi '
+                />
+                {children }
+            </section>
+        </RoleGate>
     )
 }

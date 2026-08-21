@@ -29,7 +29,7 @@ export async function getAccountType(clerkId: string): Promise<ApiResponse<{ acc
 
 // Phone Verification
 export async function sendPhoneNumber(clerkId: string, phoneNumber: string): Promise<ApiResponse<void>> {
-  const response = await fetch(`${BASE_URL}client/sendPhoneNumber`, {
+  const response = await fetch(`${BASE_URL}webhooks/client/sendPhoneNumber`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ clerk_id: clerkId, phone_number: phoneNumber }),
@@ -66,7 +66,7 @@ export interface VendorOnboardingPayload {
 }
 
 export async function completeVendorOnboarding(clerkId: string, payload: VendorOnboardingPayload): Promise<ApiResponse<void>> {
-  const response = await fetch(`${BASE_URL}client/completeVendorOnboarding`, {
+  const response = await fetch(`${BASE_URL}vendor/updateDetails`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({

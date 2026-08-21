@@ -3,9 +3,8 @@
 import Image from 'next/image';
 import { useState } from 'react';
 import Button from '@/components/Button';
-import { useRouter } from 'next/navigation';
 import { useUser } from '@clerk/nextjs';
-import { setAccountType as postAccountType } from '@/services/backend';
+import { useRouter } from 'next/navigation';
 
 const AccountType = () => {
     const [accountType, setAccountType] = useState<'renter' | 'vendor' | null>(null)
@@ -20,7 +19,6 @@ const AccountType = () => {
         if (activated && user?.id) {
             setLoading(true)
             try {
-                await postAccountType(user.id, accountType)
                 localStorage.setItem('accountType', accountType)
                 router.push('/verification/phone')
             } catch (error) {

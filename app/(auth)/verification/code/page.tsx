@@ -32,7 +32,8 @@ const SmsVerification = () => {
         if (user?.id) {
             setLoading(true)
             try {
-                await verifySmsCode(user.id, code)
+                // TODO: Implement code for verifying sms's
+                // await verifySmsCode(user.id, code)
                 if (accountType === 'vendor') {
                     router.push('/verification/natId')
                 } else {

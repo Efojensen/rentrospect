@@ -6,23 +6,20 @@ interface ApiResponse<T> {
   error?: string;
 }
 
-// Account Type Selection
-export async function setAccountType(clerkId: string, accountType: 'renter' | 'vendor'): Promise<ApiResponse<void>> {
-  const response = await fetch(`${BASE_URL}client/setAccountType`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ clerk_id: clerkId, account_type: accountType }),
-  });
-  return response.json();
+// Verify a Clerk session token server-side and get back who the user is.
+// `role` is null for a user who hasn't finished /accountType yet.
+export interface VerifiedSession {
+  user_id: string;
+  role: 'renter' | 'vendor' | null;
 }
 
-// Fetch the account type chosen at /accountType, used to route a signed-in
-// user to the right home page (renter vs vendor).
-export async function getAccountType(clerkId: string): Promise<ApiResponse<{ account_type: 'renter' | 'vendor' }>> {
-  const response = await fetch(`${BASE_URL}client/getAccountType`, {
+export async function verifySession(token: string): Promise<ApiResponse<VerifiedSession>> {
+  const response = await fetch(`${BASE_URL}auth/verifySession`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ clerk_id: clerkId }),
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
   });
   return response.json();
 }

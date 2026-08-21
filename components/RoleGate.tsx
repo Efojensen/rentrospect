@@ -2,46 +2,54 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { useUser } from '@clerk/nextjs'
-import { getAccountType } from '@/services/backend'
+import { useAuth } from '@clerk/nextjs'
+import { verifySession } from '@/services/backend'
 
-const RENTER_HOME = process.env.NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL || '/renter'
-const VENDOR_HOME = process.env.NEXT_PUBLIC_CLERK_SIGN_IN_VENDOR_FALLBACK_REDIRECT_URL || '/vendor'
-
-// Wraps the renter/vendor layouts. Clerk always lands a signed-in user on
-// RENTER_HOME after sign-in, so this checks the account's real role and
-// bounces vendors on to VENDOR_HOME (and vice versa for direct navigation).
-// If the role check fails or hasn't been built on the backend yet, it fails
-// open and just shows the page the user was already on.
+// Wraps the renter/vendor layouts as a direct-navigation guard — the normal
+// path already lands on the right page via /redirecting, but this catches a
+// signed-in user typing/bookmarking the wrong section directly and bounces
+// them to their actual role's home. Verifies the real session token rather
+// than trusting a client-supplied id. Fails open if the check errors out.
 const RoleGate = ({ role, children }: { role: 'renter' | 'vendor'; children: React.ReactNode }) => {
     const router = useRouter()
-    const { user, isLoaded } = useUser()
+    const { isLoaded, isSignedIn, getToken } = useAuth()
     const [checked, setChecked] = useState(false)
 
     useEffect(() => {
-        if (!isLoaded || !user?.id) return
+        if (!isLoaded || !isSignedIn) return
 
         let cancelled = false
-        getAccountType(user.id)
-            .then((res) => {
+
+        const run = async () => {
+            try {
+                const token = await getToken()
+                if (!token) {
+                    if (!cancelled) setChecked(true)
+                    return
+                }
+
+                const res = await verifySession(token)
                 if (cancelled) return
-                const accountType = res.data?.account_type
-                if (accountType && accountType !== role) {
-                    router.replace(accountType === 'vendor' ? VENDOR_HOME : RENTER_HOME)
+
+                const actualRole = res.data?.role
+                if (actualRole && actualRole !== role) {
+                    router.replace(actualRole === 'vendor' ? '/vendor' : '/renter')
                 } else {
                     setChecked(true)
                 }
-            })
-            .catch(() => {
+            } catch {
                 if (!cancelled) setChecked(true)
-            })
+            }
+        }
+
+        run()
 
         return () => {
             cancelled = true
         }
-    }, [isLoaded, user?.id, role, router])
+    }, [isLoaded, isSignedIn, getToken, role, router])
 
-    if (!isLoaded || (!checked && user?.id)) return null
+    if (!isLoaded || (isSignedIn && !checked)) return null
     return <>{children}</>
 }
 

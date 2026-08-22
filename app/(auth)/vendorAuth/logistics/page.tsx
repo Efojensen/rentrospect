@@ -10,7 +10,7 @@ import { AuthInput } from '@/components/AuthInput';
 import OptionsTile from '@/components/OptionsTile';
 import { useUser } from '@clerk/nextjs';
 import { completeVendorOnboarding } from '@/services/backend';
-import { readVendorDraft, clearVendorDraft } from '@/services/onboardingStorage';
+import { readVendorDraft, clearVendorDraft, readVendorImages, clearVendorImages } from '@/services/onboardingStorage';
 
 const LogisticsAvailability = () => {
     const router = useRouter();
@@ -36,6 +36,7 @@ const LogisticsAvailability = () => {
             setLoading(true)
             try {
                 const draft = readVendorDraft()
+                const images = readVendorImages()
                 await completeVendorOnboarding(user.id, {
                     nationalId: draft.nationalId ?? '',
                     fullName: draft.fullName ?? '',
@@ -47,8 +48,12 @@ const LogisticsAvailability = () => {
                     offerDelivery,
                     acceptInPerson,
                     acceptInAppCalls,
+                }, {
+                    coverPhoto: images.coverPhoto ?? null,
+                    businessLogo: images.businessLogo ?? null,
                 })
                 clearVendorDraft()
+                clearVendorImages()
                 router.push('/vendor')
             } catch (error) {
                 console.error('Failed to complete vendor onboarding:', error)

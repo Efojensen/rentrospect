@@ -27,3 +27,26 @@ export function saveVendorDraft(patch: VendorOnboardingDraft) {
 export function clearVendorDraft() {
     localStorage.removeItem(STORAGE_KEY);
 }
+
+// Files can't go in localStorage (not JSON-serializable, and shouldn't be
+// persisted anyway), so these live in a plain module-level variable. That's
+// enough to survive the client-side navigation from /vendorAuth to
+// /vendorAuth/logistics, which is all the happy path needs.
+export interface VendorImageDraft {
+    coverPhoto?: File | null;
+    businessLogo?: File | null;
+}
+
+let vendorImages: VendorImageDraft = {};
+
+export function saveVendorImages(patch: VendorImageDraft) {
+    vendorImages = { ...vendorImages, ...patch };
+}
+
+export function readVendorImages(): VendorImageDraft {
+    return vendorImages;
+}
+
+export function clearVendorImages() {
+    vendorImages = {};
+}

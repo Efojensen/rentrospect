@@ -7,12 +7,14 @@ import Button from '@/components/Button';
 import { useRouter } from 'next/navigation';
 import UploadFile from '@/components/UploadFile';
 import { AuthInput } from '@/components/AuthInput';
-import { saveVendorDraft } from '@/services/onboardingStorage';
+import { saveVendorDraft, saveVendorImages } from '@/services/onboardingStorage';
 
 const VendorPage = () => {
     const router = useRouter()
     const [businessBio, setBusinessBio] = useState('')
     const [businessName, setBusinessName] = useState('')
+    const [coverPhoto, setCoverPhoto] = useState<File | null>(null)
+    const [businessLogo, setBusinessLogo] = useState<File | null>(null)
 
     function returnActivated(name: string, bio: string): boolean {
         if (name && bio) {
@@ -24,6 +26,7 @@ const VendorPage = () => {
 
     const navigateToNextPage = () => {
         saveVendorDraft({ businessName, businessBio })
+        saveVendorImages({ coverPhoto, businessLogo })
         router.push('/vendorAuth/logistics')
     }
 
@@ -48,10 +51,12 @@ const VendorPage = () => {
                         <UploadFile
                             label='upload cover photo'
                             icon='/svgs/auth/cover.svg'
+                            onFileSelect={setCoverPhoto}
                         />
                         <UploadFile
                             label='add logo'
                             icon='/svgs/auth/logo.svg'
+                            onFileSelect={setBusinessLogo}
                         />
                         <AuthInput
                             label='Business Name'

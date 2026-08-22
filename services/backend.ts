@@ -62,23 +62,40 @@ export interface VendorOnboardingPayload {
   acceptInAppCalls: boolean;
 }
 
-export async function completeVendorOnboarding(clerkId: string, payload: VendorOnboardingPayload): Promise<ApiResponse<void>> {
+export interface VendorOnboardingImages {
+  coverPhoto: File | null;
+  businessLogo: File | null;
+}
+
+export async function completeVendorOnboarding(
+  clerkId: string,
+  payload: VendorOnboardingPayload,
+  images: VendorOnboardingImages
+): Promise<ApiResponse<void>> {
+  const vendorDetails = {
+    clerk_id: clerkId,
+    national_id: payload.nationalId,
+    full_name: payload.fullName,
+    business_name: payload.businessName,
+    business_bio: payload.businessBio,
+    business_location: payload.businessLocation,
+    start_time: payload.startTime,
+    end_time: payload.endTime,
+    offer_delivery: payload.offerDelivery,
+    accept_in_person: payload.acceptInPerson,
+    accept_in_app_calls: payload.acceptInAppCalls,
+  };
+
+  const formData = new FormData();
+  formData.append('vendorDetails', JSON.stringify(vendorDetails));
+  if (images.coverPhoto) formData.append('cover_photo', images.coverPhoto);
+  if (images.businessLogo) formData.append('business_logo', images.businessLogo);
+
+  // No Content-Type header — the browser sets multipart/form-data with the
+  // correct boundary itself when the body is a FormData instance.
   const response = await fetch(`${BASE_URL}vendor/updateDetails`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      clerk_id: clerkId,
-      national_id: payload.nationalId,
-      full_name: payload.fullName,
-      business_name: payload.businessName,
-      business_bio: payload.businessBio,
-      business_location: payload.businessLocation,
-      start_time: payload.startTime,
-      end_time: payload.endTime,
-      offer_delivery: payload.offerDelivery,
-      accept_in_person: payload.acceptInPerson,
-      accept_in_app_calls: payload.acceptInAppCalls,
-    }),
+    body: formData,
   });
   return response.json();
 }

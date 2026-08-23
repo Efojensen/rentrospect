@@ -1,7 +1,7 @@
 import Image from 'next/image'
+import { rentalRows } from '@/constants/rentalRows'
 import { vendorStats } from '@/constants/statTileData'
 import VendorStatTile from '@/components/vendor/StatTile'
-import { rentalRows } from '@/constants/rentalRows'
 import StatusCircle from '@/components/vendor/StatusCircle'
 
 const page = () => {

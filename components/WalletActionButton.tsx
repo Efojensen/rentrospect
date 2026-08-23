@@ -15,7 +15,7 @@ export const WalletActionButton: React.FC<WalletActionButtonProps> = ({
     <button
       type="button"
       onClick={onClick}
-      className="flex flex-col h-16.75 items-center gap-1.5 group"
+      className="flex flex-col h-16.75 items-center gap-1.5 group cursor-pointer"
     >
       <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#111827] text-white transition-opacity group-hover:opacity-80">
         <Image

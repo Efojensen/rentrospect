@@ -1,10 +1,23 @@
 import Image from 'next/image'
-import { rentalRows } from '@/constants/rentalRows'
+import { auth } from '@clerk/nextjs/server'
 import { vendorStats } from '@/constants/statTileData'
 import VendorStatTile from '@/components/vendor/StatTile'
 import StatusCircle from '@/components/vendor/StatusCircle'
+import { getVendorDashboardTransactions } from '@/services/backend'
 
-const page = () => {
+const page = async () => {
+    const { getToken } = await auth()
+    const token = await getToken()
+
+    let rentalRows: Awaited<ReturnType<typeof getVendorDashboardTransactions>> = []
+    if (token) {
+        try {
+            rentalRows = await getVendorDashboardTransactions(token)
+        } catch (error) {
+            console.error('Failed to load vendor transactions:', error)
+        }
+    }
+
     return (
         <main className='flex flex-col md:pb-4 md:pl-13.75'>
             <div className='flex gap-6.25 mb-10'>
@@ -64,13 +77,13 @@ const page = () => {
                     <tbody>
                         {rentalRows.map((row) => (
                             <tr
-                                key={row.id}
+                                key={row.transactionId}
                                 className='border-b border-[#F1F5F9] hover:bg-[#F8FAFC] transition'
                             >
 
                                 {/* ID */}
                                 <td className='px-6 py-4 text-sm text-[#374151]'>
-                                    {row.id}
+                                    {row.transactionId}
                                 </td>
 
                                 {/* Quantity */}
@@ -85,15 +98,15 @@ const page = () => {
                                     <div className='flex items-center gap-3'>
 
                                         <Image
-                                            src={row.renterAvatar}
-                                            alt={row.renterName}
+                                            src={row.profilePic}
+                                            alt={row.name}
                                             width={28}
                                             height={28}
                                             className='rounded-full'
                                         />
 
                                         <span className='text-sm text-[#374151]'>
-                                            {row.renterName}
+                                            {row.name}
                                         </span>
                                     </div>
                                 </td>
@@ -142,7 +155,7 @@ const page = () => {
 
                                 {/* Earnings */}
                                 <td className='px-6 py-4 text-sm text-[#6B7280]'>
-                                    ₵ {row.earning.toFixed(2)}
+                                    ₵ {Number(row.amount).toFixed(2)}
                                 </td>
 
                                 {/* Action */}

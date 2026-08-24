@@ -65,6 +65,29 @@ export async function getVendorTransactions(token: string): Promise<VendorTransa
   return response.json();
 }
 
+// Vendor Dashboard Transactions — backing the "My rentals" table
+export interface DashboardTransaction {
+  name: string;
+  amount: string; // Go's decimal.Decimal marshals as a quoted JSON string, not a number — parse before formatting
+  status: string;
+  profilePic: string;
+  endDate?: string; // ISO timestamp — the backend omits this key entirely when the date is unset
+  startDate?: string; // ISO timestamp — the backend omits this key entirely when the date is unset
+  quantity: number;
+  transactionId: string;
+}
+
+export async function getVendorDashboardTransactions(token: string): Promise<DashboardTransaction[]> {
+  const response = await fetch(`${BASE_URL}vendor/transactions`, {
+    method: 'GET',
+    cache: 'no-store', // per-user response — must never enter Next's shared fetch cache
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.json();
+}
+
 // Phone Verification
 export async function sendPhoneNumber(clerkId: string, phoneNumber: string): Promise<ApiResponse<void>> {
   const response = await fetch(`${BASE_URL}webhooks/client/sendPhoneNumber`, {

@@ -31,7 +31,7 @@ const RoleGate = ({ role, children }: { role: 'renter' | 'vendor'; children: Rea
                 const res = await verifySession(token)
                 if (cancelled) return
 
-                const actualRole = res.data?.role
+                const actualRole = res.role
                 if (actualRole && actualRole !== role) {
                     router.replace(actualRole === 'vendor' ? '/vendor' : '/renter')
                 } else {

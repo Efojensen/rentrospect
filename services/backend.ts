@@ -13,11 +13,52 @@ export interface VerifiedSession {
   role: 'renter' | 'vendor' | null;
 }
 
-export async function verifySession(token: string): Promise<ApiResponse<VerifiedSession>> {
+export async function verifySession(token: string): Promise<VerifiedSession> {
   const response = await fetch(`${BASE_URL}auth/verifySession`, {
-    method: 'POST',
+    method: 'GET',
+    cache: 'no-store', // per-user response — must never enter Next's shared fetch cache
     headers: {
       'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.json();
+}
+
+// Wallet Balance — works for both a renter and a vendor; the backend
+// determines which based on who the verified token belongs to.
+export interface WalletBalance {
+  totalBalance: number;
+  escrowBalance: number;
+  availableBalance: number;
+}
+
+export async function getUserBalance(token: string): Promise<WalletBalance> {
+  const response = await fetch(`${BASE_URL}client/userBalances`, {
+    method: 'GET',
+    cache: 'no-store', // per-user response — must never enter Next's shared fetch cache
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.json();
+}
+
+// Vendor Transaction History
+export interface VendorTransaction {
+  profilePic: string;
+  name: string;
+  startDate: string; // ISO timestamp — JSON has no Date type; parse with `new Date(date)` when displaying
+  endDate: string; // ISO timestamp — JSON has no Date type; parse with `new Date(date)` when displaying
+  amount: number;
+  status: 'holding' | 'released' | 'refunded';
+}
+
+export async function getVendorTransactions(token: string): Promise<VendorTransaction[]> {
+  const response = await fetch(`${BASE_URL}vendor/txsHist`, {
+    method: 'GET',
+    cache: 'no-store', // per-user response — must never enter Next's shared fetch cache
+    headers: {
       Authorization: `Bearer ${token}`,
     },
   });

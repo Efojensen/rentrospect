@@ -1,14 +1,14 @@
 'use client'
 
 import { useState } from 'react'
+import { useAuth } from '@clerk/nextjs'
 import { useRouter } from 'next/navigation'
 import VendorInputField from '@/components/input/VendorInput'
+import { uploadAsset, verifySession } from '@/services/backend'
 import VendorTextAreaField from '@/components/input/VendorTextArea';
 import AssetImageUpload from '@/components/vendor/AssetImageUpload';
 import VendorSelectField from '@/components/input/VendorSelectField';
 import { categoryOptions, conditions, pickupLocations } from '@/constants/category_options';
-
-const ASSET_UPLOAD_URL = 'https://your-api.example.com/api/assets' // TODO: replace with real endpoint
 
 const VendorUploadPage = () => {
     const [asset, setAsset] = useState("");
@@ -23,16 +23,23 @@ const VendorUploadPage = () => {
     const [assetImages, setAssetImages] = useState<File[]>([])
 
     const router = useRouter();
-
-    // TODO: pull this from your auth/session context instead of hardcoding it
-    const vendorId = 12;
+    const { getToken } = useAuth();
 
     const handleSubmit = async () => {
         try {
             setSubmitting(true)
 
+            const token = await getToken()
+            if (!token) {
+                throw new Error('Not signed in')
+            }
+
+            // The vendor id must come from the verified session, not from
+            // anything the client could tamper with.
+            const session = await verifySession(token)
+
             const assetDetails = {
-                vendor: vendorId,
+                vendor: Number(session.user_id),
                 category: Number(assetCategory),
                 name: asset,
                 availability: "available",
@@ -45,26 +52,7 @@ const VendorUploadPage = () => {
                 primaryImage: 0,
             }
 
-            const formData = new FormData()
-
-            assetImages.forEach((file) => {
-                formData.append('image', file)
-            })
-
-            formData.append('assetDetails', JSON.stringify(assetDetails))
-            console.log(JSON.stringify(assetDetails))
-
-            const response = await fetch(ASSET_UPLOAD_URL, {
-                method: 'POST',
-                body: formData,
-                // Don't set Content-Type manually — the browser sets the
-                // multipart boundary automatically when body is FormData.
-            })
-
-            if (!response.ok) {
-                const errorBody = await response.text().catch(() => '')
-                throw new Error(`Upload failed (${response.status}): ${errorBody}`)
-            }
+            await uploadAsset(token, assetDetails, assetImages)
 
             router.push('/vendor/upload/asset/preview')
 

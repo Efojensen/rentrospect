@@ -163,3 +163,47 @@ export async function completeVendorOnboarding(
   });
   return response.json();
 }
+
+// Upload Asset — `vendor` is the verified user_id from verifySession, not a
+// client-trusted value. Up to 4 images ride under the repeated 'image' field;
+// `primaryImage` is the index into that set (0 = first image).
+export interface AssetUploadPayload {
+  vendor: number;
+  category: number;
+  name: string;
+  availability: string;
+  description: string;
+  rate: number;
+  pricingUnit: string;
+  location: string;
+  condition: string;
+  primaryImage: number;
+  quantity: number;
+}
+
+export async function uploadAsset(
+  token: string,
+  assetDetails: AssetUploadPayload,
+  images: File[]
+): Promise<ApiResponse<void>> {
+  const formData = new FormData();
+  formData.append('assetDetails', JSON.stringify(assetDetails));
+  images.forEach((file) => formData.append('image', file));
+
+  // No Content-Type header — the browser sets multipart/form-data with the
+  // correct boundary itself when the body is a FormData instance.
+  const response = await fetch(`${BASE_URL}assets/upload`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    body: formData,
+  });
+
+  if (!response.ok) {
+    const errorBody = await response.text().catch(() => '');
+    throw new Error(`Upload failed (${response.status}): ${errorBody}`);
+  }
+
+  return response.json();
+}

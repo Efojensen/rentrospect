@@ -1,5 +1,4 @@
 import { AssetTileProps } from "@/components/AssetTile";
-import { VendorAssetTileProps } from "@/components/vendor/VendorAssetTile";
 
 export const assets: AssetTileProps[] = [
     {
@@ -48,45 +47,6 @@ export const assets: AssetTileProps[] = [
         assetImage: '/images/assets/chairs.png',
         numReviews: 31,
         type: 'business',
-        howOld: 'fairly used',
-    },
-]
-
-export const vendorAssets: VendorAssetTileProps[] = [
-    {
-        title: 'Toyota Corolla 2018',
-        price: '13,500',
-        remarks: 'Automatic transmission, low mileage',
-        ratings: 4.6,
-        location: 'Takoradi, Ghana',
-        status: 'listed',
-        assetImage: '/images/assets/speaker.png',
-        numReviews: 57,
-        type: 'individual',
-        howOld: 'standard',
-    },
-    {
-        title: 'Canon EOS R50',
-        price: '780',
-        remarks: 'Mirrorless camera with kit lens included',
-        ratings: 4.3,
-        location: 'Cape Coast, Ghana',
-        status: 'paused',
-        assetImage: '/images/assets/cactus.png',
-        numReviews: 19,
-        type: 'business',
-        howOld: 'barely used',
-    },
-    {
-        title: 'Wooden Dining Set',
-        price: '430',
-        status: 'listed',
-        remarks: '6-seater handcrafted dining table',
-        ratings: 3.9,
-        location: 'Madina, Accra',
-        assetImage: '/images/assets/chairs.jpg',
-        numReviews: 14,
-        type: 'individual',
         howOld: 'fairly used',
     },
 ]

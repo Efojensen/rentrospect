@@ -1,24 +1,36 @@
-import { vendorAssets } from '@/constants/assets'
-import VendorAssetTile from '@/components/vendor/VendorAssetTile'
 import Link from 'next/link'
+import { auth } from '@clerk/nextjs/server'
+import { getVendorAssets } from '@/services/backend'
+import VendorAssetTile from '@/components/vendor/VendorAssetTile'
 
-const page = () => {
+const page = async () => {
+    const { getToken } = await auth()
+    const token = await getToken()
+
+    let assets: Awaited<ReturnType<typeof getVendorAssets>> = []
+    if (token) {
+        try {
+            assets = await getVendorAssets(token)
+        } catch (error) {
+            console.error('Failed to load vendor assets:', error)
+        }
+    }
+
     return (
         <main className='flex flex-col md:px-15 h-full bg-nearWhiteBg items-center'>
             <div className='grid sm:grid-cols-2 md:grid-cols-3 overflow-x-auto no-scrollbar gap-x-3 md:gap-x-6 gap-y-6 whitespace-nowrap mt-3 md:mt-3.5'>
-                {vendorAssets.map((asset, index) => (
+                {assets.map((asset, index) => (
                     <div key={index} className='shrink-0'>
                         <VendorAssetTile
-                            type={asset.type}
-                            title={asset.title}
-                            price={asset.price}
-                            status={asset.status}
-                            howOld={asset.howOld}
-                            remarks={asset.remarks}
-                            ratings={asset.ratings}
+                            title={asset.name}
+                            price={asset.rate}
+                            pricingUnit={asset.pricingUnit}
+                            category={asset.category}
                             location={asset.location}
-                            assetImage={asset.assetImage}
-                            numReviews={asset.numReviews}
+                            quantity={asset.quantity}
+                            howOld={asset.condition}
+                            assetImage={asset.primaryImage}
+                            status={asset.availability}
                         />
                     </div>
                 ))}

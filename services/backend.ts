@@ -207,3 +207,27 @@ export async function uploadAsset(
 
   return response.json();
 }
+
+// Vendor's Own Assets — powers the vendor's asset management grid
+export interface VendorAsset {
+  rate: number;
+  name: string;
+  category: string;
+  location: string;
+  quantity: number;
+  condition: string;
+  pricingUnit: string;
+  availability: 'available' | 'paused';
+  primaryImage: string;
+}
+
+export async function getVendorAssets(token: string): Promise<VendorAsset[]> {
+  const response = await fetch(`${BASE_URL}vendor/getAssets`, {
+    method: 'GET',
+    cache: 'no-store', // per-user response — must never enter Next's shared fetch cache
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.json();
+}

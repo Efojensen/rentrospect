@@ -2,18 +2,19 @@ import Image from 'next/image'
 
 export interface VendorAssetTileProps {
     title: string
-    price: string
-    remarks: string
-    ratings: number
+    price: number
+    pricingUnit: string
+    category: string
     location: string
+    quantity: number
     assetImage: string
-    numReviews: number
-    status: 'listed' | 'paused'
-    type: 'business' | 'individual'
-    howOld: 'brand new' | 'barely used' | 'standard' | 'fairly used' | 'damaged'
+    howOld: string
+    status: 'available' | 'paused'
 }
 
-const VendorAssetTile: React.FC<VendorAssetTileProps> = ({ title, assetImage, howOld, remarks, type, location, ratings, numReviews, price, status }) => {
+const formatCondition = (condition: string) => condition.replace(/_/g, ' ')
+
+const VendorAssetTile: React.FC<VendorAssetTileProps> = ({ title, assetImage, howOld, category, location, quantity, price, pricingUnit, status }) => {
     const truncate = (text: string, maxLength: number) =>
         text?.length > maxLength
             ? `${text.slice(0, maxLength)}...`
@@ -32,7 +33,7 @@ const VendorAssetTile: React.FC<VendorAssetTileProps> = ({ title, assetImage, ho
                 <div
                     className={`absolute top-2 right-2 backdrop-blur-xs flex items-center rounded-full
                         px-3 py-1 capitalize tracking-[-0.24px] poppins-font text-[12px]
-                        ${status === "listed"
+                        ${status === "available"
                             ? "bg-[#45826180] text-[#6EE7B7]"
                             : "bg-[#99999980] text-[#32302B]"
                         }`}
@@ -50,7 +51,7 @@ const VendorAssetTile: React.FC<VendorAssetTileProps> = ({ title, assetImage, ho
                             alt='hourglass'
                             src='/svgs/hourglass.svg'
                         />
-                        <p className='text-[.625rem] leading-4 capitalize inter-font line-clamp-1'>{truncate(howOld, 15)}</p>
+                        <p className='text-[.625rem] leading-4 capitalize inter-font line-clamp-1'>{truncate(formatCondition(howOld), 15)}</p>
                     </div>
                     <div className='flex gap-1 p-2'>
                         <Image
@@ -59,16 +60,16 @@ const VendorAssetTile: React.FC<VendorAssetTileProps> = ({ title, assetImage, ho
                             alt='clipboard'
                             src='/svgs/clipboard.svg'
                         />
-                        <p className='text-[.625rem] leading-4 capitalize inter-font line-clamp-1'>{truncate(remarks, 13)}</p>
+                        <p className='text-[.625rem] leading-4 capitalize inter-font line-clamp-1'>{truncate(category, 13)}</p>
                     </div>
                     <div className='flex gap-1 p-2'>
                         <Image
                             width={16}
                             height={16}
-                            alt='verification'
+                            alt='quantity'
                             src='/svgs/id-card.svg'
                         />
-                        <p className='text-[.625rem] leading-4 capitalize inter-font line-clamp-1'>{truncate(type, 13)}</p>
+                        <p className='text-[.625rem] leading-4 inter-font line-clamp-1'>Qty: {quantity}</p>
                     </div>
                     <div className='flex gap-1 p-2'>
                         <Image
@@ -81,16 +82,11 @@ const VendorAssetTile: React.FC<VendorAssetTileProps> = ({ title, assetImage, ho
                     </div>
                 </div>
             </div>
-            <div className='flex items-center'>
-                <Image
-                    width={20}
-                    height={20}
-                    alt='rating'
-                    src='/svgs/star.svg'
-                    className='mr-1.5'
-                />
-                <p className='text-loginTextClr poppins-font text-[.75rem] mr-auto'>{ratings}&nbsp;({numReviews} Reviews)</p>
-                <p className='poppins-font text-[1.25rem] font-bold text-black'>₵{price}</p>
+            <div className='flex items-center justify-end'>
+                <p className='poppins-font text-[1.25rem] font-bold text-black'>
+                    ₵{price}
+                    <span className='text-xs font-normal text-loginTextClr'>/{pricingUnit}</span>
+                </p>
             </div>
         </div>
     )

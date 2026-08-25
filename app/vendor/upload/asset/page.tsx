@@ -42,7 +42,7 @@ const VendorUploadPage = () => {
                 vendor: Number(session.user_id),
                 category: Number(assetCategory),
                 name: asset,
-                availability: "available",
+                availability: "paused",
                 description: assetDescription,
                 rate: Number(dailyRate),
                 pricingUnit: "day",

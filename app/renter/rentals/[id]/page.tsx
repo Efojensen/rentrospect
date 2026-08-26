@@ -1,27 +1,10 @@
 import Image from 'next/image'
-import { LoneAsset } from '@/types/asset'
 import StatTile from '@/components/StatTile'
 import Accordion from '@/components/Accordion'
+import { getAssetById } from '@/services/backend'
 import BottomSheet from '@/components/BottomSheet'
 import DateSelect from '@/components/DateSelectTile'
 import QuantityStepper from '@/components/QuantityStepper'
-
-async function getAssetById(id: string): Promise<LoneAsset | null> {
-    try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_MASTER}assets/getAsset/${id}`, {
-            method: 'GET',
-        });
-
-        if (!res.ok) {
-            throw new Error('failed to fetch asset details')
-        }
-
-        return await res.json();
-    } catch (error) {
-        console.error(error)
-        return null
-    }
-}
 
 const AssetDetails = async ({ params }: { params: Promise<{ id: string }> }) => {
     const endDate = ''

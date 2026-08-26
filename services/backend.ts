@@ -1,9 +1,31 @@
+import type { LoneAsset } from '@/types/asset';
+
 const BASE_URL = process.env.NEXT_PUBLIC_MASTER || '';
 
 interface ApiResponse<T> {
   success: boolean;
   data?: T;
   error?: string;
+}
+
+// Single Asset Detail — public endpoint (no auth token), used by both the
+// renter-facing asset page and the vendor's own listing preview. `images`
+// carries an `isPrimary` flag per image — the primary one is the hero image.
+export async function getAssetById(id: string): Promise<LoneAsset | null> {
+  try {
+    const response = await fetch(`${BASE_URL}assets/getAsset/${id}`, {
+      method: 'GET',
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch asset details');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
 }
 
 // Verify a Clerk session token server-side and get back who the user is.
@@ -181,11 +203,15 @@ export interface AssetUploadPayload {
   quantity: number;
 }
 
+export interface AssetUploadResponse {
+  assetId: number;
+}
+
 export async function uploadAsset(
   token: string,
   assetDetails: AssetUploadPayload,
   images: File[]
-): Promise<ApiResponse<void>> {
+): Promise<AssetUploadResponse> {
   const formData = new FormData();
   formData.append('assetDetails', JSON.stringify(assetDetails));
   images.forEach((file) => formData.append('image', file));
@@ -208,10 +234,47 @@ export async function uploadAsset(
   return response.json();
 }
 
+// Update Asset — assets/update/{id} accepts the same multipart shape as
+// assets/upload, plus assetId in the body, and expects the *full* asset
+// payload every time (not a partial patch) — used both for the preview
+// page's availability toggle and the "Edit Post" resubmit flow, so callers
+// must send every field, not just the one that changed.
+export interface AssetUpdatePayload extends AssetUploadPayload {
+  assetId: string;
+}
+
+export async function updateAsset(
+  token: string,
+  assetDetails: AssetUpdatePayload,
+  images: File[] = []
+): Promise<void> {
+  const formData = new FormData();
+  formData.append('assetDetails', JSON.stringify(assetDetails));
+  images.forEach((file) => formData.append('image', file));
+
+  // No Content-Type header — the browser sets multipart/form-data with the
+  // correct boundary itself when the body is a FormData instance.
+  const response = await fetch(`${BASE_URL}assets/update/${assetDetails.assetId}`, {
+    method: 'PATCH',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    body: formData,
+  });
+
+  if (!response.ok) {
+    const errorBody = await response.text().catch(() => '');
+    throw new Error(`Update failed (${response.status}): ${errorBody}`);
+  }
+}
+
 // Vendor's Own Assets — powers the vendor's asset management grid
 export interface VendorAsset {
+  assetId: string;
   rate: number;
   name: string;
+  vendor: number;
+  vendorSrc?: string;
   category: string;
   location: string;
   quantity: number;

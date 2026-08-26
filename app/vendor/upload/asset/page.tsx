@@ -1,16 +1,18 @@
 'use client'
 
-import { useState } from 'react'
+import Image from 'next/image'
 import { useAuth } from '@clerk/nextjs'
-import { useRouter } from 'next/navigation'
+import { Suspense, useEffect, useState } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import VendorInputField from '@/components/input/VendorInput'
-import { uploadAsset, verifySession } from '@/services/backend'
+import { updateAsset, uploadAsset, verifySession } from '@/services/backend'
 import VendorTextAreaField from '@/components/input/VendorTextArea';
 import AssetImageUpload from '@/components/vendor/AssetImageUpload';
 import VendorSelectField from '@/components/input/VendorSelectField';
 import { categoryOptions, conditions, pickupLocations } from '@/constants/category_options';
+import { readAssetDraft, saveAssetDraft } from '@/services/assetDraftStorage';
 
-const VendorUploadPage = () => {
+const VendorUploadForm = () => {
     const [asset, setAsset] = useState("");
     const [assetTags, setAssetTags] = useState("");
     const [dailyRate, setDailyRate] = useState("0.00")
@@ -19,11 +21,39 @@ const VendorUploadPage = () => {
     const [assetQuantity, setAssetQuantity] = useState("1");
     const [assetCondition, setAssetCondition] = useState("");
     const [pickupLocation, setPickupLocation] = useState("");
-    const [assetDescription, setAssetDescription] = useState("")
     const [assetImages, setAssetImages] = useState<File[]>([])
+    const [assetDescription, setAssetDescription] = useState("")
+    const [existingImageUrls, setExistingImageUrls] = useState<string[]>([])
+    const [editingAssetId, setEditingAssetId] = useState<string | null>(null)
+    const [availability, setAvailability] = useState<'available' | 'paused'>('paused')
 
     const router = useRouter();
+    const searchParams = useSearchParams();
     const { getToken } = useAuth();
+
+    // "Edit Post" round-trip: prefill the form from the draft saved when
+    // this asset was first submitted. There's no GET-by-id backend route
+    // yet, so this only works for assets created/edited earlier in this
+    // browser session.
+    useEffect(() => {
+        const editingId = searchParams.get('assetId')
+        if (!editingId) return
+
+        const draft = readAssetDraft(editingId)
+        if (!draft) return
+
+        setEditingAssetId(editingId)
+        setAsset(draft.name)
+        setAssetTags(draft.tags)
+        setDailyRate(draft.rate)
+        setAssetCategory(draft.category)
+        setAssetQuantity(draft.quantity)
+        setAssetCondition(draft.condition)
+        setPickupLocation(draft.location)
+        setAssetDescription(draft.description)
+        setExistingImageUrls(draft.imagePreviewUrls)
+        setAvailability(draft.availability)
+    }, [searchParams])
 
     const handleSubmit = async () => {
         try {
@@ -42,7 +72,7 @@ const VendorUploadPage = () => {
                 vendor: Number(session.user_id),
                 category: Number(assetCategory),
                 name: asset,
-                availability: "paused",
+                availability: 'available',
                 description: assetDescription,
                 rate: Number(dailyRate),
                 pricingUnit: "day",
@@ -52,9 +82,35 @@ const VendorUploadPage = () => {
                 primaryImage: 0,
             }
 
-            await uploadAsset(token, assetDetails, assetImages)
+            // Editing an existing listing PATCHes it in place; a fresh
+            // upload POSTs a new one — assets/update/{id} expects the full
+            // payload either way, same shape as assets/upload.
+            let resultAssetId: string | number
+            if (editingAssetId) {
+                await updateAsset(token, { assetId: editingAssetId, ...assetDetails }, assetImages)
+                resultAssetId = editingAssetId
+            } else {
+                resultAssetId = (await uploadAsset(token, assetDetails, assetImages)).assetId
+            }
 
-            router.push('/vendor/upload/asset/preview')
+            saveAssetDraft({
+                assetId: String(resultAssetId),
+                name: asset,
+                tags: assetTags,
+                category: assetCategory,
+                description: assetDescription,
+                rate: dailyRate,
+                pricingUnit: assetDetails.pricingUnit,
+                location: pickupLocation,
+                condition: assetCondition,
+                quantity: assetQuantity,
+                availability,
+                imagePreviewUrls: assetImages.length
+                    ? assetImages.map((file) => URL.createObjectURL(file))
+                    : existingImageUrls,
+            })
+
+            router.push(`/vendor/upload/asset/preview/${resultAssetId}`)
 
         } catch (error) {
             console.error(error)
@@ -66,6 +122,16 @@ const VendorUploadPage = () => {
     return (
         <main className='flex flex-col md:flex-row gap-18.75 px-6 md:px-13.75 pb-6.5'>
             <div className='hidden md:flex flex-col flex-1 gap-2'>
+                {existingImageUrls.length > 0 && (
+                    <>
+                        <p className="text-sm font-semibold leading-5 tracking-[-0.0088rem] dmSans-font">Current Images</p>
+                        <div className='flex gap-3'>
+                            {existingImageUrls.map((url, index) => (
+                                <Image key={index} src={url} alt={`Current image ${index + 1}`} width={80} height={80} className='rounded-xl object-cover' />
+                            ))}
+                        </div>
+                    </>
+                )}
                 <p className="text-sm font-semibold leading-5 tracking-[-0.0088rem] dmSans-font">Asset Image</p>
                 <AssetImageUpload
                     onImagesChange={setAssetImages}
@@ -78,6 +144,16 @@ const VendorUploadPage = () => {
                     onChange={setAsset}
                 />
                 <div className='flex flex-col my-3 md:hidden gap-2.5'>
+                    {existingImageUrls.length > 0 && (
+                        <>
+                            <p className="text-sm font-semibold leading-5 tracking-[-0.0088rem] dmSans-font">Current Images</p>
+                            <div className='flex gap-3'>
+                                {existingImageUrls.map((url, index) => (
+                                    <Image key={index} src={url} alt={`Current image ${index + 1}`} width={80} height={80} className='rounded-xl object-cover' />
+                                ))}
+                            </div>
+                        </>
+                    )}
                     <p className="text-sm font-semibold leading-5 tracking-[-0.0088rem] dmSans-font">Asset Image</p>
                     <AssetImageUpload onImagesChange={setAssetImages} />
                 </div>
@@ -133,5 +209,11 @@ const VendorUploadPage = () => {
         </main>
     )
 }
+
+const VendorUploadPage = () => (
+    <Suspense>
+        <VendorUploadForm />
+    </Suspense>
+)
 
 export default VendorUploadPage

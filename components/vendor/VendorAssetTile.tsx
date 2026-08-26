@@ -1,6 +1,8 @@
+import Link from 'next/link'
 import Image from 'next/image'
 
 export interface VendorAssetTileProps {
+    assetId: string
     title: string
     price: number
     pricingUnit: string
@@ -14,13 +16,15 @@ export interface VendorAssetTileProps {
 
 const formatCondition = (condition: string) => condition.replace(/_/g, ' ')
 
-const VendorAssetTile: React.FC<VendorAssetTileProps> = ({ title, assetImage, howOld, category, location, quantity, price, pricingUnit, status }) => {
+const VendorAssetTile: React.FC<VendorAssetTileProps> = ({ assetId, title, assetImage, howOld, category, location, quantity, price, pricingUnit, status }) => {
     const truncate = (text: string, maxLength: number) =>
         text?.length > maxLength
             ? `${text.slice(0, maxLength)}...`
             : text;
     return (
-        <div className='flex flex-col p-4 bg-white rounded-4xl max-w-94 w-fit'>
+        <Link
+            href={`/vendor/upload/asset/preview/${assetId}`}
+            className='flex flex-col p-4 bg-white rounded-4xl max-w-94 w-fit'>
             <div className="relative flex">
                 <Image
                     width={355}
@@ -88,7 +92,7 @@ const VendorAssetTile: React.FC<VendorAssetTileProps> = ({ title, assetImage, ho
                     <span className='text-xs font-normal text-loginTextClr'>/{pricingUnit}</span>
                 </p>
             </div>
-        </div>
+        </Link>
     )
 }
 

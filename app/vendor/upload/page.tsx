@@ -19,9 +19,10 @@ const page = async () => {
     return (
         <main className='flex flex-col md:px-15 h-full bg-nearWhiteBg items-center'>
             <div className='grid sm:grid-cols-2 md:grid-cols-3 overflow-x-auto no-scrollbar gap-x-3 md:gap-x-6 gap-y-6 whitespace-nowrap mt-3 md:mt-3.5'>
-                {assets.map((asset, index) => (
-                    <div key={index} className='shrink-0'>
+                {assets.map((asset) => (
+                    <div key={asset.assetId} className='shrink-0'>
                         <VendorAssetTile
+                            assetId={asset.assetId}
                             title={asset.name}
                             price={asset.rate}
                             pricingUnit={asset.pricingUnit}

@@ -1,4 +1,5 @@
 import type { LoneAsset } from '@/types/asset';
+import type { VendorProfile, CatalogAsset, VendorLogistics, ReviewableAsset, AssetReview, ReviewReply } from '@/types/profile';
 
 const BASE_URL = process.env.NEXT_PUBLIC_MASTER || '';
 
@@ -293,4 +294,173 @@ export async function getVendorAssets(token: string): Promise<VendorAsset[]> {
     },
   });
   return response.json();
+}
+
+// --- Vendor Profile (/profile) -------------------------------------------
+// Most routes below (`vendor/profile*`) don't exist on the backend yet — they
+// are DUMMY paths standing in until the real endpoints ship. Swap the path
+// strings once they're built; the shapes here are what the frontend expects
+// back. See the profile page's outline of needed routes for the full list.
+// `vendor/profile/logistics` is wired up already — see getVendorLogistics.
+
+export async function getVendorProfile(token: string): Promise<VendorProfile | null> {
+  try {
+    const response = await fetch(`${BASE_URL}vendor/profile`, {
+      method: 'GET',
+      cache: 'no-store', // per-user response — must never enter Next's shared fetch cache
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch vendor profile');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+
+export async function getVendorCatalog(token: string): Promise<CatalogAsset[]> {
+  try {
+    const response = await fetch(`${BASE_URL}vendor/profile/catalog`, {
+      method: 'GET',
+      cache: 'no-store', // per-user response — must never enter Next's shared fetch cache
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch vendor catalog');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+}
+
+// Matches the Go handler's VendorLogistics struct — a single location plus one
+// business-hours window (startTime/endTime are `types.ClockTime`, which
+// marshals as a plain "HH:MM" 24-hour string, same as the onboarding flow
+// above sends).
+interface VendorLogisticsResponse {
+  location: string;
+  startTime: string;
+  endTime: string;
+}
+
+const WEEKDAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+
+const formatClockTime = (time: string): string => {
+  const [hoursStr, minutesStr] = time.split(':');
+  const hours = Number(hoursStr);
+  const minutes = Number(minutesStr);
+  const period = hours >= 12 ? 'PM' : 'AM';
+  const displayHours = hours % 12 === 0 ? 12 : hours % 12;
+  return `${displayHours}:${minutesStr ? minutes.toString().padStart(2, '0') : '00'} ${period}`;
+};
+
+export async function getVendorLogistics(token: string): Promise<VendorLogistics | null> {
+  try {
+    const response = await fetch(`${BASE_URL}vendor/profile/logistics`, {
+      method: 'GET',
+      cache: 'no-store', // per-user response — must never enter Next's shared fetch cache
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch vendor logistics');
+    }
+
+    const data: VendorLogisticsResponse = await response.json();
+    const hoursRange = `${formatClockTime(data.startTime)} - ${formatClockTime(data.endTime)}`;
+
+    return {
+      address: data.location,
+      // The backend only exposes one business-hours window, not per-day
+      // hours — repeat it across the weekdays until that's more granular.
+      operatingHours: WEEKDAYS.map((day) => ({ day, hours: hoursRange })),
+      // Same story for meeting slots — one generic slot standing in until
+      // the backend supports distinct windows (morning/afternoon/etc).
+      meetingSlots: [{ label: 'Anytime', hours: hoursRange }],
+    };
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+
+// Assets a reviewer can pick between on the Reviews tab — the chip row at
+// the top of the tab. Kept separate from getVendorCatalog since it may need
+// to include paused/archived assets that still carry reviews.
+export async function getVendorReviewableAssets(token: string): Promise<ReviewableAsset[]> {
+  try {
+    const response = await fetch(`${BASE_URL}vendor/profile/reviewableAssets`, {
+      method: 'GET',
+      cache: 'no-store', // per-user response — must never enter Next's shared fetch cache
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch reviewable assets');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+}
+
+export async function getAssetReviews(token: string, assetId: string): Promise<AssetReview[]> {
+  try {
+    const response = await fetch(`${BASE_URL}vendor/profile/reviews/${assetId}`, {
+      method: 'GET',
+      cache: 'no-store', // per-user response — must never enter Next's shared fetch cache
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch asset reviews');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+}
+
+export async function postReviewReply(token: string, reviewId: string, comment: string): Promise<ReviewReply | null> {
+  try {
+    const response = await fetch(`${BASE_URL}vendor/profile/reviews/${reviewId}/reply`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ comment }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to post reply');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
 }

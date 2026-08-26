@@ -24,7 +24,7 @@ const navItems = [
         icon: '/svgs/sideNav/message.svg',
     },
     {
-        href: '/profile',
+        href: '/vendor/profile',
         icon: '/svgs/sideNav/user.svg'
     },
 ]
